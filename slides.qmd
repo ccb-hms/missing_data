@@ -55,6 +55,19 @@ ow_bg = theme(panel.background = ow_rect,
 
 :::
 
+## Who you are
+
+Prerequisites:
+
+* Seminar: none
+* Hands-on workshop: R and the packages below
+
+```{r}
+#| eval: false
+#| echo: true
+
+install.packages(c("tidyverse", "mice"), Ncpus = 4)
+```
 
 ## Missing data and NAs
 
@@ -93,16 +106,17 @@ data.table(age = floor(runif(n, 30,80)) |> ins_na(),
 
 ## Outline 
 
-* Concepts
-* Examples
-* Hands-on examples in R
+* Seminar (1 hour)
+  * Concepts
+  * Examples
+* Hands-on workshop  in R (1 hour)
 
 ![](images/2025-06-11_15-35-18.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=800 top=100 width=40%}
 ![](images/no.svg){fig-alt="" .absolute left=770 top=50 .fragment}
 
 # Concepts 
 
-## Observed values versus random variables
+## Types of observations 
 
 * Observation: `5.0`
 * Observation with error: `5.0 ± 0.6`
@@ -158,11 +172,11 @@ d |>
 ::::{.columns}
 
 :::{.column width=50%}
-* Context influences uncertainty when imputing
+* Context informs uncertainty when imputing
 * If the uncertainty is *sufficiently* small, it can be ignored
 * What will you use imputed values for?
-    * Just reporting? Uncertainty is less valuable.
-    * As input to a predictive and/or probabilistic model? Uncertainty is essential.
+    * Just reporting them? Uncertainty is less valuable/important.
+    * As input to a predictive and/or probabilistic model? Accounting for uncertainty is **essential**.
 :::
 
 :::{.notes}
@@ -254,9 +268,7 @@ points(1, 1, col = "firebrick2", bg = "white", pch = 21, cex = 1.3)
   
 * Key assumption: "ignorability"
 
-## 
-
-![](images/ch01-miflow-1.png){fig-align="center" fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=80%}
+![](images/ch01-miflow-1.png){.absolute top=100 left=800 fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=55%}
 
 :::{.aside}
 [*Flexible Imputation of Missing Data*](https://stefvanbuuren.name/fimd/), Stef van Buuren, [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/)
@@ -265,20 +277,34 @@ points(1, 1, col = "firebrick2", bg = "white", pch = 21, cex = 1.3)
 ## "Ignorability"
 
 * "Does the chance of a value going missing depend on the value itself?"
-* If so, multiple imputation generally won't work.
-* Speak to a statistician.
+* If so, assumption violated.
+* multiple imputation generally won't work.
+* Speak to a statistician and mention the phrase "Bayesian imputation".
 
 # Examples
 
 ## Genotype imputation
 
+* Input: microarray genotypes of ~100k-5M common marker SNPs
+* Output: genotypes at query SNPs
+* Output uncertainty surprisingly low
+* SHAPEIT
+
+<!-- TODO: picture of a microarray -->
+
 ## COVID incidence 
 
-*Modeling racial/ethnic differences in COVID-19 incidence with covariates subject to nonrandom missingness* - Trangucci et al 2023
 
-> "Our approach is to develop a model that allows for simultaneous modeling of the disease and missingness processes, and that incorporates information on spatial clustering of risk in addition to sociodemographic risk factors."
+> "... a model that allows for simultaneous modeling of the disease and missingness processes, and that incorporates information on spatial clustering of risk"
 
 > "population relative risk estimates by race during the early part of the COVID-19 pandemic in Michigan were understated for non-white residents, compared to white residents, when cases missing race were dropped or had these values imputed using MI."
+
+![](images/2025-07-01_13-17-22.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=35% fig-align="center"} 
+
+:::{.aside}
+
+*Modeling racial/ethnic differences in COVID-19 incidence with covariates subject to nonrandom missingness* - Trangucci 2023
+:::
 
 ##
 
@@ -297,9 +323,7 @@ points(1, 1, col = "firebrick2", bg = "white", pch = 21, cex = 1.3)
 
 * DAGs
 * mechanistic description of the problem
-* methods for dealing with missingness
 * probabilistic models
-* code
 
 ## Missing data and NAs
 
