@@ -1,0 +1,19 @@
+/*-- scss:defaults --*/
+
+$body-color: #222222;
+$body-bg: #F2F2F2;
+$link-color: #42affa;
+$font-family-sans-serif: Arial;
+$font-family-monospace: "Fira Code", monospace;
+$code-block-font-size: 1.0em;
+
+/*-- scss:rules --*/
+
+.reveal .slide blockquote {
+  border-left: 3px solid $text-muted;
+  padding-left: 0.5em;
+}
+
+.reveal code {
+  max-height: 900px !important;
+}

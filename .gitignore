@@ -1,0 +1,9 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+missing_data.Rproj
+slides.html
+slides_files/
+slides_cache/
+_publish.yml

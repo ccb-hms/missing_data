@@ -1,0 +1,342 @@
+---
+title: "Handling NAs and Missing Data"
+author: "Andrew Ghazi"
+institute: "Core for Computational Biomedicine"
+date: last-modified
+format: 
+    revealjs:
+      theme: [default, my_theme.scss]
+      width: 1600
+      height: 900
+      incremental: false 
+      transition: fade
+      background-transition: fade
+      transition-speed: fast
+      chalkboard: true
+      slide-number: c/t
+      controls: true
+      controls-layout: edges
+      controls-tutorial: true
+        
+title-slide-attributes:
+  data-background-image: images/HMS_DBMI_Logo.png
+  data-background-size: 25%
+  data-background-position: 10% 10%
+  
+---
+
+# Intro
+```{r setup}
+#| message: false
+library(fastverse)
+library(ggplot2)
+library(ggbeeswarm)
+set.seed(123)
+
+ow = "#F2F2F2"
+
+ow_rect = element_rect(fill = ow, color = ow)
+
+ow_bg = theme(panel.background = ow_rect,
+              plot.background = ow_rect)
+```
+
+## Who we are
+
+> The Core for Computational Biomedicine (CCB) is a multi-disciplinary team of computational and quantitative scientists that collaborates with HMS Quad-based researchers to develop tools, platforms, and other data science and computational solutions that broadly enable biomedical discovery and innovation.
+
+* Collaborative projects
+* Office hours
+* Workshops
+
+:::{#headshots layout-ncol=1 style="text-align: center"}
+
+![Andrew Ghazi, PhD](images/Andrew_Ghazi_003_sq_sm2.JPG){height=220}
+
+:::
+
+
+## Missing data and NAs
+
+:::{.column width=60%}
+* ubiquitous and important problem
+* decent methods exist
+* methods aren't challenging, routine for ~15 years
+
+
+:::{.fragment}
+* **BUT** a thorough overview requires advanced methods 
+
+![](images/m2.png){width=80% fig-align="center" style="filter: drop-shadow(0 0 0.75rem grey);"}
+:::
+
+:::
+
+:::{.absolute left=970 top=40 width=50%}
+```{r}
+
+ins_na = \(x) {
+  x[sample(length(x), floor(n/2))] = NA
+  x
+}
+
+n = 200
+set.seed(123)
+data.table(age = floor(runif(n, 30,80)) |> ins_na(),
+           income = floor(rexp(n, 1/48)) |> ins_na(),
+           `5y_outcome` = sample(0:1, size = n, T) |> ins_na())[1:5,] |> 
+  print(row.names = FALSE)
+```
+:::
+
+![](images/dg_tmp.png){.absolute left=1000 top=440 width=40%} 
+
+## Outline 
+
+* Concepts
+* Examples
+* Hands-on examples in R
+
+![](images/2025-06-11_15-35-18.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=800 top=100 width=40%}
+![](images/no.svg){fig-alt="" .absolute left=770 top=50 .fragment}
+
+# Concepts 
+
+## Observed values versus random variables
+
+* Observation: `5.0`
+* Observation with error: `5.0 ± 0.6`
+* Observation with distribution: $SkewNormal(4,2,.8)$
+
+:::{.nonincremental}
+
+* Random variables are harder to work with, but sometimes necessary.
+<!-- * Non-gaussian uncertainty = even harder -->
+
+:::
+
+:::{.notes}
+"Random variables are a different type of thing."
+:::
+
+```{r}
+#| fig-align: center
+
+d = data.table(g = c("observed", "obs_with_err"),
+           x = c(5, 5),
+           y = c(3, 2)) 
+
+d2 = data.table(g = "obs_with_dist",
+                              x = seq(4, 6.5, length.out = 200)) |> 
+              mtt(y = .5*dgamma(x-4, 2.5, 2.5)+1)
+
+d |>
+  ggplot(aes(x, y)) + 
+  geom_point(size = 4) + 
+  geom_segment(data = data.frame(y = 2, yend = 2, x = 4.4, xend = 5.6),
+               aes(x = x, y = y, xend = xend, yend = yend),
+               inherit.aes = FALSE) + 
+  geom_line(data = d2,
+            color = "grey20") + 
+  labs(y = NULL) + 
+  theme_light() + 
+  theme(text = element_text(size = 24)) + 
+  ow_bg + 
+  scale_y_continuous(breaks = 1:3,
+                     labels = c("obs_with_dist", "obs_with_err", "observed"))
+```
+
+## Degrees of uncertainty
+
+* Fill in the blank: 
+    * "Harvard Uni_ersity"
+    * "_ight" 
+* Genotype imputation from marker SNPs
+
+## Degrees of uncertainty 
+
+::::{.columns}
+
+:::{.column width=50%}
+* Context influences uncertainty when imputing
+* If the uncertainty is *sufficiently* small, it can be ignored
+* What will you use imputed values for?
+    * Just reporting? Uncertainty is less valuable.
+    * As input to a predictive and/or probabilistic model? Uncertainty is essential.
+:::
+
+:::{.notes}
+* People generally ascribe negative value to uncertainty
+:::
+
+:::{.column width=50%}
+```{r}
+
+set.seed(42)
+
+n = 30
+s = .06
+d = data.frame(x = rnorm(n)) |> 
+    mtt(y = rnorm(n, 1*x, sd = s),
+        z = rnorm(n, 1*x, sd = 1))
+
+par(mfrow = c(1,2),
+    mar = c(4.5,4,1,1),
+    bg = ow)
+
+plot(d$x, d$y, 
+     xlab = "x",
+     ylab = "y", 
+     ylim = range(c(d$y, d$z)), 
+     pch = 19)
+
+lines(col = "firebrick2",
+      c(1,1),
+      c(1+s*2, 1-s*2))
+
+points(1, 1, col = "firebrick2", pch = 21, cex = 1.3)
+
+plot(d$x, d$z, 
+     xlab = "x",
+     ylab = "y", 
+     ylim = range(c(d$y, d$z)), 
+     pch = 19)
+
+lines(col = "firebrick2",
+      c(1,1),
+      c(1+1*2, 1-1*2))
+
+points(1, 1, col = "firebrick2", bg = "white", pch = 21, cex = 1.3)
+
+```
+:::
+:::
+
+## Uses for imputed values
+
+* *Are the imputed values the means or the ends?*
+* Draw a pretty picture
+* Downstream inference
+
+## Pathological situations
+
+* Obvious: Missing data → less information → imprecise estimates
+* Subtle: Patterns of missingness can *induce* bias
+
+
+## Types of missingness
+
+:::{.column width=60%}
+* Missing...
+  * "...completely at random" (MCAR)
+  * "...at random" (MAR)
+  * "...not at random" (MNAR)
+* These terms are famously confusing.
+* Draw a directed acyclic graph (DAG) instead.
+:::
+
+![](images/2025-05-06_15-58-00.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=1300 top=0}
+
+:::{.absolute left=950 width=22% top=50}
+<small> Dotted = latent truth </small>
+
+<small> Starred = observed with NAs </small>
+:::
+
+
+## Multiple imputation
+
+* Key idea: 
+  1. Randomly impute missing values
+  1. Fit a model
+  1. Repeat 1-2 many times
+  1. Aggregate results
+  
+* Key assumption: "ignorability"
+
+## 
+
+![](images/ch01-miflow-1.png){fig-align="center" fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=80%}
+
+:::{.aside}
+[*Flexible Imputation of Missing Data*](https://stefvanbuuren.name/fimd/), Stef van Buuren, [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/)
+:::
+
+## "Ignorability"
+
+* "Does the chance of a value going missing depend on the value itself?"
+* If so, multiple imputation generally won't work.
+* Speak to a statistician.
+
+# Examples
+
+## Genotype imputation
+
+## COVID incidence 
+
+*Modeling racial/ethnic differences in COVID-19 incidence with covariates subject to nonrandom missingness* - Trangucci et al 2023
+
+> "Our approach is to develop a model that allows for simultaneous modeling of the disease and missingness processes, and that incorporates information on spatial clustering of risk in addition to sociodemographic risk factors."
+
+> "population relative risk estimates by race during the early part of the COVID-19 pandemic in Michigan were understated for non-white residents, compared to white residents, when cases missing race were dropped or had these values imputed using MI."
+
+##
+
+# Extra stuff
+
+## Can do 
+
+* COVID example 
+
+## Can't do
+
+* probability basics
+* modeling basics
+
+## Can't cover
+
+* DAGs
+* mechanistic description of the problem
+* methods for dealing with missingness
+* probabilistic models
+* code
+
+## Missing data and NAs
+
+:::{.column width=60%}
+* ubiquitous and important problem
+* decent methods exist
+* methods aren't challenging, routine for ~15 years
+::: 
+
+:::{.absolute left=970 top=40 width=50%}
+
+```{r}
+#| message: false
+library(fastverse)
+
+ins_na = \(x) {
+  x[sample(length(x), floor(n/2))] = NA
+  x
+}
+
+n = 200
+set.seed(123)
+data.table(age = floor(runif(n, 30,80)) |> ins_na(),
+           income = floor(rexp(n, 1/48)) |> ins_na(),
+           `5y_outcome` = sample(0:1, size = n, T) |> ins_na())[1:5,] |> 
+  print(row.names = FALSE)
+```
+:::
+
+![](images/dg_tmp.png){.absolute left=1000 top=440 width=40%} 
+
+## Examples
+
+* genotype impute
+* scdropout
+* COVID data
+* find a good survey example
+
+
+
