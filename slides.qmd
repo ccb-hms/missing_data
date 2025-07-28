@@ -53,6 +53,7 @@ ow_bg = theme(panel.background = ow_rect,
 
 ![Andrew Ghazi, PhD](images/Andrew_Ghazi_003_sq_sm2.JPG){height=220}
 
+<!-- + other CCB folks -->
 :::
 
 ## Who you are
@@ -278,8 +279,16 @@ points(1, 1, col = "firebrick2", bg = "white", pch = 21, cex = 1.3)
 
 * "Does the chance of a value going missing depend on the value itself?"
 * If so, assumption violated.
-* multiple imputation generally won't work.
-* Speak to a statistician and mention the phrase "Bayesian imputation".
+* multiple imputation won't work.
+
+:::{.notes}
+Defining this concept precisely is detailed, but the first bullet gives the main ida.
+:::
+
+:::{.fragment}
+* You when this happens: 😭
+* If you have other data that can provide information on the underlying values, speak to a statistician and mention the phrase *"Bayesian imputation"*.
+:::
 
 # Examples
 
@@ -294,7 +303,6 @@ points(1, 1, col = "firebrick2", bg = "white", pch = 21, cex = 1.3)
 
 ## COVID incidence 
 
-
 > "... a model that allows for simultaneous modeling of the disease and missingness processes, and that incorporates information on spatial clustering of risk"
 
 > "population relative risk estimates by race during the early part of the COVID-19 pandemic in Michigan were understated for non-white residents, compared to white residents, when cases missing race were dropped or had these values imputed using MI."
@@ -306,7 +314,6 @@ points(1, 1, col = "firebrick2", bg = "white", pch = 21, cex = 1.3)
 *Modeling racial/ethnic differences in COVID-19 incidence with covariates subject to nonrandom missingness* - Trangucci 2023
 :::
 
-##
 
 # Extra stuff
 
@@ -325,35 +332,6 @@ points(1, 1, col = "firebrick2", bg = "white", pch = 21, cex = 1.3)
 * mechanistic description of the problem
 * probabilistic models
 
-## Missing data and NAs
-
-:::{.column width=60%}
-* ubiquitous and important problem
-* decent methods exist
-* methods aren't challenging, routine for ~15 years
-::: 
-
-:::{.absolute left=970 top=40 width=50%}
-
-```{r}
-#| message: false
-library(fastverse)
-
-ins_na = \(x) {
-  x[sample(length(x), floor(n/2))] = NA
-  x
-}
-
-n = 200
-set.seed(123)
-data.table(age = floor(runif(n, 30,80)) |> ins_na(),
-           income = floor(rexp(n, 1/48)) |> ins_na(),
-           `5y_outcome` = sample(0:1, size = n, T) |> ins_na())[1:5,] |> 
-  print(row.names = FALSE)
-```
-:::
-
-![](images/dg_tmp.png){.absolute left=1000 top=440 width=40%} 
 
 ## Examples
 

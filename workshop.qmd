@@ -1,0 +1,137 @@
+---
+title: "Missing data workshop"
+format: 
+    html:
+        code-fold: show 
+        toc: true
+        toc-depth: 2
+        code-tools: true
+---
+
+
+# Setup
+
+```{r}
+#| message: false
+
+library(dplyr)
+library(purrr)
+library(ggplot2); theme_set(theme_light())
+library(mice)
+library(ggmice)
+library(brms)
+
+if (interactive()) {
+    ncores = 4
+} else {
+    ncores = 1
+}
+```
+
+# Exploring data with missingness
+
+This section is adapted from the main `ggmice` vignette located [here](https://amices.org/ggmice/articles/ggmice.html#the-ggmice-function). The package has more functionality than we'll have time to cover, so we'll just look at the main highlights.
+
+The data we'll use are growth records of 748 Dutch boys from 1997, see `?boys`:
+
+```{r}
+boys <- boys |> select(age:bmi, reg)
+
+dim(boys)
+
+head(boys)
+```
+
+Count the number of NAs in each column:
+
+```{r}
+boys |> map_int(\(x) sum(is.na(x)))
+```
+
+## Visualizing NAs
+
+Use `mice` to generate imputed datasets with partial mean matching:
+
+```{r}
+imp <- mice(boys, m = 3, method = "pmm", printFlag = FALSE)
+```
+
+```{r}
+ggmice(boys, aes(age, hgt)) + 
+    geom_point()
+```
+
+`ggmice` also respects facets:
+
+```{r}
+boys |> 
+  mutate(region = case_when(reg == "city" ~ "city",
+                            reg != "city" ~ "suburbs")) |> 
+  ggmice(aes(age, hgt)) + 
+  geom_point() + 
+  facet_wrap(vars(region))
+```
+
+There's a handy convenience function `plot_pattern()` that shows which combined missingness patterns are observed:
+
+```{r}
+plot_pattern(boys)
+```
+
+
+## Visualizing imputed datasets 
+
+When provided with an multiply imputed dataset like `imp`, it displays the imputed values in red:
+
+```{r}
+ggmice(imp, aes(age, hgt)) + 
+    geom_point()
+```
+
+Notice that there are three red points for each age with an imputed value - that's because we specified `m = 3` imputations above.
+
+You can also plot variables by imputation number by handing the special variable `.imp` to `ggmice`.
+
+```{r}
+ggmice(imp, aes(.imp, hgt)) + 
+    geom_boxplot(outlier.shape = NA) + 
+    geom_jitter(height = 0, width = .3)
+```
+
+If you notice that there is substantial variability in between-imputation distributions, you'll need to increase the number of imputations to integrate over that.
+
+
+# `mice` example with ignorability
+
+NHANES
+
+# `brms` example 
+
+`brms` is an R package that allows fitting models with [Stan](https://mc-stan.org/). We won't be getting into the weeds of inference with Stan, but it's useful in the context of missing data because it enables accurate inference of complicated models with interacting components. 
+
+```{r}
+head(nhanes)
+```
+
+Here we fit a model on the `nhanes` data that simultaneously:
+
+1. imputes missing values in cholesterol as a function of age with `mi()`
+1. models BMI as a function of age and imputed cholesterol
+
+```{r m1}
+#| message: false
+
+bform <- bf(chl | mi() ~ age) + 
+    bf(bmi | mi() ~ age * mi(chl)) + set_rescor(FALSE)  
+
+fit_imp <- brm(bform,
+               data = nhanes, 
+               file = "~/projects/missing_data/fits/m1",
+               cores = ncores)
+```
+
+```{r}
+fit_imp
+```
+
+
