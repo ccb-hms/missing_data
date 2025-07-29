@@ -7,6 +7,6 @@ slides.html
 slides_files/
 slides_cache/
 _publish.yml
-fits/
+fits/*.rds
 *.html
 *_files/
