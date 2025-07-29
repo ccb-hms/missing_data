@@ -126,7 +126,7 @@ bform <- bf(chl | mi() ~ age) +
 
 fit_imp <- brm(bform,
                data = nhanes, 
-               file = "~/projects/missing_data/fits/m1",
+               file = "fits/m1",
                cores = ncores)
 ```
 
