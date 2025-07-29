@@ -16,15 +16,23 @@ format:
 
 library(dplyr)
 library(purrr)
-library(ggplot2); theme_set(theme_light())
+library(ggplot2)
 library(mice)
 library(ggmice)
 library(brms)
 
-if (interactive()) {
-    ncores = 4
-} else {
-    ncores = 1
+theme_set(theme_light())
+ncores <- ifelse(interactive(), 4, 1)
+```
+
+```{r}
+#| eval: true
+#| echo: false
+
+fw = Sys.info()['user'] == "ghazi"
+
+if (fw) {
+  options(brms.backend = "cmdstanr")
 }
 ```
 
@@ -126,7 +134,6 @@ bform <- bf(chl | mi() ~ age) +
 
 fit_imp <- brm(bform,
                data = nhanes, 
-               file = "fits/m1",
                cores = ncores)
 ```
 
