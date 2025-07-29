@@ -56,6 +56,28 @@ ow_bg = theme(panel.background = ow_rect,
 <!-- + other CCB folks -->
 :::
 
+## CCB R/Stats Office Hours
+
+:::{.column width=55%}
+* Quick help on R/Stats and CompBio
+* Book Zoom any day or in-person on Wednesdays
+* Examples:
+  * Data wrangling / plotting messy health database exports
+  * Prognostic modeling of surgery patients from imaging features with random forests
+  * Running AlphaFold3 on O2
+:::
+
+:::{.column width=45%}
+![](images/oh.png)
+
+<!-- Other figure elements to possibly include: -->
+<!-- * survey / Kaplan Meier plot -->
+<!-- * GWAS -->
+<!-- * UMAP -->
+:::
+
+Link in my email signature or at [ccb.hms.harvard.edu](ccb.hms.harvard.edu)
+
 ## Who you are
 
 Prerequisites:
@@ -314,24 +336,21 @@ Defining this concept precisely is detailed, but the first bullet gives the main
 *Modeling racial/ethnic differences in COVID-19 incidence with covariates subject to nonrandom missingness* - Trangucci 2023
 :::
 
+# End matter
 
-# Extra stuff
+## How to do missing data analysis in Python
 
-## Can do 
+## ~~How to do missing data analysis in Python~~
 
-* COVID example 
+**Don't do missing data analysis in Python. **
 
-## Can't do
-
-* probability basics
-* modeling basics
-
-## Can't cover
-
-* DAGs
-* mechanistic description of the problem
-* probabilistic models
-
+:::{.incremental}
+* `scikit-learn` ignores uncertainty from noise and parameter estimation.
+* That is statistical malpractice. You **WILL** get the wrong answer.
+* `scikit-learn` is for machine learning, *not* probabilistic inference 
+  * See also the infamous `sklearn.linear_model.LogisticRegression` another guaranteed-to-be-wrong function
+* [`miceforest`](https://miceforest.readthedocs.io/en/latest/) - possibly okay for small data if RFs are acceptable
+:::
 
 ## Examples
 
