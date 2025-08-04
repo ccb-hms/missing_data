@@ -22,7 +22,10 @@ library(ggmice)
 library(brms)
 
 theme_set(theme_light())
+
 ncores <- ifelse(interactive(), 4, 1)
+
+options(digits = 3)
 ```
 
 ```{r}
@@ -115,7 +118,7 @@ NHANES
 
 # `brms` example 
 
-`brms` is an R package that allows fitting models with [Stan](https://mc-stan.org/). We won't be getting into the weeds of inference with Stan, but it's useful in the context of missing data because it enables accurate inference of complicated models with interacting components. 
+`brms` is an R package that allows fitting models with [Stan](https://mc-stan.org/). We won't be getting into the weeds of inference with Stan, but it's useful in the context of missing data because it enables accurate inference of complicated models with interacting components or non-ignorable missingness. 
 
 ```{r}
 head(nhanes)
@@ -134,7 +137,9 @@ bform <- bf(chl | mi() ~ age) +
 
 fit_imp <- brm(bform,
                data = nhanes, 
-               cores = ncores)
+               cores = ncores, 
+               refresh = 0,
+               silent = 2)
 ```
 
 ```{r}

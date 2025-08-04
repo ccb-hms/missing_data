@@ -29,7 +29,8 @@ title-slide-attributes:
 ```{r setup}
 #| message: false
 library(fastverse)
-library(ggplot2)
+library(tinyplot)
+# library(ggplot2)
 library(ggbeeswarm)
 set.seed(123)
 
@@ -64,6 +65,7 @@ ow_bg = theme(panel.background = ow_rect,
 * Examples:
   * Data wrangling / plotting messy health database exports
   * Prognostic modeling of surgery patients from imaging features with random forests
+  * R project installation & organization
   * Running AlphaFold3 on O2
 :::
 
@@ -76,7 +78,9 @@ ow_bg = theme(panel.background = ow_rect,
 <!-- * UMAP -->
 :::
 
-Link in my email signature or at [ccb.hms.harvard.edu](ccb.hms.harvard.edu)
+:::{.absolute left=0 top=770}
+Link in my email signature or at [https://dbmi.hms.harvard.edu/about-dbmi/core-computational-biomedicine/office-hours](https://dbmi.hms.harvard.edu/about-dbmi/core-computational-biomedicine/office-hours) 
+:::
 
 ## Who you are
 
@@ -89,7 +93,9 @@ Prerequisites:
 #| eval: false
 #| echo: true
 
-install.packages(c("tidyverse", "mice"), Ncpus = 4)
+pkgs <- c("ggplot2", "dplyr", "mice", "ggmice", "brms")
+
+install.packages(pkgs, Ncpus = 4)
 ```
 
 ## Missing data and NAs
@@ -139,56 +145,15 @@ data.table(age = floor(runif(n, 30,80)) |> ins_na(),
 
 # Concepts 
 
-## Types of observations 
-
-* Observation: `5.0`
-* Observation with error: `5.0 ± 0.6`
-* Observation with distribution: $SkewNormal(4,2,.8)$
-
-:::{.nonincremental}
-
-* Random variables are harder to work with, but sometimes necessary.
-<!-- * Non-gaussian uncertainty = even harder -->
-
-:::
-
-:::{.notes}
-"Random variables are a different type of thing."
-:::
-
-```{r}
-#| fig-align: center
-
-d = data.table(g = c("observed", "obs_with_err"),
-           x = c(5, 5),
-           y = c(3, 2)) 
-
-d2 = data.table(g = "obs_with_dist",
-                              x = seq(4, 6.5, length.out = 200)) |> 
-              mtt(y = .5*dgamma(x-4, 2.5, 2.5)+1)
-
-d |>
-  ggplot(aes(x, y)) + 
-  geom_point(size = 4) + 
-  geom_segment(data = data.frame(y = 2, yend = 2, x = 4.4, xend = 5.6),
-               aes(x = x, y = y, xend = xend, yend = yend),
-               inherit.aes = FALSE) + 
-  geom_line(data = d2,
-            color = "grey20") + 
-  labs(y = NULL) + 
-  theme_light() + 
-  theme(text = element_text(size = 24)) + 
-  ow_bg + 
-  scale_y_continuous(breaks = 1:3,
-                     labels = c("obs_with_dist", "obs_with_err", "observed"))
-```
-
 ## Degrees of uncertainty
 
 * Fill in the blank: 
     * "Harvard Uni_ersity"
     * "_ight" 
-* Genotype imputation from marker SNPs
+
+:::{.fragment}
+* "Imputation" - the act of filling in blanks
+:::
 
 ## Degrees of uncertainty 
 
@@ -217,33 +182,42 @@ d = data.frame(x = rnorm(n)) |>
     mtt(y = rnorm(n, 1*x, sd = s),
         z = rnorm(n, 1*x, sd = 1))
 
-par(mfrow = c(1,2),
+tinytheme("clean2", 
     mar = c(4.5,4,1,1),
-    bg = ow)
+    bg = ow,
+    cex.axis = 1.5)
 
-plot(d$x, d$y, 
-     xlab = "x",
-     ylab = "y", 
+par(mfrow = c(1,2))
+
+plt(d$x, d$y, 
+     xlab = "", 
+     ylab = "", 
      ylim = range(c(d$y, d$z)), 
      pch = 19)
 
-lines(col = "firebrick2",
+tinyplot(col = "firebrick2",
+         add = TRUE,
+         type = "lines",
       c(1,1),
-      c(1+s*2, 1-s*2))
+      c(1+s*2, 1-s*2),
+      lwd = 2)
 
-points(1, 1, col = "firebrick2", pch = 21, cex = 1.3)
+# points(1, 1, col = "firebrick2", pch = 21, cex = 1.3)
 
-plot(d$x, d$z, 
-     xlab = "x",
-     ylab = "y", 
+plt(d$x, d$z, 
+     xlab = "", 
+     ylab = "", 
      ylim = range(c(d$y, d$z)), 
      pch = 19)
 
-lines(col = "firebrick2",
-      c(1,1),
-      c(1+1*2, 1-1*2))
+plt(col = "firebrick2",
+    type = "lines",
+    add = TRUE,
+    c(1,1),
+    c(1+1*2, 1-1*2),
+    lwd = 2)
 
-points(1, 1, col = "firebrick2", bg = "white", pch = 21, cex = 1.3)
+# points(1, 1, col = "firebrick2", bg = "white", pch = 21, cex = 1.3)
 
 ```
 :::
@@ -255,11 +229,55 @@ points(1, 1, col = "firebrick2", bg = "white", pch = 21, cex = 1.3)
 * Draw a pretty picture
 * Downstream inference
 
+<!-- ## Types of observations  -->
+
+<!-- * Observation: `5.0` -->
+<!-- * Observation with error: `5.0 ± 0.6` -->
+<!-- * Observation with distribution: $SkewNormal(4,2,.8)$ -->
+
+<!-- :::{.nonincremental} -->
+
+<!-- * Random variables are harder to work with, but sometimes necessary. -->
+<!-- <!-- * Non-gaussian uncertainty = even harder --> -->
+
+<!-- ::: -->
+
+<!-- :::{.notes} -->
+<!-- "Random variables are a different type of thing." -->
+<!-- ::: -->
+
+<!-- ```{r} -->
+<!-- #| fig-align: center -->
+
+<!-- d = data.table(g = c("observed", "obs_with_err"), -->
+<!--            x = c(5, 5), -->
+<!--            y = c(3, 2))  -->
+
+<!-- d2 = data.table(g = "obs_with_dist", -->
+<!--                               x = seq(4, 6.5, length.out = 200)) |>  -->
+<!--               mtt(y = .5*dgamma(x-4, 2.5, 2.5)+1) -->
+
+<!-- d |> -->
+<!--   ggplot(aes(x, y)) +  -->
+<!--   geom_point(size = 4) +  -->
+<!--   geom_segment(data = data.frame(y = 2, yend = 2, x = 4.4, xend = 5.6), -->
+<!--                aes(x = x, y = y, xend = xend, yend = yend), -->
+<!--                inherit.aes = FALSE) +  -->
+<!--   geom_line(data = d2, -->
+<!--             color = "grey20") +  -->
+<!--   labs(y = NULL) +  -->
+<!--   theme_light() +  -->
+<!--   theme(text = element_text(size = 24)) +  -->
+<!--   ow_bg +  -->
+<!--   scale_y_continuous(breaks = 1:3, -->
+<!--                      labels = c("obs_with_dist", "obs_with_err", "observed")) -->
+<!-- ``` -->
+
+
 ## Pathological situations
 
 * Obvious: Missing data → less information → imprecise estimates
-* Subtle: Patterns of missingness can *induce* bias
-
+* Insidious: Patterns of missingness can *induce* bias if ignored
 
 ## Types of missingness
 
@@ -272,14 +290,28 @@ points(1, 1, col = "firebrick2", bg = "white", pch = 21, cex = 1.3)
 * Draw a directed acyclic graph (DAG) instead.
 :::
 
-![](images/2025-05-06_15-58-00.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=1300 top=0}
+:::{.fragment}
 
-:::{.absolute left=950 width=22% top=50}
+* Example: Studying, homework, and dogs.
+
+![](images/2025-05-06_15-58-00.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=1250 top=0}
+
+:::{.absolute left=900 width=22% top=50}
+<small> Arrows = causal relationships </small>
+
 <small> Dotted = latent truth </small>
 
 <small> Starred = observed with NAs </small>
 :::
 
+:::
+
+# Strategies
+
+## Just drop them
+
+* Only valid for MCAR, otherwise you'll get bias
+* At the very least, discuss the possible consequences of this choice
 
 ## Multiple imputation
 
@@ -308,20 +340,41 @@ Defining this concept precisely is detailed, but the first bullet gives the main
 :::
 
 :::{.fragment}
-* You when this happens: 😭
 * If you have other data that can provide information on the underlying values, speak to a statistician and mention the phrase *"Bayesian imputation"*.
 :::
 
 # Examples
 
-## Genotype imputation
+## Highly accurate imputation - Genotype from markers
 
+:::{.column width=60%}
 * Input: microarray genotypes of ~100k-5M common marker SNPs
 * Output: genotypes at query SNPs
-* Output uncertainty surprisingly low
-* SHAPEIT
+* Output uncertainty: surprisingly low for common variants
+* SHAPEIT - Segmented HAPlotype Estimation and Imputation Tools
+:::
+
+:::{.column width=40% .absolute top=100 left=1000}
+![](images/2025-08-04_13-25-08.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);"}
+![](images/2025-08-04_13-22-07.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);"}
+:::
 
 <!-- TODO: picture of a microarray -->
+
+## Inaccurate imputation for pictures - single-cell protein
+
+:::{.column width=60%}
+* Elastic Net, XGBoost, AutoEncoders to impute 16 protein levels of single cells.
+* Proof of concept. N = 8.
+* MAE b/w 0.05-0.15 on a 0-1 scale.
+* Imputed error fairly high → Lessened downstream utility
+* Batch, instrument effects? Unclear.
+:::
+
+:::{.column width=40%}
+![](images/2025-08-04_12-36-50.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);"}
+![](images/2025-08-04_12-38-36.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);"}
+:::
 
 ## COVID incidence 
 
@@ -342,13 +395,13 @@ Defining this concept precisely is detailed, but the first bullet gives the main
 
 ## ~~How to do missing data analysis in Python~~
 
-**Don't do missing data analysis in Python. **
+<big> **Don't do missing data analysis in Python. ** </big>
 
 :::{.incremental}
 * `scikit-learn` ignores uncertainty from noise and parameter estimation.
 * That is statistical malpractice. You **WILL** get the wrong answer.
 * `scikit-learn` is for machine learning, *not* probabilistic inference 
-  * See also the infamous `sklearn.linear_model.LogisticRegression` another guaranteed-to-be-wrong function
+  * See also the infamous `sklearn.linear_model.LogisticRegression`, another wrong-by-default function
 * [`miceforest`](https://miceforest.readthedocs.io/en/latest/) - possibly okay for small data if RFs are acceptable
 :::
 
