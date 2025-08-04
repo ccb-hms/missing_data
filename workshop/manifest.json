@@ -3594,20 +3594,23 @@
     "fits/m1.rds": {
       "checksum": "835679ef5fbbae37c16a181454bdf1ae"
     },
+    "workshop_files/figure-html/unnamed-chunk-10-1.png": {
+      "checksum": "155a7b3efa45142d8d781e1de079d9a9"
+    },
     "workshop_files/figure-html/unnamed-chunk-5-1.png": {
       "checksum": "3ae5d1a95ad1b32c32dfaa8b330790c4"
     },
     "workshop_files/figure-html/unnamed-chunk-6-1.png": {
-      "checksum": "cc7bda5b80e6e7e1e073d4c2ba42c384"
+      "checksum": "3ae5d1a95ad1b32c32dfaa8b330790c4"
     },
     "workshop_files/figure-html/unnamed-chunk-7-1.png": {
-      "checksum": "3ed5e6c8dffcdd55358b12bbd8fc687b"
+      "checksum": "cc7bda5b80e6e7e1e073d4c2ba42c384"
     },
     "workshop_files/figure-html/unnamed-chunk-8-1.png": {
-      "checksum": "b195a2c7393c8e5257df25baf9d94630"
+      "checksum": "3ed5e6c8dffcdd55358b12bbd8fc687b"
     },
     "workshop_files/figure-html/unnamed-chunk-9-1.png": {
-      "checksum": "81cb20e6cd2cfe1706cbce49e7ff1145"
+      "checksum": "74948c4751c335781fa04263e01a3d7b"
     },
     "workshop_files/libs/bootstrap/bootstrap-icons.css": {
       "checksum": "2318f137d201fbf51601fa0faba6bef7"
@@ -3643,10 +3646,10 @@
       "checksum": "d828775275749701b48bd9d958814111"
     },
     "workshop.html": {
-      "checksum": "85e61555664fdbb746820ec53918ab79"
+      "checksum": "2d44080faba056b51786285b79b1f3e3"
     },
     "workshop.qmd": {
-      "checksum": "5f1dd6f6e0f43f8c630a080633ea0ca6"
+      "checksum": "e415a44f8bf3da3931bed3b55da680f7"
     }
   },
   "users": null

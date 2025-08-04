@@ -9,6 +9,8 @@ format:
 ---
 
 
+TODO connect back to slides more
+
 # Setup
 
 ```{r}

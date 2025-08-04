@@ -1333,6 +1333,34 @@
         "Built": "R 4.5.0; x86_64-pc-linux-gnu; 2025-04-16 13:44:39 UTC; unix"
       }
     },
+    "tinyplot": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "tinyplot",
+        "Type": "Package",
+        "Title": "Lightweight Extension of the Base R Graphics System",
+        "Version": "0.4.1",
+        "Date": "2025-06-02",
+        "Authors@R": "\n  c(\n    person(\n      given = \"Grant\",\n      family = \"McDermott\",\n      role = c(\"aut\", \"cre\"),\n      email = \"gmcd@amazon.com\",\n      comment = c(ORCID = \"0000-0001-7883-8573\")\n    ),\n    person(\n      given = \"Vincent\",\n      family = \"Arel-Bundock\",\n      role = \"aut\",\n      email = \"vincent.arel-bundock@umontreal.ca\",\n      comment = c(ORCID = \"0000-0003-1995-6531\")\n    ),\n    person(\n      given = \"Achim\",\n      family = \"Zeileis\",\n      role = \"aut\",\n      email = \"Achim.Zeileis@R-project.org\",\n      comment = c(ORCID = \"0000-0003-0918-3766\")\n     ),\n    person(\n      given = \"Etienne\",\n      family = \"Bacher\",\n      role = \"ctb\",\n      email = \"etienne.bacher@protonmail.com\"\n    )\n  )",
+        "Description": "Lightweight extension of the base R graphics system, with support\n      for automatic legends, facets, themes, and various other enhancements.",
+        "License": "Apache License (>= 2)",
+        "Depends": "R (>= 4.0.0)",
+        "Imports": "graphics, grDevices, stats, tools, utils",
+        "Suggests": "altdoc (>= 0.5.0), fontquiver, png, rsvg, svglite (>= 2.2.0),\ntinytest, tinysnapshot (>= 0.0.3), knitr",
+        "Encoding": "UTF-8",
+        "RoxygenNote": "7.3.2",
+        "URL": "https://grantmcdermott.com/tinyplot/",
+        "BugReports": "https://github.com/grantmcdermott/tinyplot/issues",
+        "NeedsCompilation": "no",
+        "Packaged": "2025-06-02 23:47:45 UTC; grant",
+        "Author": "Grant McDermott [aut, cre] (ORCID:\n    <https://orcid.org/0000-0001-7883-8573>),\n  Vincent Arel-Bundock [aut] (ORCID:\n    <https://orcid.org/0000-0003-1995-6531>),\n  Achim Zeileis [aut] (ORCID: <https://orcid.org/0000-0003-0918-3766>),\n  Etienne Bacher [ctb]",
+        "Maintainer": "Grant McDermott <gmcd@amazon.com>",
+        "Repository": "CRAN",
+        "Date/Publication": "2025-06-03 02:10:02 UTC",
+        "Built": "R 4.5.1; ; 2025-06-25 20:39:40 UTC; unix"
+      }
+    },
     "tinytex": {
       "Source": "CRAN",
       "Repository": "https://cloud.r-project.org",
@@ -1560,6 +1588,18 @@
     "images/2025-07-01_13-17-22.png": {
       "checksum": "e67fad04e360b1b50fcd3b853551cc26"
     },
+    "images/2025-08-04_12-36-50.png": {
+      "checksum": "6adad2080999ae97dfa630f2336bba98"
+    },
+    "images/2025-08-04_12-38-36.png": {
+      "checksum": "45d5b71e795c53ee22d188f68167bf17"
+    },
+    "images/2025-08-04_13-22-07.png": {
+      "checksum": "ccf04de96fcfc2359d5143a954ac0c3b"
+    },
+    "images/2025-08-04_13-25-08.png": {
+      "checksum": "2d1181dd7d3351c743a062776a34a3d9"
+    },
     "images/Andrew_Ghazi_003_sq_sm2.JPG": {
       "checksum": "e1f64b218fdb7133ce885651f216c9b8"
     },
@@ -1585,10 +1625,10 @@
       "checksum": "07c45634da139f70d041a9b302d7e9e6"
     },
     "images/oh.png": {
-      "checksum": "977b056a1ff6e2c79a6afcef44b3d452"
+      "checksum": "1764ca66b1ee60d92b2d5399ca1bae32"
     },
     "images/oh.svg": {
-      "checksum": "628d733f27cb577b9fcebb82bd699cb1"
+      "checksum": "5fb12beb75f6302a69d3888a01308968"
     },
     "my_theme.scss": {
       "checksum": "6afc1ec8a92ebe57366bb7a3d6d96c51"
@@ -1603,10 +1643,10 @@
       "checksum": "255e89ff0fe32c546b498796cbd89094"
     },
     "slides_files/figure-revealjs/unnamed-chunk-3-1.png": {
-      "checksum": "255e89ff0fe32c546b498796cbd89094"
+      "checksum": "06fc61e5a750122aea95fe8c47e21487"
     },
     "slides_files/figure-revealjs/unnamed-chunk-4-1.png": {
-      "checksum": "349b368940192e528c591ba8c75979a4"
+      "checksum": "255e89ff0fe32c546b498796cbd89094"
     },
     "slides_files/libs/clipboard/clipboard.min.js": {
       "checksum": "15f52a1ee547f2bdd46e56747332ca2d"
@@ -1957,10 +1997,10 @@
       "checksum": "dbab999c1a2fe1f31046733759dd1e2b"
     },
     "slides.html": {
-      "checksum": "8e519bcf73f77b67b62e51d285c77a27"
+      "checksum": "4767d3691028bd63718a51a18d4d7fbc"
     },
     "slides.qmd": {
-      "checksum": "493e427ddbfb5b5d416be47381dcbc4e"
+      "checksum": "fdfbce1981d84ade76d832505e46a2ee"
     }
   },
   "users": null
