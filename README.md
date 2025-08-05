@@ -1,4 +1,7 @@
+This repo has two git-backed components, slides/ and workshop/ . If you update the R dependencies in either, make sure to re-run `rsconnect::writeManifest()` in the respective directory.
+
 Rendered output here: https://ccb.connect.hms.harvard.edu/missing_data/
+
 Rendered workshop here: https://ccb.connect.hms.harvard.edu/missing_data_workshop/
 
 # Description
