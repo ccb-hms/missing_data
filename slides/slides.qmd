@@ -1,5 +1,5 @@
 ---
-title: "Handling NAs and Missing Data"
+title: "Working with NAs and Missing Data"
 author: "Andrew Ghazi"
 institute: "Core for Computational Biomedicine"
 date: last-modified
@@ -36,10 +36,11 @@ set.seed(123)
 
 ow = "#F2F2F2"
 
-ow_rect = element_rect(fill = ow, color = ow)
+ow_rect = element_rect(fill  = ow, 
+                       color = ow)
 
 ow_bg = theme(panel.background = ow_rect,
-              plot.background = ow_rect)
+              plot.background  = ow_rect)
 ```
 
 ## Who we are
