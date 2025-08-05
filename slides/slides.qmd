@@ -60,7 +60,9 @@ ow_bg = theme(panel.background = ow_rect,
 
 ## CCB R/Stats Office Hours
 
-:::{.column width=55%}
+::::{.columns}
+
+:::{.column width="55%"}
 * Quick help on R/Stats and CompBio
 * Book Zoom any day or in-person on Wednesdays
 * Examples:
@@ -70,7 +72,7 @@ ow_bg = theme(panel.background = ow_rect,
   * Running AlphaFold3 on O2
 :::
 
-:::{.column width=45%}
+:::{.column width="45%"}
 ![](images/oh.png)
 
 <!-- Other figure elements to possibly include: -->
@@ -78,6 +80,8 @@ ow_bg = theme(panel.background = ow_rect,
 <!-- * GWAS -->
 <!-- * UMAP -->
 :::
+
+::::
 
 :::{.absolute left=0 top=770}
 Link in my email signature or at [https://dbmi.hms.harvard.edu/about-dbmi/core-computational-biomedicine/office-hours](https://dbmi.hms.harvard.edu/about-dbmi/core-computational-biomedicine/office-hours) 
