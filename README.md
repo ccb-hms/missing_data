@@ -31,5 +31,5 @@ pkgs <- c("ggplot2", "dplyr", "mice", "ggmice", "brms")
 install.packages(pkgs, Ncpus = 4)
 ```
 
-Contact andrew_ghazi@hms.harvard.edu with installation questions (or if you have a good missing data analysis problem/example you’d like to share). 
+Contact andrew_ghazi@hms.harvard.edu with installation questions. 
 
