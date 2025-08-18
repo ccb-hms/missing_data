@@ -13,6 +13,8 @@ TODO connect back to slides more
 
 # Setup
 
+First load some libraries and set some options:
+
 ```{r}
 #| message: false
 
@@ -23,11 +25,11 @@ library(mice)
 library(ggmice)
 library(brms)
 
-theme_set(theme_light())
-
 ncores <- ifelse(interactive(), 4, 1)
 
 options(digits = 3)
+
+out_dir <- tempdir()
 ```
 
 ```{r}
@@ -37,9 +39,15 @@ options(digits = 3)
 fw = Sys.info()['user'] == "ghazi"
 
 if (fw) {
+  ncores = 4
   options(brms.backend = "cmdstanr")
+  out_dir = "~/projects/missing_data/fits/"
 }
 ```
+
+:::{.callout-note title="Data cleaning" collapse="true"}
+This workshop does not cover the data munging/cleaning steps that are often necessary to convert empty strings `""` or human readable values like `"Not applicable"` to proper `NA` values. To learn more about that topic, we suggest [R for Data Science](https://r4ds.hadley.nz/missing-values.html).
+:::
 
 # Exploring data with missingness
 
@@ -55,26 +63,26 @@ dim(boys)
 head(boys)
 ```
 
-Count the number of NAs in each column:
+Define a function to count the number of NAs in a vector and apply it to each column: 
 
 ```{r}
-boys |> map_int(\(x) sum(is.na(x)))
+count_na = function(x) x |> is.na() |> sum()
+
+map_int(boys, count_na)
 ```
 
 ## Visualizing NAs
 
-Use `mice` to generate imputed datasets with partial mean matching:
-
-```{r}
-imp <- mice(boys, m = 3, method = "pmm", printFlag = FALSE)
-```
+Replace `ggplot()` in an otherwise standard command with `ggmice()` and you'll get a comparable version that highlights NAs on their respective axes: 
 
 ```{r}
 ggmice(boys, aes(age, hgt)) + 
     geom_point()
 ```
 
-`ggmice` also respects facets:
+You can see that most of the boys whose heights weren't observed are on the younger side. You can also notice from this that there are no observations whose ages are NA.
+
+`ggmice` also respects facets. Let's classify the regions into city and suburbs and plot those as facets:
 
 ```{r}
 boys |> 
@@ -85,23 +93,59 @@ boys |>
   facet_wrap(vars(region))
 ```
 
+You can see there are three observations with observed height and age, but no region specified.
+
 There's a handy convenience function `plot_pattern()` that shows which combined missingness patterns are observed:
 
 ```{r}
 plot_pattern(boys)
 ```
 
+It looks complicated at first, but stare at it and it's pretty intuitive:
+
+* The columns are variables in your data frame (reordered)
+* Rows are a given missingness pattern
+* The left side gives how many times that pattern occurred
+* The bottom shows the total number missing in a given variable
+* The right shows the number of variables missing in a given pattern
 
 ## Visualizing imputed datasets 
 
-When provided with an multiply imputed dataset like `imp`, it displays the imputed values in red:
+First use `mice` to generate three imputed datasets:  
+
+```{r}
+imp <- mice(boys, 
+            m = 3, 
+            print = FALSE)
+```
+
+Our result `imp` is a so-called `mids` object that contains our multiply imputed data set. Three is usually not enough, use more when analyzing real data.
+
+When provided with an multiply imputed dataset like `imp`, `ggmice` displays the imputed values in red:
 
 ```{r}
 ggmice(imp, aes(age, hgt)) + 
     geom_point()
 ```
 
-Notice that there are three red points for each age with an imputed value - that's because we specified `m = 3` imputations above.
+A couple things to notice here:
+
+* There are three red points for each age with an imputed value - that's because we specified `m = 3` imputations above.
+* The default imputation model didn't yield amazing imputations for the younger boys with missing height. There are many imputed values far below the main trend.
+
+:::{.callout-note title="Changing imputation method" collapse="true"}
+You can change the imputation method by specifying the `method` argument with a vector naming the imputation method for each column. The method needs to be appropriate for the type of the variable (i.e. numeric, binary, ordered, etc) or `""` for complete variables that don't need imputation. In this particular example we could replace the default predictive mean matching for numeric variables with Bayesian linear regression by setting `method = c("", rep("norm", 3), "polyreg")`. That basically says "don't impute age, use Bayesian linear regression for height, weight, and bmi, and use polytomous logistic regression for region.
+
+See `?mice::mice` for a complete list of available methods and `?mice::mice.impute.*` for specific options. It's also possible to write your own custom `mice.impute.custom()` imputation function using whatever fancy random forests or neural nets you like and set `method = "custom"`.
+:::
+
+```{r}
+#| eval: false
+#| echo: false
+
+imp <- mice(boys, 
+            m = 3, method = c("", rep("norm", 3), "polyreg"))
+```
 
 You can also plot variables by imputation number by handing the special variable `.imp` to `ggmice`.
 
@@ -116,11 +160,79 @@ If you notice that there is substantial variability in between-imputation distri
 
 # `mice` example with ignorability
 
-NHANES
+Now let's try a missing data analysis of the `boys` dataset with `mice`.
+
+## Generate multiple imputations
+
+This is simply done with the `mice()` function. Given that we saw that the default imputation method for height didn't look so great, let's change it to Bayesian linear regression for height/age/bmi and leave it at the defaults for age and region: 
+
+```{r}
+(imp <- mice(boys, 
+             method = c("", rep("norm", 3), "polyreg"),
+             print = FALSE))
+```
+
+Let's look at the imputed age/height values:
+
+```{r}
+ggmice(imp, aes(age, hgt)) + 
+  geom_point()
+```
+
+It looks a little better for the younger boys who were imputed as too short before. It doesn't pick up the non-linearity or heteroskedasticity of the trend, but it's better.
+
+```{r}
+ggmice(imp, aes(.imp, hgt)) + 
+  geom_boxplot()
+```
+
+Now we fit the model of interest to each of our imputed datasets. For the sake of simplicity let's say we want to estimate weight `wgt` from `age`, height `hgt`, and region `reg` with a linear model i.e. `wgt ~ age + hgt + reg`. To do this we put the model fitting function we would normally use (`lm()`) inside the function `with()` with no data argument: 
+
+```{r}
+fit <- with(imp, lm(wgt ~ age + hgt + reg))
+```
+
+Then finally we can aggregate the multiple fits with the `pool()` function:
+
+```{r}
+pool(fit)
+```
+
+This gives a data frame with an overall summary of the estimates. 
+
+* mean estimate
+* ubar ~= mean of the variances
+* `b` - between-imputation variance
+* ` 
+* Relative increase in variance `riv`
+* Proportion of total variance due to missingness `lambda`
+* Fraction of missing information `fmi`
+
+:::{.callout-note collapse="true" title="Assessing the impact of missing data analysis"}
+
+The impact of missing data analysis depends on the dataset, missingness patterns/proportion, and the statistical model. You can see that just dropping NAs actually yields very similar coefficient estimates in this case:
+
+```{r}
+boys |> 
+  na.omit() |> 
+  lm(wgt ~ age + hgt + reg,
+     data = _) |> 
+  coef()
+```
+
+Obtaining similar estimates from the complete cases makes sense: we have over 700 complete cases and relatively few with NAs. The information gain from this handful of incomplete cases is negligible. 
+:::
+
 
 # `brms` example 
 
-`brms` is an R package that allows fitting models with [Stan](https://mc-stan.org/). We won't be getting into the weeds of inference with Stan, but it's useful in the context of missing data because it enables accurate inference of complicated models with interacting components or non-ignorable missingness. 
+`mice` covers the common and important simple cases, but it can't cover everything. Non-ignorable missingness patterns or complicated joint models necessitate bespoke probability models.
+
+The intuition is the same: integrate over the uncertainty from the missing values. 
+
+`brms` is an R package that allows fitting models with [Stan](https://mc-stan.org/). We won't be getting into the weeds of inference with Stan, but it's useful in the context of missing data because it enables accurate inference of the complicated models at hand. 
+
+We'll use a tiny set of 25 observations in the `nhanes` dataset which includes age, BMI, and cholesterol measurements:
 
 ```{r}
 head(nhanes)
@@ -129,23 +241,34 @@ head(nhanes)
 Here we fit a model on the `nhanes` data that simultaneously:
 
 1. imputes missing values in cholesterol as a function of age with `mi()`
-1. models BMI as a function of age and imputed cholesterol
+1. models BMI as an interaction of age and imputed cholesterol
 
 ```{r m1}
 #| message: false
 
 bform <- bf(chl | mi() ~ age) + 
-    bf(bmi | mi() ~ age * mi(chl)) + set_rescor(FALSE)  
+    bf(bmi | mi() ~ age * mi(chl)) +
+  set_rescor(FALSE)  # don't model residual correlation of submodels
 
 fit_imp <- brm(bform,
                data = nhanes, 
                cores = ncores, 
                refresh = 0,
-               silent = 2)
-```
+               silent = 2,
+               file = file.path(out_dir, "fit_imp"))
 
-```{r}
 fit_imp
 ```
+
+This demonstrative example doesn't yield any shocking results, but the implementation demonstrates the flexibility. You can have multiple interacting submodels, imputed values that depend on other imputed values, non-linear link functions, ...
+
+At the end you have a single set of posterior draws from the entire joint model. The posterior draws include both model coefficients and imputed values. Computing averages over these draws is how you numerically integrate over the uncertainty. Inspecting, visualizing, and assessing the draws and summaries are relatively simple using existing ecosystem around `brms`.
+
+# Other links
+
+Related packages we didn't have time for:
+
+* [VIM](https://cran.r-project.org/web/packages/VIM/index.html)
+* [naniar](https://cran.r-project.org/web/packages/naniar/index.html)
 
 
