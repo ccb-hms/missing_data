@@ -238,13 +238,14 @@ We'll use a tiny set of 25 observations in the `nhanes` dataset which includes a
 head(nhanes)
 ```
 
-Here we fit a model on the `nhanes` data that simultaneously:
+Here we fit a joint model on the `nhanes` data that simultaneously:
 
 1. imputes missing values in cholesterol as a function of age with `mi()`
 1. models BMI as an interaction of age and imputed cholesterol
 
 ```{r m1}
 #| message: false
+#| warning: false
 
 bform <- bf(chl | mi() ~ age) + 
     bf(bmi | mi() ~ age * mi(chl)) +
@@ -260,9 +261,11 @@ fit_imp <- brm(bform,
 fit_imp
 ```
 
-This demonstrative example doesn't yield any shocking results, but the implementation demonstrates the flexibility. You can have multiple interacting submodels, imputed values that depend on other imputed values, non-linear link functions, ...
+This demonstrative example doesn't yield any shocking results, but the implementation demonstrates the flexibility. You can have multiple interacting submodels, imputed values that depend on other imputed values, non-linear link functions, etc.
 
 At the end you have a single set of posterior draws from the entire joint model. The posterior draws include both model coefficients and imputed values. Computing averages over these draws is how you numerically integrate over the uncertainty. Inspecting, visualizing, and assessing the draws and summaries are relatively simple using existing ecosystem around `brms`.
+
+In the event that you have data that is NMAR yet "rescuable" through informative auxiliary variables, this is a good place to start.
 
 # Other links
 
