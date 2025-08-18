@@ -228,9 +228,13 @@ Obtaining similar estimates from the complete cases makes sense: we have over 70
 
 `mice` covers the common and important simple cases, but it can't cover everything. Non-ignorable missingness patterns or complicated joint models necessitate bespoke probability models.
 
-The intuition is the same: integrate over the uncertainty from the missing values. 
+The intuition is the same: integrate over the uncertainty from the missing values. The key differences are:
 
-`brms` is an R package that allows fitting models with [Stan](https://mc-stan.org/). We won't be getting into the weeds of inference with Stan, but it's useful in the context of missing data because it enables accurate inference of the complicated models at hand. 
+1. imputed values are treated the same as other unknown model parameters (e.g. regression coefficients)
+1. the pooling is treated as any other posterior summary
+1. the probabilistic relationships of known and imputed values is whatever you specify -- it's not limited to imputed = f(known)
+
+`brms` is an R package that allows fitting probability models with [Stan](https://mc-stan.org/). We won't be getting into the weeds of inference with Stan, but it's useful in the context of missing data because it enables accurate inference of the complicated models at hand. 
 
 We'll use a tiny set of 25 observations in the `nhanes` dataset which includes age, BMI, and cholesterol measurements:
 
@@ -254,7 +258,7 @@ bform <- bf(chl | mi() ~ age) +
   set_rescor(FALSE)  # don't model residual correlation of submodels
 ```
 
-Then we hand that to the main fitting function `brm()` with the dataset and some QOL options:
+Then we hand that to the main fitting function `brm()` with the data and some QOL options:
 
 ```{r}
 (fit_imp <- brm(bform,
