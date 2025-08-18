@@ -243,27 +243,31 @@ Here we fit a joint model on the `nhanes` data that simultaneously:
 1. imputes missing values in cholesterol as a function of age with `mi()`
 1. models BMI as an interaction of age and imputed cholesterol
 
+We first specify a model formula with two components for the two submodels. We also specify that the residuals are uncorrelated:
+
 ```{r m1}
 #| message: false
 #| warning: false
 
 bform <- bf(chl | mi() ~ age) + 
-    bf(bmi | mi() ~ age * mi(chl)) +
+  bf(bmi | mi() ~ age * mi(chl)) +
   set_rescor(FALSE)  # don't model residual correlation of submodels
+```
 
-fit_imp <- brm(bform,
-               data = nhanes, 
-               cores = ncores, 
-               refresh = 0,
-               silent = 2,
-               file = file.path(out_dir, "fit_imp"))
+Then we hand that to the main fitting function `brm()` with the dataset and some QOL options:
 
-fit_imp
+```{r}
+(fit_imp <- brm(bform,
+                data = nhanes, 
+                cores = ncores, 
+                refresh = 0,
+                silent = 2,
+                file = file.path(out_dir, "fit_imp")))
 ```
 
 This demonstrative example doesn't yield any shocking results, but the implementation demonstrates the flexibility. You can have multiple interacting submodels, imputed values that depend on other imputed values, non-linear link functions, etc.
 
-At the end you have a single set of posterior draws from the entire joint model. The posterior draws include both model coefficients and imputed values. Computing averages over these draws is how you numerically integrate over the uncertainty. Inspecting, visualizing, and assessing the draws and summaries are relatively simple using existing ecosystem around `brms`.
+At the end you have a single set of posterior draws from the entire joint model. The posterior draws include both model coefficients and imputed values (both are parameters from the model's point of view). Computing averages and quantiles over these draws is how you numerically integrate over the uncertainty. Inspecting, visualizing, and assessing the draws and summaries are relatively simple using existing ecosystem around `brms`.
 
 In the event that you have data that is NMAR yet "rescuable" through informative auxiliary variables, this is a good place to start.
 
