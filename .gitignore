@@ -10,3 +10,5 @@ _publish.yml
 workshop/fits/*.rds
 *.html
 *_files/
+fits/
+flyer*
