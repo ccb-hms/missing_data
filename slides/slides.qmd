@@ -22,10 +22,10 @@ title-slide-attributes:
   data-background-image: images/HMS_DBMI_Logo.png
   data-background-size: 25%
   data-background-position: 10% 10%
-  
 ---
 
-# Intro
+# Preface
+
 ```{r setup}
 #| message: false
 library(fastverse)
@@ -87,18 +87,17 @@ ow_bg = theme(panel.background = ow_rect,
 Link in my email signature or at [https://dbmi.hms.harvard.edu/about-dbmi/core-computational-biomedicine/office-hours](https://dbmi.hms.harvard.edu/about-dbmi/core-computational-biomedicine/office-hours) 
 :::
 
-## Who you are
-
-Prerequisites:
+## Prerequisites:
 
 * Seminar: none
-* Hands-on workshop: R and the packages below
+* Hands-on workshop: R and the packages below:
 
 ```{r}
 #| eval: false
 #| echo: true
 
-pkgs <- c("ggplot2", "dplyr", "mice", "ggmice", "brms")
+pkgs <- c("ggplot2", "dplyr", "purrr", 
+          "mice", "ggmice", "brms")
 
 install.packages(pkgs, Ncpus = 4)
 ```
@@ -123,30 +122,49 @@ install.packages(pkgs, Ncpus = 4)
 ```{r}
 
 ins_na = \(x) {
-  x[sample(length(x), floor(n/2))] = NA
+  x[sample(length(x), floor(n/3))] = NA
   x
 }
 
 n = 200
 set.seed(123)
-data.table(age = floor(runif(n, 30,80)) |> ins_na(),
-           income = floor(rexp(n, 1/48)) |> ins_na(),
-           `5y_outcome` = sample(0:1, size = n, T) |> ins_na())[1:5,] |> 
+ex_dat = data.table(allerg = sample(0:1, n, TRUE) |> ins_na(),
+                    age = floor(runif(n, 30,80))     |> ins_na(),
+                    income = floor(rexp(n, 1/48))    |> ins_na(),
+                    `5y_outcome` = sample(0:1, n, T) |> ins_na())
+
+ex_dat$income[1] = 20
+ex_dat$allerg[2] = NA
+
+ex_dat[1:5,-1] |> 
   print(row.names = FALSE)
 ```
 :::
 
-![](images/dg_tmp.png){.absolute left=1000 top=440 width=40%} 
+[<span style="color:#666666; font-style: italic;"> <small> Missing values in survey data </small> </span>]{.absolute left=1000 top=390}
+
+![ ](images/dg_tmp.png){.absolute left=1000 top=460 width=40%} 
+
+[<span style="color:#666666; font-style: italic;"> <small> Missing values in imaging data </small> </span>]{.absolute left=1000 top=870}
 
 ## Outline 
 
+:::{.column width=70%}
 * Seminar (1 hour)
   * Concepts
+  * Strategies
   * Examples
+  * No theory!
 * Hands-on workshop  in R (1 hour)
 
-![](images/2025-06-11_15-35-18.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=800 top=100 width=40%}
-![](images/no.svg){fig-alt="" .absolute left=770 top=50 .fragment}
+These slides:
+
+[ccb.connect.hms.harvard.edu/missing_data](ccb.connect.hms.harvard.edu/missing_data)
+
+:::
+
+![](images/2025-06-11_15-35-18.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=1000 top=50 width=33%}
+![](images/no.svg){fig-alt="" .absolute left=985 top=20 .fragment width=35%}
 
 # Concepts 
 
@@ -160,6 +178,12 @@ data.table(age = floor(runif(n, 30,80)) |> ins_na(),
 * "Imputation" - the act of filling in blanks
 :::
 
+:::{.incremental}
+
+1. high or low uncertainty over missing values
+1. degree of uncertainty impacted by context
+:::
+
 ## Degrees of uncertainty 
 
 ::::{.columns}
@@ -168,8 +192,8 @@ data.table(age = floor(runif(n, 30,80)) |> ins_na(),
 * Context informs uncertainty when imputing
 * If the uncertainty is *sufficiently* small, it can be ignored
 * What will you use imputed values for?
-    * Just reporting them? Uncertainty is less valuable/important.
-    * As input to a predictive and/or probabilistic model? Accounting for uncertainty is **essential**.
+    * Just reporting / visualizing? Uncertainty is less important.
+    * As input to a downstream model? Accounting for uncertainty is **essential**.
 :::
 
 :::{.notes}
@@ -228,11 +252,28 @@ plt(col = "firebrick2",
 :::
 :::
 
+## Imputation - "Filling in the blank"
+
+* Generate a new value to replace NAs
+* Build a predictive model for variable with NAs from other variables
+
+:::{.fragment}
+* Many pitfalls:
+  * replacing with the mean ❌ 
+  * replacing with one value ❌
+  * replacing with unrealistic values ❌
+:::
+
 ## Uses for imputed values
 
-* *Are the imputed values the means or the ends?*
-* Draw a pretty picture
-* Downstream inference
+*Are the imputed values the means or the ends?*
+
+- Draw a pretty picture
+  - Fill in points on a UMAP
+  - Fill in blank regions on an image
+- Downstream statistical inference
+
+*Inference is much more demanding!*
 
 <!-- ## Types of observations  -->
 
@@ -243,7 +284,7 @@ plt(col = "firebrick2",
 <!-- :::{.nonincremental} -->
 
 <!-- * Random variables are harder to work with, but sometimes necessary. -->
-<!-- <!-- * Non-gaussian uncertainty = even harder --> -->
+<!-- * Non-gaussian uncertainty = even harder -->
 
 <!-- ::: -->
 
@@ -279,7 +320,7 @@ plt(col = "firebrick2",
 <!-- ``` -->
 
 
-## Pathological situations
+## Negative effects of missing data
 
 * Obvious: Missing data → less information → imprecise estimates
 * Insidious: Patterns of missingness can *induce* bias if ignored
@@ -313,40 +354,108 @@ plt(col = "firebrick2",
 
 # Strategies
 
+## Examining missingness
+
+* Count observations with any NAs
+* Tabulate features that tend to go missing together
+* Check if NAs are associated with other variables
+
 ## Just drop them
 
-* Only valid for MCAR, otherwise you'll get bias
-* At the very least, discuss the possible consequences of this choice
+* Only valid for MCAR, otherwise you'll get bias.
+* At the very least, discuss the possible consequences of this choice.
 
-## Multiple imputation
+```{r}
+#| eval: false
+
+nrow(na.omit(dat)) / nrow(dat)
+
+```
+
+## Multiple imputation (MI)
 
 * Key idea: 
   1. Randomly impute missing values
-  1. Fit a model
+  1. Fit a model to the imputed dataset
   1. Repeat 1-2 many times
   1. Aggregate results
   
 * Key assumption: "ignorability"
 
-![](images/ch01-miflow-1.png){.absolute top=100 left=800 fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=55%}
+![](images/ch01-miflow-1.png){.absolute top=100 left=750 fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=55%}
 
 :::{.aside}
 [*Flexible Imputation of Missing Data*](https://stefvanbuuren.name/fimd/), Stef van Buuren, [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 :::
 
-## "Ignorability"
+## Imputation model
 
-* "Does the chance of a value going missing depend on the value itself?"
-* If so, assumption violated.
-* multiple imputation won't work.
+:::{.column width=65%}
+* Predict NAs in a covariate given all other covariates 
+* Most common: **Predictive mean matching** and/or **regression**, see `?mice::mice.impute.*`
 
-:::{.notes}
-Defining this concept precisely is detailed, but the first bullet gives the main ida.
+:::{.incremental}
+* Mean of the non-NAs ❌ ❌
+* Model predictive mean ❌
+* Model predictive mean + noise ✅
+* Predict + noise + parameter uncertainty ✅✅
+* Predictive mean matching ✅✅
+* LASSO, random forests, neural nets, etc
 :::
 
 :::{.fragment}
-* If you have other data that can provide information on the underlying values, speak to a statistician and mention the phrase *"Bayesian imputation"*.
+* `mice` comes with sane defaults, but always check and think. 
 :::
+
+:::
+
+<!-- TODO: FIMD figure 3.1 but with only one predictor for simplicity -->
+
+## "Ignorability" assumption
+
+* "Does the chance of a value going missing depend on the value itself or other information we don't have?"
+* If so, assumption violated.
+* standard MI practice generally won't work.
+
+:::{.notes}
+Defining this concept precisely is complicated, but the first bullet gives the main idea.
+:::
+
+<!-- :::{.fragment} -->
+<!-- * If you have other data that can provide information on the underlying values, speak to a statistician and mention the phrase *"Bayesian imputation"*. -->
+<!-- ::: -->
+
+## Quiz 
+
+```{r}
+ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
+```
+
+
+[<span style="color:#666666; font-style: italic;"> <small> Missing values in survey data </small> </span>]{.absolute left=100 top=550}
+
+![ ](images/dg_tmp.png){.absolute left=950 top=100 width=44%} 
+
+[<span style="color:#666666; font-style: italic;"> <small> Missing values in imaging data </small> </span>]{.absolute left=950 top=550}
+
+:::{.absolute top=600}
+Think / discuss which of these are probably MCAR/MAR/NMAR and/or exhibit ignorable missingness.
+:::
+
+## Joint imputation
+
+:::{.column width=65%}
+* Use *informative auxiliary variables* to simultaneously:
+  * impute NAs
+  * infer missingness relationship 
+* Generally requires:
+  * informative auxiliary variables
+  * bespoke modeling in a probabilistic programming language 
+  * fairly large sample sizes
+  * domain knowledge
+:::
+
+![](images/covid_dag.png){fig-alt="" .absolute left=1100 top=100 width=30%}
 
 # Examples
 
@@ -366,11 +475,11 @@ Defining this concept precisely is detailed, but the first bullet gives the main
 
 <!-- TODO: picture of a microarray -->
 
-## Inaccurate imputation for pictures - single-cell protein
+## Rough imputation for pictures - single-cell proteomics
 
 :::{.column width=60%}
-* Elastic Net, XGBoost, AutoEncoders to impute 16 protein levels of single cells.
 * Proof of concept. N = 8.
+* Elastic Net, XGBoost, AutoEncoders to impute 16 protein levels of single cells.
 * MAE b/w 0.05-0.15 on a 0-1 scale.
 * Imputed error fairly high → Lessened downstream utility
 * Batch, instrument effects? Unclear.
@@ -396,18 +505,32 @@ Defining this concept precisely is detailed, but the first bullet gives the main
 
 # End matter
 
+
+## Ethics
+
+> "The ethical statistical practitioner ... seeks to *understand and mitigate* known or *suspected* limitations, defects, or biases in the data ... and communicates potential impacts on the interpretation [or] conclusions...[and] Avoids compromising validity for expediency." ^[ [ASA Ethical Guidelines for Statistical Practice](https://www.amstat.org/your-career/ethical-guidelines-for-statistical-practice),  emphasis mine]
+
+* Be honest. Ignoring impactful patterns is not honest!
+* Do your due diligence. 
+* Ask for help if you need it.
+
+# On to the workshop!
+
+ccb.connect.hms.harvard.edu/missing_data_workshop/
+
+# Extra
+
 ## How to do missing data analysis in Python
 
 ## ~~How to do missing data analysis in Python~~
 
-<big> **Don't do missing data analysis in Python. ** </big>
+<span style="font-size: 140%;"> **Don't do missing data analysis in Python. ** </span> 
 
 :::{.incremental}
 * `scikit-learn` ignores uncertainty from noise and parameter estimation.
 * That is statistical malpractice. You **WILL** get the wrong answer.
 * `scikit-learn` is for machine learning, *not* probabilistic inference 
-  * See also the infamous `sklearn.linear_model.LogisticRegression`, another wrong-by-default function
-* [`miceforest`](https://miceforest.readthedocs.io/en/latest/) - possibly okay for small data if RFs are acceptable
+* [`miceforest`](https://miceforest.readthedocs.io/en/latest/) - possibly okay for small data if computational burden of RFs is acceptable
 :::
 
 ## Examples

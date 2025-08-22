@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="109mm"
+   height="120mm"
+   viewBox="0 0 109 120"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="covid_dag.svg"
+   inkscape:export-filename="/home/ghazi/projects/missing_data/slides/images/covid_dag.png"
+   inkscape:export-xdpi="300.03299"
+   inkscape:export-ydpi="300.03299"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.2546922"
+     inkscape:cx="175.34181"
+     inkscape:cy="279.74989"
+     inkscape:window-width="2192"
+     inkscape:window-height="1178"
+     inkscape:window-x="2192"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <rect
+       x="348.33536"
+       y="548.87946"
+       width="232.41927"
+       height="158.34201"
+       id="rect18411" />
+    <marker
+       style="overflow:visible"
+       id="Arrow1Lend"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path17448" />
+    </marker>
+    <rect
+       x="126.42303"
+       y="451.75351"
+       width="206.87868"
+       height="132.6432"
+       id="rect16342" />
+    <rect
+       x="373.42453"
+       y="310.48544"
+       width="293.85193"
+       height="138.17046"
+       id="rect13388" />
+    <rect
+       x="53.579021"
+       y="238.01501"
+       width="201.20238"
+       height="110.20225"
+       id="rect9906" />
+    <rect
+       x="429.5419"
+       y="139.2765"
+       width="103.82923"
+       height="56.856705"
+       id="rect2168" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-41.423226,-131.03667)"
+       id="text18409"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect18411);fill:#000000;fill-opacity:1;stroke:none"><tspan
+         x="348.33594"
+         y="585.55891"
+         id="tspan1110"><tspan
+           style="font-family:'DejaVu Math TeX Gyre';-inkscape-font-specification:'DejaVu Math TeX Gyre'"
+           id="tspan1108">U</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-26.458334,21.166667)"
+       id="text2166"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect2168);fill:#000000;fill-opacity:1;stroke:none"><tspan
+         x="429.54102"
+         y="175.95734"
+         id="tspan1114"><tspan
+           style="font-family:'DejaVu Math TeX Gyre';-inkscape-font-specification:'DejaVu Math TeX Gyre'"
+           id="tspan1112">R</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-3.3957466,40.341208)"
+       id="text9904"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect9906);fill:#000000;fill-opacity:1;stroke:none"><tspan
+         x="53.578125"
+         y="274.69563"
+         id="tspan1118"><tspan
+           style="font-family:'DejaVu Math TeX Gyre';-inkscape-font-specification:'DejaVu Math TeX Gyre'"
+           id="tspan1116">R*</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-15.716983,21.166667)"
+       id="text13386"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect13388);fill:#000000;fill-opacity:1;stroke:none"><tspan
+         x="373.42383"
+         y="347.16633"
+         id="tspan1122"><tspan
+           style="font-family:'DejaVu Math TeX Gyre';-inkscape-font-specification:'DejaVu Math TeX Gyre'"
+           id="tspan1120">Inc</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-26.458334,-61.509421)"
+       id="text16340"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect16342);fill:#000000;fill-opacity:1;stroke:none"><tspan
+         x="126.42383"
+         y="488.43391"
+         id="tspan1126"><tspan
+           style="font-family:'DejaVu Math TeX Gyre';-inkscape-font-specification:'DejaVu Math TeX Gyre'"
+           id="tspan1124">Geo</tspan></tspan></text>
+    <circle
+       style="fill:none;stroke:#4d4d4d;stroke-width:0.683773;stroke-miterlimit:4;stroke-dasharray:0.683773, 1.36755;stroke-dashoffset:0.820528;stroke-opacity:0.999319"
+       id="path17284"
+       cx="91.064415"
+       cy="64.407425"
+       r="8.1658468" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="M 73.932975,76.192029 32.751057,99.968415"
+       id="path17443" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 91.626675,81.202511 -0.0428,18.202867"
+       id="path19313"
+       sodipodi:nodetypes="cc" />
+    <g
+       id="g938"
+       transform="translate(-1.5139679,6.3500001)">
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.231598px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+         d="M 56.661166,21.774939 85.637059,47.666683"
+         id="path19311" />
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.231598px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+         d="M 56.790999,21.774939 27.815106,47.666683"
+         id="path934" />
+    </g>
+  </g>
+</svg>
