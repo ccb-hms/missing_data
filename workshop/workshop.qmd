@@ -197,7 +197,6 @@ set.seed(42)
 ```
 
 
-
 ## Visualize imputed values
 
 Let's look at the imputed age/height values:
@@ -207,7 +206,7 @@ ggmice(imp, aes(age, hgt)) +
   geom_point()
 ```
 
-It looks a little better for the younger boys who were imputed as too short before. It doesn't pick up the non-linearity or heteroskedasticity of the trend, but it's centered at least.
+It looks a little better for the younger boys who were imputed as too short before. It doesn't pick up the non-linearity of the trend and now seems to be undershooting in the middle, but it's centered overall at least.
 
 Let's check the distribution of imputed heights too:
 
