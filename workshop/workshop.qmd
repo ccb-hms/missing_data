@@ -184,10 +184,13 @@ Does it make sense to include BMI? No! BMI is a direct function of height and we
 
 ## Generate multiple imputations
 
-This is simply done with the `mice()` function. Given that we saw that the default imputation method for height didn't look so great, let's change it to Bayesian linear regression for age and height and leave it at the defaults for age and region: 
+This is simply done with the `mice()` function. Given that we saw that the default imputation method for height didn't look so great, let's change it to Bayesian linear regression for age and height and leave it at the defaults for age and region. Let's also set the RNG seed and drop BMI as discussed:
 
 
 ```{r}
+
+set.seed(42)
+
 (imp <- mice(boys |> select(-bmi), 
              method = c("", "norm", "norm", "polyreg"),
              print = FALSE))
