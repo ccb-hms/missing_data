@@ -24,6 +24,9 @@ title-slide-attributes:
   data-background-position: 10% 10%
 ---
 
+<!-- Repo: https://github.com/ccb-hms/missing_data/tree/main/slides -->
+<!-- Rendered output: https://ccb.connect.hms.harvard.edu/missing_data -->
+
 # Preface
 
 ```{r setup}
@@ -269,56 +272,11 @@ plt(col = "firebrick2",
 *Are the imputed values the means or the ends?*
 
 - Draw a pretty picture
-  - Fill in points on a UMAP
-  - Fill in blank regions on an image
+  - Fill in points on a UMAP or image
 - Downstream statistical inference
+  - $P(\theta \mid Y_{mis})$
 
-*Inference is much more demanding!*
-
-<!-- ## Types of observations  -->
-
-<!-- * Observation: `5.0` -->
-<!-- * Observation with error: `5.0 ± 0.6` -->
-<!-- * Observation with distribution: $SkewNormal(4,2,.8)$ -->
-
-<!-- :::{.nonincremental} -->
-
-<!-- * Random variables are harder to work with, but sometimes necessary. -->
-<!-- * Non-gaussian uncertainty = even harder -->
-
-<!-- ::: -->
-
-<!-- :::{.notes} -->
-<!-- "Random variables are a different type of thing." -->
-<!-- ::: -->
-
-<!-- ```{r} -->
-<!-- #| fig-align: center -->
-
-<!-- d = data.table(g = c("observed", "obs_with_err"), -->
-<!--            x = c(5, 5), -->
-<!--            y = c(3, 2))  -->
-
-<!-- d2 = data.table(g = "obs_with_dist", -->
-<!--                               x = seq(4, 6.5, length.out = 200)) |>  -->
-<!--               mtt(y = .5*dgamma(x-4, 2.5, 2.5)+1) -->
-
-<!-- d |> -->
-<!--   ggplot(aes(x, y)) +  -->
-<!--   geom_point(size = 4) +  -->
-<!--   geom_segment(data = data.frame(y = 2, yend = 2, x = 4.4, xend = 5.6), -->
-<!--                aes(x = x, y = y, xend = xend, yend = yend), -->
-<!--                inherit.aes = FALSE) +  -->
-<!--   geom_line(data = d2, -->
-<!--             color = "grey20") +  -->
-<!--   labs(y = NULL) +  -->
-<!--   theme_light() +  -->
-<!--   theme(text = element_text(size = 24)) +  -->
-<!--   ow_bg +  -->
-<!--   scale_y_continuous(breaks = 1:3, -->
-<!--                      labels = c("obs_with_dist", "obs_with_err", "observed")) -->
-<!-- ``` -->
-
+***Inference is much more demanding!***
 
 ## Negative effects of missing data
 
@@ -378,7 +336,7 @@ nrow(na.omit(dat)) / nrow(dat)
   1. Randomly impute missing values
   1. Fit a model to the imputed dataset
   1. Repeat 1-2 many times
-  1. Aggregate results
+  1. Aggregate ("pool") results
   
 * Key assumption: "ignorability"
 
@@ -410,6 +368,10 @@ nrow(na.omit(dat)) / nrow(dat)
 :::
 
 <!-- TODO: FIMD figure 3.1 but with only one predictor for simplicity -->
+
+## Pooling
+
+
 
 ## "Ignorability" assumption
 
@@ -527,9 +489,11 @@ ccb.connect.hms.harvard.edu/missing_data_workshop/
 <span style="font-size: 140%;"> **Don't do missing data analysis in Python. ** </span> 
 
 :::{.incremental}
-* `scikit-learn` ignores uncertainty from noise and parameter estimation.
-* That is statistical malpractice. You **WILL** get the wrong answer.
+* MI ecosystem all but non-existent in Python.
+* `scikit-learn` encourages single imputation ❌
+  * statistical malpractice
 * `scikit-learn` is for machine learning, *not* probabilistic inference 
+  * See also the infamous `sklearn.linear_model.LogisticRegression`
 * [`miceforest`](https://miceforest.readthedocs.io/en/latest/) - possibly okay for small data if computational burden of RFs is acceptable
 :::
 

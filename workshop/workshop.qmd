@@ -11,6 +11,9 @@ format:
 
 TODO connect back to slides more
 
+<!-- Repo: https://github.com/ccb-hms/missing_data/tree/main/workshop -->
+<!-- Rendered output here: https://ccb.connect.hms.harvard.edu/missing_data_workshop/ -->
+
 # Setup
 
 First load some libraries and set some options:
@@ -35,6 +38,8 @@ out_dir <- tempdir()
 ```{r}
 #| eval: true
 #| echo: false
+
+# Some tweaks to save time when I'm re-rendering this locally:
 
 fw = Sys.info()['user'] == "ghazi"
 
@@ -164,17 +169,31 @@ If you notice that there is substantial variability in between-imputation distri
 
 # Multiple imputation in `mice` - example with ignorability
 
-Now let's try a missing data analysis of the `boys` dataset with `mice`.
+Now let's try a missing data analysis of the `boys` dataset with `mice`. Let's assume our field of study is obesity.
+
+:::{.callout-caution title="Think about the variables to include" collapse="true"}
+
+We've assumed we're obesity researchers. Let's say that we want to study weight as the outcome variable. It makes sense to include:
+
+* age - children get heavier as they get older
+* height - taller children are heavier on average
+* region - probably not as impactful as age and height, but we can allow the possibility that some regions have different food cultures or something
+
+Does it make sense to include BMI? No! BMI is a direct function of height and weight (`BMI = weight_kg / height_m^2)`), so giving the imputation model access to both BMI and height will allow it to generate unrealistically accurate imputed weights. That's particularly true if we allow for non-linear imputation models that can back-out the w/h^2 relationship.
+:::
 
 ## Generate multiple imputations
 
-This is simply done with the `mice()` function. Given that we saw that the default imputation method for height didn't look so great, let's change it to Bayesian linear regression for height/age/bmi and leave it at the defaults for age and region: 
+This is simply done with the `mice()` function. Given that we saw that the default imputation method for height didn't look so great, let's change it to Bayesian linear regression for age and height and leave it at the defaults for age and region: 
+
 
 ```{r}
-(imp <- mice(boys, 
-             method = c("", rep("norm", 3), "polyreg"),
+(imp <- mice(boys |> select(-bmi), 
+             method = c("", "norm", "norm", "polyreg"),
              print = FALSE))
 ```
+
+
 
 ## Visualize imputed values
 
@@ -185,12 +204,16 @@ ggmice(imp, aes(age, hgt)) +
   geom_point()
 ```
 
-It looks a little better for the younger boys who were imputed as too short before. It doesn't pick up the non-linearity or heteroskedasticity of the trend, but it's better.
+It looks a little better for the younger boys who were imputed as too short before. It doesn't pick up the non-linearity or heteroskedasticity of the trend, but it's centered at least.
+
+Let's check the distribution of imputed heights too:
 
 ```{r}
 ggmice(imp, aes(.imp, hgt)) + 
   geom_boxplot()
 ```
+
+Looks fine. In practice you'd want to sanity check the other imputed variables as well, but let's move on.
 
 ## Fit models to imputed datasets
 
@@ -231,7 +254,7 @@ boys |>
   coef()
 ```
 
-Obtaining similar estimates from the complete cases makes sense: we have over 700 complete cases and relatively few with NAs. The information gain from a handful of incomplete cases is negligible in this instance. 
+Obtaining similar estimates from the complete cases makes sense: we have over 700 complete cases and relatively few with NAs. The information gain from a handful of incomplete cases is negligible in this instance. But of course, 
 :::
 
 
