@@ -310,7 +310,7 @@ Then we hand that to the main fitting function `brm()` with the data and some QO
 
 This demonstrative example doesn't yield any shocking results, but the implementation demonstrates the flexibility. You can have multiple interacting submodels, imputed values that depend on other imputed values, non-linear link functions, etc.
 
-At the end you have a single set of posterior draws from the entire joint model. The posterior draws include both model coefficients and imputed values (both are parameters from the model's point of view). Computing averages and quantiles over these draws is how you numerically integrate over the uncertainty. Inspecting, visualizing, and assessing the draws and summaries are relatively simple using existing ecosystem around `brms`.
+At the end you have a single set of posterior draws from the entire joint model. The posterior draws include both model coefficients and imputed values (both are parameters from the model's point of view). Computing averages and quantiles over these draws is how you numerically integrate over the uncertainty. Inspecting, visualizing, and assessing the draws and summaries are relatively simple using [existing ecosystem](https://mc-stan.org/tools/) around `brms`.
 
 In the event that you have data that is NMAR yet "rescuable" through informative auxiliary variables, this is a good place to start.
 
