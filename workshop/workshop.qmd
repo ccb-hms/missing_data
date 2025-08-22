@@ -73,7 +73,7 @@ map_int(boys, count_na)
 
 ## Visualizing NAs
 
-Replace `ggplot()` in an otherwise standard command with `ggmice()` and you'll get a comparable version that highlights NAs on their respective axes: 
+Replace `ggplot()` in an otherwise standard ggplot2 command with `ggmice()` and you'll get a comparable version that highlights NAs on their respective axes: 
 
 ```{r}
 ggmice(boys, aes(age, hgt)) + 
@@ -104,12 +104,14 @@ plot_pattern(boys)
 It looks complicated at first, but stare at it and it's pretty intuitive:
 
 * The columns are variables in your data frame (reordered)
-* Rows are a given missingness pattern
+* Rows are specific missingness patterns
 * The left side gives how many times that pattern occurred
 * The bottom shows the total number missing in a given variable
 * The right shows the number of variables missing in a given pattern
 
 ## Visualizing imputed datasets 
+
+In addition to visualizing the missingness in data, `ggmice` also has functionality to help visualize imputed values. This is important in practice because reasonable imputation models are essential for accurate downstream inference.
 
 First use `mice` to generate three imputed datasets:  
 
@@ -133,10 +135,12 @@ A couple things to notice here:
 * There are three red points for each age with an imputed value - that's because we specified `m = 3` imputations above.
 * The default imputation model didn't yield amazing imputations for the younger boys with missing height. There are many imputed values far below the main trend.
 
-:::{.callout-note title="Changing imputation method" collapse="true"}
-You can change the imputation method by specifying the `method` argument with a vector naming the imputation method for each column. The method needs to be appropriate for the type of the variable (i.e. numeric, binary, ordered, etc) or `""` for complete variables that don't need imputation. In this particular example we could replace the default predictive mean matching for numeric variables with Bayesian linear regression by setting `method = c("", rep("norm", 3), "polyreg")`. That basically says "don't impute age, use Bayesian linear regression for height, weight, and bmi, and use polytomous logistic regression for region.
+:::{.callout-tip title="Changing imputation method" collapse="true"}
+You can change the imputation method by specifying the `method` argument with a vector naming the imputation method for each column. The method needs to be appropriate for the type of the variable (i.e. numeric, binary, ordered, etc) or `""` for complete variables that don't need imputation. 
 
-See `?mice::mice` for a complete list of available methods and `?mice::mice.impute.*` for specific options. It's also possible to write your own custom `mice.impute.custom()` imputation function using whatever fancy random forests or neural nets you like and set `method = "custom"`.
+In this particular example we could replace the default predictive mean matching for numeric variables with Bayesian linear regression by setting `method = c("", rep("norm", 3), "polyreg")`. That basically says "don't impute age, use Bayesian linear regression for height, weight, and bmi, and use polytomous logistic regression for region.
+
+See `?mice::mice` for a complete list of available methods and `?mice::mice.impute.*` for specific options. It's also possible to write your own custom `mice.impute.custom()` function if you want to use a predictive ML model to generate imputed values.
 :::
 
 ```{r}
@@ -158,7 +162,7 @@ ggmice(imp, aes(.imp, hgt)) +
 If you notice that there is substantial variability in between-imputation distributions, you'll need to increase the number of imputations to integrate over that.
 
 
-# `mice` example with ignorability
+# Multiple imputation in `mice` - example with ignorability
 
 Now let's try a missing data analysis of the `boys` dataset with `mice`.
 
@@ -171,6 +175,8 @@ This is simply done with the `mice()` function. Given that we saw that the defau
              method = c("", rep("norm", 3), "polyreg"),
              print = FALSE))
 ```
+
+## Visualize imputed values
 
 Let's look at the imputed age/height values:
 
@@ -186,11 +192,15 @@ ggmice(imp, aes(.imp, hgt)) +
   geom_boxplot()
 ```
 
+## Fit models to imputed datasets
+
 Now we fit the model of interest to each of our imputed datasets. For the sake of simplicity let's say we want to estimate weight `wgt` from `age`, height `hgt`, and region `reg` with a linear model i.e. `wgt ~ age + hgt + reg`. To do this we put the model fitting function we would normally use (`lm()`) inside the function `with()` with no data argument: 
 
 ```{r}
 fit <- with(imp, lm(wgt ~ age + hgt + reg))
 ```
+
+## Pool results
 
 Then finally we can aggregate the multiple fits with the `pool()` function:
 
@@ -200,10 +210,11 @@ pool(fit)
 
 This gives a data frame with an overall summary of the estimates. 
 
+TODO define these more clearly
+
 * mean estimate
 * ubar ~= mean of the variances
 * `b` - between-imputation variance
-* ` 
 * Relative increase in variance `riv`
 * Proportion of total variance due to missingness `lambda`
 * Fraction of missing information `fmi`
@@ -220,11 +231,11 @@ boys |>
   coef()
 ```
 
-Obtaining similar estimates from the complete cases makes sense: we have over 700 complete cases and relatively few with NAs. The information gain from this handful of incomplete cases is negligible. 
+Obtaining similar estimates from the complete cases makes sense: we have over 700 complete cases and relatively few with NAs. The information gain from a handful of incomplete cases is negligible in this instance. 
 :::
 
 
-# `brms` example 
+# Joint imputation in `brms` 
 
 `mice` covers the common and important simple cases, but it can't cover everything. Non-ignorable missingness patterns or complicated joint models necessitate bespoke probability models.
 
