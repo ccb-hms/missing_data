@@ -297,11 +297,14 @@ bform <- bf(chl | mi() ~ age) +
 Then we hand that to the main fitting function `brm()` with the data and some QOL options:
 
 ```{r}
+#| message: false
+#| warning: false
 (fit_imp <- brm(bform,
                 data = nhanes, 
                 cores = ncores, 
                 refresh = 0,
                 silent = 2,
+                seed = 123,
                 file = file.path(out_dir, "fit_imp")))
 ```
 
