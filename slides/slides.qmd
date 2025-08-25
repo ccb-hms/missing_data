@@ -150,6 +150,7 @@ ex_dat[1:5,-1] |>
 
 [<span style="color:#666666; font-style: italic;"> <small> Missing values in imaging data </small> </span>]{.absolute left=1000 top=870}
 
+
 ## Outline 
 
 :::{.column width=70%}
@@ -369,8 +370,17 @@ nrow(na.omit(dat)) / nrow(dat)
 
 <!-- TODO: FIMD figure 3.1 but with only one predictor for simplicity -->
 
+
 ## Pooling
 
+Aggregate estimates that combines
+
+1. imputation-wise uncertainty
+1. uncertainty over imputations
+
+```{.r}
+?mice::pool()
+```
 
 
 ## "Ignorability" assumption
@@ -392,7 +402,6 @@ Defining this concept precisely is complicated, but the first bullet gives the m
 ```{r}
 ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 ```
-
 
 [<span style="color:#666666; font-style: italic;"> <small> Missing values in survey data </small> </span>]{.absolute left=100 top=550}
 
@@ -478,9 +487,11 @@ Think / discuss which of these are probably MCAR/MAR/NMAR and/or exhibit ignorab
 
 # On to the workshop!
 
-ccb.connect.hms.harvard.edu/missing_data_workshop/
+<ccb.connect.hms.harvard.edu/missing_data_workshop/>
 
 # Extra
+
+## {background-image="images/beach.png"} 
 
 ## How to do missing data analysis in Python
 
