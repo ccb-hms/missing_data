@@ -34,16 +34,24 @@ title-slide-attributes:
 library(fastverse)
 library(tinyplot)
 # library(ggplot2)
-library(ggbeeswarm)
+# library(ggbeeswarm)
 set.seed(123)
 
 ow = "#F2F2F2"
 
-ow_rect = element_rect(fill  = ow, 
-                       color = ow)
+# mice colors: 
+# mice::mdc(r = c("observed", "missing")) |> dput()
+mblue = "#006CC2B3"
+mred = "#B61A51B3"
 
-ow_bg = theme(panel.background = ow_rect,
-              plot.background  = ow_rect)
+ow_rect = ggplot2::element_rect(fill  = ow,
+                                color = ow) 
+
+ow_bg = ggplot2::theme_minimal() + 
+  ggplot2::theme(panel.background = ow_rect,
+                 plot.background  = ow_rect,
+                 legend.background = ow_rect,
+                 text = ggplot2::element_text(size = 25))
 ```
 
 ## Who we are
@@ -158,7 +166,7 @@ ex_dat[1:5,-1] |>
   * Concepts
   * Strategies
   * Examples
-  * No theory!
+  * No theory or math
 * Hands-on workshop  in R (1 hour)
 
 These slides:
@@ -179,7 +187,7 @@ These slides:
     * "_ight" 
 
 :::{.fragment}
-* "Imputation" - the act of filling in blanks
+* "Imputation" - using context to fill in the blanks
 :::
 
 :::{.incremental}
@@ -192,19 +200,19 @@ These slides:
 
 ::::{.columns}
 
-:::{.column width=50%}
+:::{.column width=44%}
 * Context informs uncertainty when imputing
 * If the uncertainty is *sufficiently* small, it can be ignored
-* What will you use imputed values for?
-    * Just reporting / visualizing? Uncertainty is less important.
-    * As input to a downstream model? Accounting for uncertainty is **essential**.
+* Using imputed values for...?
+    * Just reporting / visualizing. Uncertainty is less important.
+    * As input to a downstream model. Accounting for uncertainty is **essential**.
 :::
 
 :::{.notes}
 * People generally ascribe negative value to uncertainty
 :::
 
-:::{.column width=50%}
+:::{.column width=56%}
 ```{r}
 
 set.seed(42)
@@ -212,43 +220,47 @@ set.seed(42)
 n = 30
 s = .06
 d = data.frame(x = rnorm(n)) |> 
-    mtt(y = rnorm(n, 1*x, sd = s),
-        z = rnorm(n, 1*x, sd = 1))
+  mtt(y = rnorm(n, 1*x, sd = s),
+      z = rnorm(n, 1*x, sd = 1))
+
+yr = range(c(d$y, d$z))
 
 tinytheme("clean2", 
-    mar = c(4.5,4,1,1),
-    bg = ow,
-    cex.axis = 1.5)
+          mar = c(3,4,1,1),
+          bg = ow,
+          cex.axis = 1.5)
 
 par(mfrow = c(1,2))
 
 plt(d$x, d$y, 
-     xlab = "", 
-     ylab = "", 
-     ylim = range(c(d$y, d$z)), 
-     pch = 19)
+    xlab = "", 
+    ylab = "", 
+    col = mblue,
+    cex = 2,
+    ylim = yr)
 
-tinyplot(col = "firebrick2",
+tinyplot(col = mred, 
          add = TRUE,
          type = "lines",
-      c(1,1),
-      c(1+s*2, 1-s*2),
-      lwd = 2)
+         c(1,1),
+         c(1+s*2, 1-s*2),
+         lwd = 4)
 
 # points(1, 1, col = "firebrick2", pch = 21, cex = 1.3)
 
 plt(d$x, d$z, 
-     xlab = "", 
-     ylab = "", 
-     ylim = range(c(d$y, d$z)), 
-     pch = 19)
+    xlab = "", 
+    ylab = "", 
+    col = mblue,
+    cex = 2,
+    ylim = yr) 
 
-plt(col = "firebrick2",
+plt(col = mred,
     type = "lines",
     add = TRUE,
     c(1,1),
     c(1+1*2, 1-1*2),
-    lwd = 2)
+    lwd = 4)
 
 # points(1, 1, col = "firebrick2", bg = "white", pch = 21, cex = 1.3)
 
@@ -258,31 +270,81 @@ plt(col = "firebrick2",
 
 ## Imputation - "Filling in the blank"
 
+::::{.columns}
+:::{.column width=46%}
 * Generate a new value to replace NAs
 * Build a predictive model for variable with NAs from other variables
 
-:::{.fragment}
+:::{.fragment fragment-index=1}
 * Many pitfalls:
   * replacing with the mean ❌ 
   * replacing with one value ❌
   * replacing with unrealistic values ❌
 :::
+:::
+
+:::{.column width=54% .fragment fragment-index=1}
+```{r}
+par(mfrow = c(1,2))
+
+plt(d$x, d$z, 
+    xlab = "", 
+    ylab = "", 
+    col = mblue,
+    cex = 2,
+    ylim = yr)
+
+my = mean(d$y)
+
+nx = c(-2, -1,1)
+
+plt(nx,
+    rep(my, 3),
+    add = TRUE,
+    col = mred,
+    cex = 3)
+
+lm_res = lm(z ~ x, data = d)
+
+plt(d$x, d$z, 
+    xlab = "", 
+    ylab = "", 
+    col = mblue,
+    cex = 2,
+    ylim = range(c(d$y, d$z)))
+
+abline(a = lm_res$coefficients[1],
+       b = lm_res$coefficients[2],
+       col = mred)
+
+# plt(type = "l",
+#     col = mred,
+#     )
+
+plt(nx, 
+    predict(lm_res, data.frame(x = nx)),
+    col = mred,
+    add = TRUE,
+    cex = 3)
+```
+:::
+::::
 
 ## Uses for imputed values
 
-*Are the imputed values the means or the ends?*
+> *Are the imputed values the means or the ends?*
 
-- Draw a pretty picture
-  - Fill in points on a UMAP or image
+- Fill in empty regions on a figure
+  - UMAP or image
 - Downstream statistical inference
-  - $P(\theta \mid Y_{mis})$
+  - $P(\theta \mid Y_{imp})$
 
 ***Inference is much more demanding!***
 
-## Negative effects of missing data
+## Undesirable effects of missing data
 
 * Obvious: Missing data → less information → imprecise estimates
-* Insidious: Patterns of missingness can *induce* bias if ignored
+* Subtle yet harmful: Patterns of missingness can *induce* bias if ignored
 
 ## Types of missingness
 
@@ -291,15 +353,16 @@ plt(col = "firebrick2",
   * "...completely at random" (MCAR)
   * "...at random" (MAR)
   * "...not at random" (MNAR)
+
+:::{.fragment fragment-index=2}
+
 * These terms are famously confusing.
 * Draw a directed acyclic graph (DAG) instead.
 :::
 
-:::{.fragment}
+:::
 
-* Example: Studying, homework, and dogs.
-
-![](images/2025-05-06_15-58-00.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=1250 top=0}
+![](images/2025-05-06_15-58-00.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=1250 top=-30}
 
 :::{.absolute left=900 width=22% top=50}
 <small> Arrows = causal relationships </small>
@@ -309,6 +372,7 @@ plt(col = "firebrick2",
 <small> Starred = observed with NAs </small>
 :::
 
+::: {data-id="box1" style="background-color: rgba(242, 242, 242, 0.5); backdrop-filter: blur(15px); width: 1600px; height: 720px; " .absolute left=0 top=240 .fragment .fade-out fragment-index=1}
 :::
 
 # Strategies
@@ -319,17 +383,20 @@ plt(col = "firebrick2",
 * Tabulate features that tend to go missing together
 * Check if NAs are associated with other variables
 
+```{r}
+ggmice::ggmice(mice::boys,
+               ggplot2::aes(age, hgt)) + 
+    ggplot2::geom_point(size = 3) +
+  ow_bg
+```
+
+
 ## Just drop them
 
 * Only valid for MCAR, otherwise you'll get bias.
-* At the very least, discuss the possible consequences of this choice.
-
-```{r}
-#| eval: false
-
-nrow(na.omit(dat)) / nrow(dat)
-
-```
+* At the very least:
+  * Characterize dropped cases
+  * Discuss the consequences of this choice
 
 ## Multiple imputation (MI)
 
@@ -349,28 +416,121 @@ nrow(na.omit(dat)) / nrow(dat)
 
 ## Imputation model
 
-:::{.column width=65%}
-* Predict NAs in a covariate given all other covariates 
+::::{.columns} 
+
+:::{.column width=50%}
+* Predict NAs in a variable given others
 * Most common: **Predictive mean matching** and/or **regression**, see `?mice::mice.impute.*`
 
 :::{.incremental}
-* Mean of the non-NAs ❌ ❌
-* Model predictive mean ❌
-* Model predictive mean + noise ✅
-* Predict + noise + parameter uncertainty ✅✅
+* Mean of the non-NAs ❌ ❌[❌]{.absolute left=900 top=140}
+* Model predictive mean ❌[❌]{.absolute left=1280 top=140}
+* Multiple predictive mean + noise ✅[✅]{.absolute left=900 top=490}
+* Predict + noise + $\theta$ uncertainty ✅✅[✅✅]{.absolute left=1280 top=490}
 * Predictive mean matching ✅✅
 * LASSO, random forests, neural nets, etc
+* `mice`: sane defaults, but check and think. 
 :::
-
-:::{.fragment}
-* `mice` comes with sane defaults, but always check and think. 
-:::
-
 :::
 
 <!-- TODO: FIMD figure 3.1 but with only one predictor for simplicity -->
 
+:::{.column width=50%}
+```{r}
+#| fig-height: 9
 
+par(mfrow = c(2,2))
+
+plt(d$x, d$z, 
+    xlab = "", 
+    ylab = "", 
+    col = mblue,
+    cex = 2,
+    ylim = yr)
+
+my = mean(d$y)
+
+nx = c(-2, -1,1)
+
+plt(nx,
+    rep(my, 3),
+    add = TRUE,
+    col = mred,
+    cex = 3)
+
+lm_res = lm(z ~ x, data = d)
+
+plt(d$x, d$z, 
+    xlab = "", 
+    ylab = "", 
+    col = mblue,
+    cex = 2,
+    ylim = range(c(d$y, d$z)))
+
+abline(a = lm_res$coefficients[1],
+       b = lm_res$coefficients[2],
+       col = mred)
+
+plt(nx, 
+    predict(lm_res, data.frame(x = nx)),
+    col = mred,
+    add = TRUE,
+    cex = 3)
+
+plt(d$x, d$z, 
+    xlab = "", 
+    ylab = "", 
+    col = mblue,
+    cex = 2,
+    ylim = range(c(d$y, d$z)))
+
+abline(a = lm_res$coefficients[1],
+       b = lm_res$coefficients[2],
+       col = mred)
+
+set.seed(12)
+
+plt(nx, 
+    predict(lm_res, data.frame(x = nx)) + rnorm(3*4, sd = summary(lm_res)$sigma),
+    col = mred,
+    add = TRUE,
+    cex = 3)
+
+# rstanarm::stan_glm(z ~ x, data = d) |> rstanarm::as_draws() |> head()
+
+ddf = structure(list(`(Intercept)` = c(0.0471073690698166, 0.201052925741826, 
+0.250345212091326, 0.198926964048982, 0.299822320222807, 0.0208228507399506
+), x = c(0.93778290924944, 0.899190012816253, 0.918602409313972, 
+0.743191159898737, 0.806488438565962, 0.959382089089642), sigma = c(0.757680208606442, 
+0.973403819489721, 0.698234171286681, 0.782440029970045, 0.924800482357415, 
+0.708375154404558)), row.names = c(NA, -6L), class = c( "data.frame"))
+
+plt(d$x, d$z, 
+    xlab = "", 
+    ylab = "", 
+    col = mblue,
+    cex = 2,
+    ylim = range(c(d$y, d$z)))
+
+for (i in 1:4) {
+  abline(a = ddf$`(Intercept)`[i],
+       b = ddf$x[i],
+       col = mred)
+  
+  plt(nx, 
+      rnorm(3, 
+            mean = ddf$`(Intercept)`[i] + ddf$x[i]*nx, 
+            sd = ddf$sigma[i]),
+      col = mred,
+      add = TRUE,
+      cex = 3)
+}
+
+
+```
+
+:::
+::::
 ## Pooling
 
 Aggregate estimates that combines
@@ -410,7 +570,7 @@ ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 [<span style="color:#666666; font-style: italic;"> <small> Missing values in imaging data </small> </span>]{.absolute left=950 top=550}
 
 :::{.absolute top=600}
-Think / discuss which of these are probably MCAR/MAR/NMAR and/or exhibit ignorable missingness.
+Discuss with your neighbor: Which of these are probably MCAR/MAR/NMAR and/or exhibit ignorable missingness?
 :::
 
 ## Joint imputation
@@ -446,11 +606,11 @@ Think / discuss which of these are probably MCAR/MAR/NMAR and/or exhibit ignorab
 
 <!-- TODO: picture of a microarray -->
 
-## Rough imputation for pictures - single-cell proteomics
+## BETTER word for rough imputation for images - single-cell proteomics
 
 :::{.column width=60%}
 * Proof of concept. N = 8.
-* Elastic Net, XGBoost, AutoEncoders to impute 16 protein levels of single cells.
+* Elastic Net, XGBoost, AutoEncoders to impute 16 proteins of single cells.
 * MAE b/w 0.05-0.15 on a 0-1 scale.
 * Imputed error fairly high → Lessened downstream utility
 * Batch, instrument effects? Unclear.
@@ -481,8 +641,9 @@ Think / discuss which of these are probably MCAR/MAR/NMAR and/or exhibit ignorab
 
 > "The ethical statistical practitioner ... seeks to *understand and mitigate* known or *suspected* limitations, defects, or biases in the data ... and communicates potential impacts on the interpretation [or] conclusions...[and] Avoids compromising validity for expediency." ^[ [ASA Ethical Guidelines for Statistical Practice](https://www.amstat.org/your-career/ethical-guidelines-for-statistical-practice),  emphasis mine]
 
-* Be honest. Ignoring impactful patterns is not honest!
+* Be transparent. Don't ignore things you know to be impactful.
 * Do your due diligence. 
+* Use the opportunity to advance statistical practice in your field.
 * Ask for help if you need it.
 
 # On to the workshop!
