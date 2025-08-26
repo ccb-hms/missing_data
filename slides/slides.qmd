@@ -35,7 +35,7 @@ library(fastverse)
 library(tinyplot)
 # library(ggplot2)
 # library(ggbeeswarm)
-library(ggmice)
+# library(ggmice)
 set.seed(123)
 
 ow = "#F2F2F2"
@@ -384,11 +384,18 @@ plt(nx,
 * Tabulate features that tend to go missing together
 * Check if NAs are associated with other variables
 
+:::{layout-nrow=1}
+![](images/ggmice_preview2.png){height=500}
+![](images/ggmice_preview.png){height=500}
+:::
+
 ```{r}
+#| eval: false
+#| echo: false
 ggmice::ggmice(mice::boys,
                ggplot2::aes(age, hgt)) + 
-    ggplot2::geom_point(size = 3) +
-  ow_bg
+    ggplot2::geom_point(size = 3, pch = 16) +
+  ow_bg 
 ```
 
 
@@ -534,7 +541,7 @@ for (i in 1:4) {
 ::::
 ## Pooling
 
-Aggregate estimates that combines
+Aggregate estimates in a way that combines
 
 1. imputation-wise uncertainty
 1. uncertainty over imputations
