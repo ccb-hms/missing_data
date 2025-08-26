@@ -35,6 +35,7 @@ library(fastverse)
 library(tinyplot)
 # library(ggplot2)
 # library(ggbeeswarm)
+library(ggmice)
 set.seed(123)
 
 ow = "#F2F2F2"
@@ -423,7 +424,7 @@ ggmice::ggmice(mice::boys,
 * Most common: **Predictive mean matching** and/or **regression**, see `?mice::mice.impute.*`
 
 :::{.incremental}
-* Mean of the non-NAs ❌ ❌[❌]{.absolute left=900 top=140}
+* Mean of the non-NAs ❌ ❌[❌❌]{.absolute left=900 top=140}
 * Model predictive mean ❌[❌]{.absolute left=1280 top=140}
 * Multiple predictive mean + noise ✅[✅]{.absolute left=900 top=490}
 * Predict + noise + $\theta$ uncertainty ✅✅[✅✅]{.absolute left=1280 top=490}
