@@ -2,7 +2,7 @@
 title: "Working with NAs and Missing Data"
 author: "Andrew Ghazi"
 institute: "Core for Computational Biomedicine"
-date: last-modified
+date: September 24, 2025 
 format: 
     revealjs:
       theme: [default, my_theme.scss]
@@ -24,10 +24,13 @@ title-slide-attributes:
   data-background-position: 10% 10%
 ---
 
-<!-- Repo: https://github.com/ccb-hms/missing_data/tree/main/slides -->
-<!-- Rendered output: https://ccb.connect.hms.harvard.edu/missing_data -->
 
 # Preface
+
+## Setup {visibility="hidden"}
+
+<!-- Repo: https://github.com/ccb-hms/missing_data/tree/main/slides -->
+<!-- Rendered output: https://ccb.connect.hms.harvard.edu/missing_data -->
 
 ```{r setup}
 #| message: false
@@ -53,6 +56,16 @@ ow_bg = ggplot2::theme_minimal() +
                  plot.background  = ow_rect,
                  legend.background = ow_rect,
                  text = ggplot2::element_text(size = 25))
+
+set.seed(42)
+
+n = 30
+s = .06
+d = data.frame(x = rnorm(n)) |> 
+  mtt(y = rnorm(n, 1*x, sd = s),
+      z = rnorm(n, 1*x, sd = 1))
+
+yr = range(c(d$y, d$z))
 ```
 
 ## Who we are
@@ -67,7 +80,7 @@ ow_bg = ggplot2::theme_minimal() +
 
 ![Andrew Ghazi, PhD](images/Andrew_Ghazi_003_sq_sm2.JPG){height=220}
 
-<!-- + other CCB folks -->
+<!-- + TODO other CCB folks -->
 :::
 
 ## CCB R/Stats Office Hours
@@ -216,20 +229,13 @@ These slides:
 :::{.column width=56%}
 ```{r}
 
-set.seed(42)
 
-n = 30
-s = .06
-d = data.frame(x = rnorm(n)) |> 
-  mtt(y = rnorm(n, 1*x, sd = s),
-      z = rnorm(n, 1*x, sd = 1))
-
-yr = range(c(d$y, d$z))
 
 tinytheme("clean2", 
-          mar = c(3,4,1,1),
+          mar = c(2,2,1,1),
           bg = ow,
-          cex.axis = 1.5)
+          cex.axis = 1.25,
+          col.axis = "#222222")
 
 par(mfrow = c(1,2))
 
@@ -426,36 +432,71 @@ ggmice::ggmice(mice::boys,
 
 ::::{.columns} 
 
-:::{.column width=50%}
+:::{.column width=45%}
 * Predict NAs in a variable given others
 * Most common: **Predictive mean matching** and/or **regression**, see `?mice::mice.impute.*`
 
-:::{.incremental}
-* Mean of the non-NAs ❌ ❌[❌❌]{.absolute left=900 top=140}
-* Model predictive mean ❌[❌]{.absolute left=1280 top=140}
-* Multiple predictive mean + noise ✅[✅]{.absolute left=900 top=490}
-* Predict + noise + $\theta$ uncertainty ✅✅[✅✅]{.absolute left=1280 top=490}
+:::{.fragment fragment-index=4}
 * Predictive mean matching ✅✅
-* LASSO, random forests, neural nets, etc
-* `mice`: sane defaults, but check and think. 
+* LASSO, random forests, neural nets
+* `mice` uses sane defaults, but always check and think.
 :::
+
+
+<!-- :::{.incremental} -->
+<!-- * Mean of the non-NAs ❌ ❌[❌❌]{.absolute left=900 top=140} -->
+<!-- * Model predictive mean ❌[❌]{.absolute left=1280 top=140} -->
+<!-- * Multiple predictive mean + noise ✅[✅]{.absolute left=900 top=490} -->
+<!-- * Predict + noise + $\theta$ uncertainty ✅✅[✅✅]{.absolute left=1280 top=490} -->
+<!-- ::: -->
 :::
 
 <!-- TODO: FIMD figure 3.1 but with only one predictor for simplicity -->
-
-:::{.column width=50%}
 ```{r}
-#| fig-height: 9
-
-par(mfrow = c(2,2))
-
-plt(d$x, d$z, 
+plot_d = function(l) {
+  plt(d$x, d$z, 
     xlab = "", 
     ylab = "", 
     col = mblue,
-    cex = 2,
+    cex = 1.8,
     ylim = yr)
+  
+  pd = .2
+  
+  cex_val = 1.33
+  
+  w = strwidth(l, cex = cex_val)
+  h = strheight(l, cex = cex_val)
+  
+  x = -2.7
+  y = 2.45
+  
+  plt(type = "rect",
+      fill = 'grey90',
+      add = TRUE,
+      col = rgb(0,0,0,0),
+      xmin = x - pd, xmax = x + w + pd,
+      ymin = y - pd, ymax = y + h + pd)
+  
+  plt(type = "text",
+      x = x + w/2, y = y + h/2,
+      labels = l,
+      col = "grey20",
+      cex = cex_val,
+      add = TRUE)
 
+}
+
+```
+
+:::{.column width=55%}
+
+:::{#figs layout-ncol=2}
+```{r .fragment}
+#| fig-height: 4
+#| fig-width: 5 
+
+plot_d("Mean of the non-NAs ❌❌")
 my = mean(d$y)
 
 nx = c(-2, -1,1)
@@ -464,33 +505,42 @@ plt(nx,
     rep(my, 3),
     add = TRUE,
     col = mred,
-    cex = 3)
+    cex = 1.8)
+
+```
+
+:::{.fragment fragment-index=1}
+
+```{r}
+#| fig-height: 4
+#| fig-width: 5 
 
 lm_res = lm(z ~ x, data = d)
 
-plt(d$x, d$z, 
-    xlab = "", 
-    ylab = "", 
-    col = mblue,
-    cex = 2,
-    ylim = range(c(d$y, d$z)))
+plot_d("Model predictive mean ❌")
 
 abline(a = lm_res$coefficients[1],
        b = lm_res$coefficients[2],
-       col = mred)
+       col = mred,
+       lwd = 2)
 
 plt(nx, 
     predict(lm_res, data.frame(x = nx)),
     col = mred,
     add = TRUE,
-    cex = 3)
+    cex = 1.8)
 
-plt(d$x, d$z, 
-    xlab = "", 
-    ylab = "", 
-    col = mblue,
-    cex = 2,
-    ylim = range(c(d$y, d$z)))
+```
+:::
+
+:::{.fragment fragment-index=2}
+```{r}
+#| fig-height: 4
+#| fig-width: 5 
+
+plot_d("Multiple predictive mean + noise ✅")
+
+lm_res = lm(z ~ x, data = d)
 
 abline(a = lm_res$coefficients[1],
        b = lm_res$coefficients[2],
@@ -502,7 +552,17 @@ plt(nx,
     predict(lm_res, data.frame(x = nx)) + rnorm(3*4, sd = summary(lm_res)$sigma),
     col = mred,
     add = TRUE,
-    cex = 3)
+    cex = 1.8)
+
+```
+:::
+
+:::{.fragment fragment-index=3}
+```{r}
+#| fig-height: 4
+#| fig-width: 5 
+plot_d("Predict + noise + θ uncertainty ✅✅")
+
 
 # rstanarm::stan_glm(z ~ x, data = d) |> rstanarm::as_draws() |> head()
 
@@ -512,13 +572,6 @@ ddf = structure(list(`(Intercept)` = c(0.0471073690698166, 0.201052925741826,
 0.743191159898737, 0.806488438565962, 0.959382089089642), sigma = c(0.757680208606442, 
 0.973403819489721, 0.698234171286681, 0.782440029970045, 0.924800482357415, 
 0.708375154404558)), row.names = c(NA, -6L), class = c( "data.frame"))
-
-plt(d$x, d$z, 
-    xlab = "", 
-    ylab = "", 
-    col = mblue,
-    cex = 2,
-    ylim = range(c(d$y, d$z)))
 
 for (i in 1:4) {
   abline(a = ddf$`(Intercept)`[i],
@@ -531,14 +584,17 @@ for (i in 1:4) {
             sd = ddf$sigma[i]),
       col = mred,
       add = TRUE,
-      cex = 3)
+      cex = 1.8)
 }
-
-
 ```
+:::
+
+:::
+
 
 :::
 ::::
+
 ## Pooling
 
 Aggregate estimates in a way that combines
@@ -614,7 +670,7 @@ Discuss with your neighbor: Which of these are probably MCAR/MAR/NMAR and/or exh
 
 <!-- TODO: picture of a microarray -->
 
-## BETTER word for rough imputation for images - single-cell proteomics
+## Imprecise imputation for images - single-cell proteomics
 
 :::{.column width=60%}
 * Proof of concept. N = 8.
