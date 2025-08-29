@@ -468,8 +468,8 @@ plot_d = function(l) {
   w = strwidth(l, cex = cex_val)
   h = strheight(l, cex = cex_val)
   
-  x = -2.7
-  y = 2.45
+  x = -2.65
+  y = 2.7
   
   plt(type = "rect",
       fill = 'grey90',
@@ -522,7 +522,7 @@ plot_d("Model predictive mean ❌")
 abline(a = lm_res$coefficients[1],
        b = lm_res$coefficients[2],
        col = mred,
-       lwd = 2)
+       lwd = 1.8)
 
 plt(nx, 
     predict(lm_res, data.frame(x = nx)),
@@ -544,7 +544,8 @@ lm_res = lm(z ~ x, data = d)
 
 abline(a = lm_res$coefficients[1],
        b = lm_res$coefficients[2],
-       col = mred)
+       col = mred,
+       lwd = 1.8)
 
 set.seed(12)
 
@@ -576,7 +577,8 @@ ddf = structure(list(`(Intercept)` = c(0.0471073690698166, 0.201052925741826,
 for (i in 1:4) {
   abline(a = ddf$`(Intercept)`[i],
        b = ddf$x[i],
-       col = mred)
+       col = mred,
+       lwd = 1.8)
   
   plt(nx, 
       rnorm(3, 
