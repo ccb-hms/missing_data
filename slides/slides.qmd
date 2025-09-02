@@ -36,7 +36,6 @@ title-slide-attributes:
 #| message: false
 library(fastverse)
 library(tinyplot)
-library(systemfonts)
 # library(ggplot2)
 # library(ggbeeswarm)
 # library(ggmice)
@@ -360,7 +359,7 @@ plt(nx,
 * Subtle yet harmful: Patterns of missingness can *induce* bias if ignored
 
 ```{r}
-#| fig-width: 15
+#| eval: false
 
 # tinytheme("clean2",
 #           mar = c(2,2,1,1),
@@ -374,10 +373,12 @@ tinytheme("clean2",
           bg = ow,
           family = "Arial",
           cex.axis = 1.5,
-          cex.main = 2,
+          cex.main = 1.5,
           col.main = "#222222",
           col.axis = "#222222")
 
+png("slides/images/patterns.png", width = 3*1500, height = 3*450, units = "px",
+    res = 400)
 par(mfrow = c(1,4)) # mfrow behaves oddly within tinytheme
 
 set.seed(1) 
@@ -406,7 +407,7 @@ plt(d2$x, d2$latent,
     xlim = xr2, ylim = yr2,
     # col = parula[as.numeric(cut(breaks = 100, d2$eta_z))],
     col = "grey44",
-    pch = 19,
+    pch = 16,
     main = "latent truth",
     cex = 1.7)
 
@@ -414,7 +415,7 @@ abline(reg = lm(latent ~ x, data = d2), col = "grey10")
 
 plt(d2$x, d2$z, 
      xlim = xr2, ylim = yr2,
-     pch = 19,
+     pch = 16,
      col = mblue,
     main = "missingness increases slope",
     cex = 1.7)
@@ -431,7 +432,7 @@ points(d2$x[zm], d2$latent[zm],
 
 plt(d2$x, d2$w, 
      xlim = xr2, ylim = yr2,
-     pch = 19,
+     pch = 16,
      col = mblue,
     main = "missingness decreases slope",
     cex = 1.7)
@@ -448,7 +449,7 @@ points(d2$x[wm], d2$latent[wm],
 
 plt(d2$x, d2$r, 
      xlim = xr2, ylim = yr2,
-     pch = 19,
+     pch = 16,
      col = mblue,
     main = "missingness flips slope",
     cex = 1.7)
@@ -462,7 +463,7 @@ points(d2$x[rm], d2$latent[rm],
        pch = 1,
        col = mred,
        cex = 1.7)
-
+dev.off()
 tinytheme("clean2", 
           mar = c(2,2,1,1),
           bg = ow,
@@ -471,7 +472,12 @@ tinytheme("clean2",
 
 
 ```
+
+
+![](images/patterns.png)
+
 :::
+
 
 ## Types of missingness
 
@@ -561,7 +567,6 @@ ggmice::ggmice(mice::boys,
 * LASSO, random forests, neural nets
 * `mice` uses sane defaults, but always check and think.
 :::
-
 
 <!-- :::{.incremental} -->
 <!-- * Mean of the non-NAs ❌ ❌[❌❌]{.absolute left=900 top=140} -->
@@ -730,7 +735,8 @@ Aggregate estimates in a way that combines
 
 ## "Ignorability" assumption
 
-* "Does the chance of a value going missing depend on the value itself or other information we don't have?"
+> "Does the chance of a value going missing depend on the value itself or other information we don't have?"
+
 * If so, assumption violated.
 * standard MI practice generally won't work.
 
@@ -742,7 +748,7 @@ Defining this concept precisely is complicated, but the first bullet gives the m
 <!-- * If you have other data that can provide information on the underlying values, speak to a statistician and mention the phrase *"Bayesian imputation"*. -->
 <!-- ::: -->
 
-## Quiz 
+## Quiz!
 
 ```{r}
 ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
@@ -755,7 +761,11 @@ ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 [<span style="color:#666666; font-style: italic;"> <small> Missing values in imaging data </small> </span>]{.absolute left=950 top=550}
 
 :::{.absolute top=600}
-Discuss with your neighbor: Which of these are probably MCAR/MAR/NMAR and/or exhibit ignorable missingness?
+Discuss with your neighbor: 
+
+* Which are MCAR / MAR / NMAR?
+* Which exhibit ignorable missingness? 
+* If nonignorable, what other info could rescue it?
 :::
 
 ## Joint imputation
@@ -870,14 +880,4 @@ Discuss with your neighbor: Which of these are probably MCAR/MAR/NMAR and/or exh
 * scdropout
 * COVID data
 * find a good survey example
-
-## font test {.smaller}
-
-```{r}
-af = systemfonts::system_fonts() |> sbt(family %like% "rial")
-af
-af$path[[2]]
-
-```
-
 
