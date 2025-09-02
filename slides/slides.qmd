@@ -398,7 +398,7 @@ d2 = data.table(x = rnorm(n)) |>
 
 xr2 = range(d2$x); yr2 = range(d2$latent)
 
-parula = pals::parula(100)
+# parula = pals::parula(100)
 
 plt(d2$x, d2$latent, 
     xlim = xr2, ylim = yr2,
