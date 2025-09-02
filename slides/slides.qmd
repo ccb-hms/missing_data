@@ -389,10 +389,10 @@ d2 = data.table(x = rnorm(n)) |>
       eta_w = -1.5*(latent - x) + -2.5*x - .9,
       z_mis = as.logical(rbinom(n, 1, plogis(eta_z))),
       w_mis = as.logical(rbinom(n, 1, plogis(eta_w))),
-      z = dplyr::case_when(z_mis ~ NA,
-                           TRUE ~ latent),
-      w = dplyr::case_when(w_mis ~ NA,
-                           TRUE ~ latent))
+      z = data.table::fcase(z_mis, NA_real_,
+                            !z_mis, latent),
+      w = data.table::fcase(w_mis, NA_real_,
+                           !w_mis, latent))
 
 # d2 |> ggplot(aes(x, latent)) + geom_point(aes(color = eta_z)) + scale_color_viridis_c()
 
