@@ -36,6 +36,7 @@ title-slide-attributes:
 #| message: false
 library(fastverse)
 library(tinyplot)
+library(systemfonts)
 # library(ggplot2)
 # library(ggbeeswarm)
 # library(ggmice)
@@ -377,22 +378,25 @@ tinytheme("clean2",
           col.main = "#222222",
           col.axis = "#222222")
 
-par(mfrow = c(1,3)) # mfrow behaves oddly within tinytheme
+par(mfrow = c(1,4)) # mfrow behaves oddly within tinytheme
 
 set.seed(1) 
 
 n = 150 
 
 d2 = data.table(x = rnorm(n)) |> 
-  mtt(latent = rnorm(n, mean = 1*x),
-      eta_z =  1.5*(latent - x) + -2.5*x - .9, 
-      eta_w = -1.5*(latent - x) + -2.5*x - .9,
-      z_mis = as.logical(rbinom(n, 1, plogis(eta_z))),
+  mtt(latent = rnorm(n, mean = 1*x, sd = 1.2),
+      eta_z =    4.5*(latent - x) + -7*(x+1), 
+      eta_w = -1.5*(latent - x) + -3*x - 1.6,
+      z_mis = as.logical(rbinom(n, 1, plogis(eta_z))) & (x < 0),
       w_mis = as.logical(rbinom(n, 1, plogis(eta_w))),
+      r_mis = !(latent < (-1*x + 1.33) & latent > (-1*x -.75)),
       z = data.table::fcase(z_mis, NA_real_,
                             !z_mis, latent),
       w = data.table::fcase(w_mis, NA_real_,
-                           !w_mis, latent))
+                           !w_mis, latent),
+      r = data.table::fcase(r_mis, NA_real_,
+                            !r_mis, latent))
 
 # d2 |> ggplot(aes(x, latent)) + geom_point(aes(color = eta_z)) + scale_color_viridis_c()
 
@@ -438,6 +442,23 @@ abline(reg = lm(w ~ x, data = d2),
 wm = is.na(d2$w)
 
 points(d2$x[wm], d2$latent[wm],
+       pch = 1,
+       col = mred,
+       cex = 1.7)
+
+plt(d2$x, d2$r, 
+     xlim = xr2, ylim = yr2,
+     pch = 19,
+     col = mblue,
+    main = "missingness flips slope",
+    cex = 1.7)
+
+abline(reg = lm(r ~ x, data = d2),
+       col = mblue)
+
+rm = is.na(d2$r)
+
+points(d2$x[rm], d2$latent[rm],
        pch = 1,
        col = mred,
        cex = 1.7)
@@ -850,5 +871,13 @@ Discuss with your neighbor: Which of these are probably MCAR/MAR/NMAR and/or exh
 * COVID data
 * find a good survey example
 
+## font test {.smaller}
+
+```{r}
+af = systemfonts::system_fonts() |> sbt(family %like% "rial")
+af
+af$path[[2]]
+
+```
 
 
