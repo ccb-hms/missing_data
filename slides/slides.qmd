@@ -748,25 +748,6 @@ Defining this concept precisely is complicated, but the first bullet gives the m
 <!-- * If you have other data that can provide information on the underlying values, speak to a statistician and mention the phrase *"Bayesian imputation"*. -->
 <!-- ::: -->
 
-## Quiz!
-
-```{r}
-ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
-```
-
-[<span style="color:#666666; font-style: italic;"> <small> Missing values in survey data </small> </span>]{.absolute left=100 top=550}
-
-![ ](images/dg_tmp.png){.absolute left=950 top=100 width=44%} 
-
-[<span style="color:#666666; font-style: italic;"> <small> Missing values in imaging data </small> </span>]{.absolute left=950 top=550}
-
-:::{.absolute top=600}
-Discuss with your neighbor: 
-
-* Which are MCAR / MAR / NMAR?
-* Which exhibit ignorable missingness? 
-* If nonignorable, what other info could rescue it?
-:::
 
 ## Joint imputation
 
@@ -783,12 +764,32 @@ Discuss with your neighbor:
 
 ![](images/covid_dag.png){fig-alt="" .absolute left=1100 top=100 width=30%}
 
+## Quiz!
+
+```{r}
+ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
+```
+
+[<span style="color:#666666; font-style: italic;"> <small> Missing values in survey data </small> </span>]{.absolute left=25 top=540}
+
+![ ](images/dg_tmp.png){.absolute left=950 top=100 width=44%} 
+
+[<span style="color:#666666; font-style: italic;"> <small> Missing values in imaging data </small> </span>]{.absolute left=950 top=540}
+
+:::{.absolute top=600}
+**Discuss with your neighbor:** 
+
+* Which are MCAR / MAR / NMAR?
+* Which exhibit ignorable missingness? 
+* If nonignorable, what extra info could rescue it?
+:::
+
 # Examples
 
 ## Highly accurate imputation - Genotype from markers
 
 :::{.column width=60%}
-* Input: microarray genotypes of ~100k-5M common marker SNPs
+* Input: microarray genotypes of 100k-5M common marker SNPs
 * Output: genotypes at query SNPs
 * Output uncertainty: surprisingly low for common variants
 * SHAPEIT - Segmented HAPlotype Estimation and Imputation Tools
@@ -822,10 +823,9 @@ Discuss with your neighbor:
 
 > "population relative risk estimates by race during the early part of the COVID-19 pandemic in Michigan were understated for non-white residents, compared to white residents, when cases missing race were dropped or had these values imputed using MI."
 
-![](images/2025-07-01_13-17-22.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=35% fig-align="center"} 
+![](images/2025-07-01_13-17-22.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=36% fig-align="center"} 
 
 :::{.aside}
-
 *Modeling racial/ethnic differences in COVID-19 incidence with covariates subject to nonrandom missingness* - Trangucci 2023
 :::
 
@@ -837,9 +837,24 @@ Discuss with your neighbor:
 > "The ethical statistical practitioner ... seeks to *understand and mitigate* known or *suspected* limitations, defects, or biases in the data ... and communicates potential impacts on the interpretation [or] conclusions...[and] Avoids compromising validity for expediency." ^[ [ASA Ethical Guidelines for Statistical Practice](https://www.amstat.org/your-career/ethical-guidelines-for-statistical-practice),  emphasis mine]
 
 * Be transparent. Don't ignore things you know to be impactful.
-* Do your due diligence. 
 * Use the opportunity to advance statistical practice in your field.
+* Do your due diligence. 
 * Ask for help if you need it.
+
+## How to do missing data analysis in Python
+
+## ~~How to do missing data analysis in Python~~
+
+<span style="font-size: 140%;"> **Don't do missing data analysis in Python. ** </span> 
+
+:::{.incremental}
+* MI ecosystem all but non-existent in Python.
+* `scikit-learn` encourages single imputation ❌
+  * statistical malpractice
+* `scikit-learn` is for machine learning, *not* probabilistic inference 
+  * See also the infamous `sklearn.linear_model.LogisticRegression`
+* [`miceforest`](https://miceforest.readthedocs.io/en/latest/) - possibly okay for small data if computational burden of RFs is acceptable
+:::
 
 # On to the workshop!
 
@@ -859,20 +874,6 @@ Discuss with your neighbor:
 
 ## {background-image="images/beach.png"} 
 
-## How to do missing data analysis in Python
-
-## ~~How to do missing data analysis in Python~~
-
-<span style="font-size: 140%;"> **Don't do missing data analysis in Python. ** </span> 
-
-:::{.incremental}
-* MI ecosystem all but non-existent in Python.
-* `scikit-learn` encourages single imputation ❌
-  * statistical malpractice
-* `scikit-learn` is for machine learning, *not* probabilistic inference 
-  * See also the infamous `sklearn.linear_model.LogisticRegression`
-* [`miceforest`](https://miceforest.readthedocs.io/en/latest/) - possibly okay for small data if computational burden of RFs is acceptable
-:::
 
 ## Examples
 
