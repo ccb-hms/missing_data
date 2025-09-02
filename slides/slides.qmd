@@ -68,33 +68,34 @@ d = data.frame(x = rnorm(n)) |>
 yr = range(c(d$y, d$z))
 ```
 
-## Who we are
+<!-- ## Who we are -->
+<!-- Ludwig doing this slide -->
 
-> The Core for Computational Biomedicine (CCB) is a multi-disciplinary team of computational and quantitative scientists that collaborates with HMS Quad-based researchers to develop tools, platforms, and other data science and computational solutions that broadly enable biomedical discovery and innovation.
+<!-- > The Core for Computational Biomedicine (CCB) is a multi-disciplinary team of computational and quantitative scientists that collaborates with HMS Quad-based researchers to develop tools, platforms, and other data science and computational solutions that broadly enable biomedical discovery and innovation. -->
 
-* Collaborative projects
-* Office hours
-* Workshops
+<!-- * Collaborative projects -->
+<!-- * Office hours -->
+<!-- * Workshops -->
 
-:::{#headshots layout-ncol=1 style="text-align: center"}
+<!-- :::{#headshots layout-ncol=1 style="text-align: center"} -->
 
-![Andrew Ghazi, PhD](images/Andrew_Ghazi_003_sq_sm2.JPG){height=220}
+<!-- ![Andrew Ghazi, PhD](images/Andrew_Ghazi_003_sq_sm2.JPG){height=220} -->
 
-<!-- + TODO other CCB folks -->
-:::
+<!-- <!-- + TODO other CCB folks --> -->
+<!-- ::: -->
 
 ## CCB R/Stats Office Hours
 
 ::::{.columns}
 
 :::{.column width="55%"}
-* Quick help on R/Stats and CompBio
-* Book Zoom any day or in-person on Wednesdays
+* *Quick* help
+* Book a timeslot, Zoom or in-person
 * Examples:
   * Data wrangling / plotting messy health database exports
   * Prognostic modeling of surgery patients from imaging features with random forests
   * R project installation & organization
-  * Running AlphaFold3 on O2
+  * debugging AlphaFold3 on O2
 :::
 
 :::{.column width="45%"}
@@ -127,19 +128,43 @@ pkgs <- c("ggplot2", "dplyr", "purrr",
 install.packages(pkgs, Ncpus = 4)
 ```
 
+
+
+## Outline 
+
+:::{.column width=70%}
+* Seminar (1 hour)
+  * Concepts
+  * Strategies
+  * Examples
+  * No theory or math
+* Hands-on workshop  in R (1 hour)
+
+These slides:
+
+[ccb.connect.hms.harvard.edu/missing_data](ccb.connect.hms.harvard.edu/missing_data)
+
+:::
+
+![](images/2025-06-11_15-35-18.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=1000 top=50 width=33%}
+![](images/no.svg){fig-alt="" .absolute left=985 top=20 .fragment width=35%}
+
+# Concepts 
+
 ## Missing data and NAs
 
 :::{.column width=60%}
+* NA = **N**ot **A**pplicable
+  * *not* the same as NaN, `NULL`, etc
 * ubiquitous and important problem
-* decent methods exist
-* methods aren't challenging, routine for ~15 years
+* established methods/tools ~15 years
+* not challenging, but requires statistics foundation
 
+<!-- :::{.fragment} -->
+<!-- * **BUT** a thorough overview requires advanced methods  -->
 
-:::{.fragment}
-* **BUT** a thorough overview requires advanced methods 
-
-![](images/m2.png){width=80% fig-align="center" style="filter: drop-shadow(0 0 0.75rem grey);"}
-:::
+<!-- ![](images/m2.png){width=80% fig-align="center" style="filter: drop-shadow(0 0 0.75rem grey);"} -->
+<!-- ::: -->
 
 :::
 
@@ -171,28 +196,6 @@ ex_dat[1:5,-1] |>
 ![ ](images/dg_tmp.png){.absolute left=1000 top=460 width=40%} 
 
 [<span style="color:#666666; font-style: italic;"> <small> Missing values in imaging data </small> </span>]{.absolute left=1000 top=870}
-
-
-## Outline 
-
-:::{.column width=70%}
-* Seminar (1 hour)
-  * Concepts
-  * Strategies
-  * Examples
-  * No theory or math
-* Hands-on workshop  in R (1 hour)
-
-These slides:
-
-[ccb.connect.hms.harvard.edu/missing_data](ccb.connect.hms.harvard.edu/missing_data)
-
-:::
-
-![](images/2025-06-11_15-35-18.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=1000 top=50 width=33%}
-![](images/no.svg){fig-alt="" .absolute left=985 top=20 .fragment width=35%}
-
-# Concepts 
 
 ## Degrees of uncertainty
 
@@ -229,11 +232,10 @@ These slides:
 :::{.column width=56%}
 ```{r}
 
-
-
 tinytheme("clean2", 
           mar = c(2,2,1,1),
           bg = ow,
+          family = "Arial",
           cex.axis = 1.25,
           col.axis = "#222222")
 
@@ -351,7 +353,106 @@ plt(nx,
 ## Undesirable effects of missing data
 
 * Obvious: Missing data → less information → imprecise estimates
+
+:::{.fragment}
+
 * Subtle yet harmful: Patterns of missingness can *induce* bias if ignored
+
+```{r}
+#| fig-width: 15
+
+# tinytheme("clean2",
+#           mar = c(2,2,1,1),
+#           bg = ow,
+#           cex.axis = 1.25,
+#           col.axis = "#222222",
+#           mfrow = c(1,3))
+
+tinytheme("clean2", 
+          mar = c(2,2,4,1),
+          bg = ow,
+          family = "Arial",
+          cex.axis = 1.5,
+          cex.main = 2,
+          col.main = "#222222",
+          col.axis = "#222222")
+
+par(mfrow = c(1,3)) # mfrow behaves oddly within tinytheme
+
+set.seed(1) 
+
+n = 150 
+
+d2 = data.table(x = rnorm(n)) |> 
+  mtt(latent = rnorm(n, mean = 1*x),
+      eta_z =  1.5*(latent - x) + -2.5*x - .9, 
+      eta_w = -1.5*(latent - x) + -2.5*x - .9,
+      z_mis = as.logical(rbinom(n, 1, plogis(eta_z))),
+      w_mis = as.logical(rbinom(n, 1, plogis(eta_w))),
+      z = dplyr::case_when(z_mis ~ NA,
+                           TRUE ~ latent),
+      w = dplyr::case_when(w_mis ~ NA,
+                           TRUE ~ latent))
+
+# d2 |> ggplot(aes(x, latent)) + geom_point(aes(color = eta_z)) + scale_color_viridis_c()
+
+xr2 = range(d2$x); yr2 = range(d2$latent)
+
+parula = pals::parula(100)
+
+plt(d2$x, d2$latent, 
+    xlim = xr2, ylim = yr2,
+    # col = parula[as.numeric(cut(breaks = 100, d2$eta_z))],
+    col = "grey44",
+    pch = 19,
+    main = "latent truth",
+    cex = 1.7)
+
+abline(reg = lm(latent ~ x, data = d2), col = "grey10")
+
+plt(d2$x, d2$z, 
+     xlim = xr2, ylim = yr2,
+     pch = 19,
+     col = mblue,
+    main = "missingness increases slope",
+    cex = 1.7)
+
+abline(reg = lm(z ~ x, data = d2),
+       col = mblue)
+
+zm = is.na(d2$z)
+
+points(d2$x[zm], d2$latent[zm],
+       pch = 1,
+       col = mred,
+       cex = 1.7)
+
+plt(d2$x, d2$w, 
+     xlim = xr2, ylim = yr2,
+     pch = 19,
+     col = mblue,
+    main = "missingness decreases slope",
+    cex = 1.7)
+
+abline(reg = lm(w ~ x, data = d2),
+       col = mblue)
+
+wm = is.na(d2$w)
+
+points(d2$x[wm], d2$latent[wm],
+       pch = 1,
+       col = mred,
+       cex = 1.7)
+
+tinytheme("clean2", 
+          mar = c(2,2,1,1),
+          bg = ow,
+          cex.axis = 1.25,
+          col.axis = "#222222")
+
+
+```
+:::
 
 ## Types of missingness
 
@@ -564,7 +665,6 @@ plt(nx,
 #| fig-width: 5 
 plot_d("Predict + noise + θ uncertainty ✅✅")
 
-
 # rstanarm::stan_glm(z ~ x, data = d) |> rstanarm::as_draws() |> head()
 
 ddf = structure(list(`(Intercept)` = c(0.0471073690698166, 0.201052925741826, 
@@ -714,9 +814,19 @@ Discuss with your neighbor: Which of these are probably MCAR/MAR/NMAR and/or exh
 
 # On to the workshop!
 
-<ccb.connect.hms.harvard.edu/missing_data_workshop/>
+[ccb.connect.hms.harvard.edu/missing_data_workshop/](ccb.connect.hms.harvard.edu/missing_data_workshop/)
 
 # Extra
+
+## NA and friends
+
+* "NA" - not applicable, not available, etc
+* `NA` - logical constant in R
+  * See `?NA` for `NA_real_`, `NA_character_`, etc
+* NaN - 0/0 and so on
+* `0` - Not the same as a missing value!
+* Placeholders e.g. `age = 9999`
+  * 🪦 
 
 ## {background-image="images/beach.png"} 
 
