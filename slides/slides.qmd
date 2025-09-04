@@ -89,7 +89,7 @@ yr = range(c(d$y, d$z))
 ::::{.columns}
 
 :::{.column width="55%"}
-* *Quick* help
+* Quick help on R/Stats & CompBio
 * Book a timeslot, Zoom or in-person
 * Examples:
   * Data wrangling / plotting messy health database exports
@@ -137,7 +137,7 @@ install.packages(pkgs, Ncpus = 4)
   * Concepts
   * Strategies
   * Examples
-  * No theory or math
+  * No theory or math!
 * Hands-on workshop  in R (1 hour)
 
 These slides:
@@ -219,10 +219,14 @@ ex_dat[1:5,-1] |>
 
 :::{.column width=44%}
 * Context informs uncertainty when imputing
-* If the uncertainty is *sufficiently* small, it can be ignored
+
+:::{.fragment}
+* If the uncertainty is *sufficiently* small, ignore it. 
 * Using imputed values for...?
-    * Just reporting / visualizing. Uncertainty is less important.
-    * As input to a downstream model. Accounting for uncertainty is **essential**.
+    * Just reporting / visualizing. ✅
+    * Input to scientific inference. ⚠️
+:::
+
 :::
 
 :::{.notes}
@@ -252,6 +256,7 @@ tinyplot(col = mred,
          add = TRUE,
          type = "lines",
          c(1,1),
+         lend = 1, 
          c(1+s*2, 1-s*2),
          lwd = 4)
 
@@ -268,6 +273,7 @@ plt(col = mred,
     type = "lines",
     add = TRUE,
     c(1,1),
+    lend = "butt",
     c(1+1*2, 1-1*2),
     lwd = 4)
 
@@ -345,16 +351,18 @@ plt(nx,
 
 - Fill in empty regions on a figure
   - UMAP or image
-- Downstream statistical inference
+- Downstream scientific inference
   - $P(\theta \mid Y_{imp})$
 
 ***Inference is much more demanding!***
+
+TODO: cartoon figure here
 
 ## Undesirable effects of missing data
 
 * Obvious: Missing data → less information → imprecise estimates
 
-:::{.fragment}
+:::{.fragment fragment-index=1}
 
 * Subtle yet harmful: Patterns of missingness can *induce* bias if ignored
 
@@ -377,19 +385,22 @@ tinytheme("clean2",
           col.main = "#222222",
           col.axis = "#222222")
 
-png("slides/images/patterns.png", width = 3*1500, height = 3*450, units = "px",
+png("slides/images/patterns.png", width = 3*1500, height = 1250, units = "px",
     res = 400)
 par(mfrow = c(1,4)) # mfrow behaves oddly within tinytheme
 
 set.seed(1) 
 
-n = 150 
+n = 150
 
 d2 = data.table(x = rnorm(n)) |> 
   mtt(latent = rnorm(n, mean = 1*x, sd = 1.2),
       eta_z =    4.5*(latent - x) + -7*(x+1), 
       eta_w = -1.5*(latent - x) + -3*x - 1.6,
-      z_mis = as.logical(rbinom(n, 1, plogis(eta_z))) & (x < 0),
+      z_mis = as.logical(rbinom(n, 1, plogis(eta_z))) & (x < 0) | 
+               (x < -.33 & latent > -.5) | 
+               (x < -.5 & latent > -1) | 
+        (x < -.7 & latent > -1.5 ),
       w_mis = as.logical(rbinom(n, 1, plogis(eta_w))),
       r_mis = !(latent < (-1*x + 1.33) & latent > (-1*x -.75)),
       z = data.table::fcase(z_mis, NA_real_,
@@ -429,6 +440,16 @@ points(d2$x[zm], d2$latent[zm],
        pch = 1,
        col = mred,
        cex = 1.7)
+
+legend(-2.3, 5.1,
+       c("missing", "observed"),
+       col = c(mred, mblue),
+       cex = 1.4,
+       pt.cex = 2,
+       bg = "#F2F2F2",
+       box.col = "#222222",
+       text.col = "#222222",
+       pch = c(1, 16))
 
 plt(d2$x, d2$w, 
      xlim = xr2, ylim = yr2,
@@ -478,6 +499,9 @@ tinytheme("clean2",
 
 :::
 
+
+::: {data-id="box1" style="background-color: #F2F2F2; width: 1600px; height: 720px; " .absolute left=750 top=300 .fragment .fade-out fragment-index=2}
+:::
 
 ## Types of missingness
 
@@ -723,31 +747,26 @@ for (i in 1:4) {
 
 ## Pooling
 
-Aggregate estimates in a way that combines
+Aggregate estimates in a way that combines:
 
-1. imputation-wise uncertainty
-1. uncertainty over imputations
+1. within-imputation uncertainty
+1. between-imputation uncertainty
+1. uncertainty from finite imputations 
 
-```{.r}
-?mice::pool()
-```
+End result: *unbiased* and *confidence valid* estimates
 
+More info:
+
+* `?mice::pool()`
+* "Rubin's rules"
+* FIMD §2.3 <https://stefvanbuuren.name/fimd/sec-whyandwhen.html>
 
 ## "Ignorability" assumption
 
-> "Does the chance of a value going missing depend on the value itself or other information we don't have?"
+> "Does the chance of a value going missing depend on information we don't have?"
 
 * If so, assumption violated.
 * standard MI practice generally won't work.
-
-:::{.notes}
-Defining this concept precisely is complicated, but the first bullet gives the main idea.
-:::
-
-<!-- :::{.fragment} -->
-<!-- * If you have other data that can provide information on the underlying values, speak to a statistician and mention the phrase *"Bayesian imputation"*. -->
-<!-- ::: -->
-
 
 ## Joint imputation
 
@@ -874,6 +893,25 @@ ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 
 ## {background-image="images/beach.png"} 
 
+## Defining MCAR, MAR, NMAR
+
+see 2.2.4 in FIMD: https://stefvanbuuren.name/fimd/sec-idconcepts.html
+
+* $Y$ - values of interest, observed and missing 
+* $\psi$ - missingness model parameters
+* $R$ - indicator of a datum being present/absent (i.e. $R=0$ → observation is missing)
+
+MCAR:
+
+$$ P(R=0 \mid Y_{obs}, Y_{mis}, \psi) = P(R=0 \mid \psi)$$
+
+MAR:
+
+$$ P(R=0 \mid Y_{obs}, Y_{mis}, \psi) = P(R=0 \mid Y_{obs}, \psi)$$
+
+MNAR → expression doesn't simplify:
+
+$$ P(R=0 \mid Y_{obs}, Y_{mis}, \psi)$$ 
 
 ## Examples
 

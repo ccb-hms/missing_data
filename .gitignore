@@ -12,3 +12,5 @@ workshop/fits/*.rds
 *_files/
 fits/
 flyer*
+qr.png
+
