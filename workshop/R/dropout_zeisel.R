@@ -96,6 +96,9 @@ na_umap = na_dat |>
     set_colnames(c("umap_1", "umap_2")) |> 
     mtt(na_dat |> na.omit() |> slt(l1c)) 
 
+na_dat = na_dat |> 
+    slt(-(umap_1:umap_2))
+    
 plt(umap_2 ~ umap_1 | l1c,
     data = na_umap,
     pch = 15,
@@ -143,7 +146,7 @@ plt(umap_2 ~ umap_1 | l1c,
     legend = legend(pt.cex=1),
     main = "Imputation seems to recover missing values\nin pyramidal CA1 cells")
 
-save(dat, na_dat,
+save(dat, na_dat, to_imp,
      file = "~/projects/missing_data/workshop/sc.RData",
      compress = "xz",
      compression_level = 9)

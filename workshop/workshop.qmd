@@ -284,18 +284,137 @@ Basically it identifies the 20 most highly expressed genes in the pyramidal CA1 
 You can download and load the data like so:
 
 ```{r}
+#| eval: false
+#| echo: true
 
+url = "https://github.com/ccb-hms/missing_data/raw/refs/heads/main/workshop/sc.RData"
+
+f = tempfile()
+
+download.file(url, f)
+
+load(f, verbose = TRUE)
 ```
 
+```{r}
+#| eval: true
+#| echo: false
 
-First, let's look at a UMAP of the original data:
+load("data/sc.RData")
+```
+
+It contains the original data `dat` and the same data with NAs knocked in `na_dat`. `to_imp` is a list of 20 genes with knocked in NAs. The data contains a few thousand cells and 500 highly variable genes: 
+
+```{r}
+dim(dat)
+
+names(dat) |> head(20)
+```
+
+First, let's look at a UMAP of the original data (pre-computed):
+
+```{r}
+#| code-fold: true
+ggplot(dat, aes(umap_1, umap_2)) + 
+  geom_point(aes(color = l1c),
+             pch = 15, size = .3) + 
+  labs(title = "Original data UMAP") +
+  guides(color = guide_legend(override.aes = list(size = 2)))
+```
+
+Pyramidal CA1 cells are the green ones.
+
+Now let's check the same UMAP for the data that drops the NAs with `na.omit()`:
 
 ```{r}
 rlang::check_installed("uwot") # In case you don't have uwot, install it.
 
-# dat[1:5,1:5]
+library(uwot)
+
+na_umap = na_dat |> 
+  select(-(cell_id:l1c)) |> 
+  na.omit() |> 
+  as.matrix() |> 
+  umap() |> 
+  as.data.frame() |> 
+  rename(umap_1 = V1, umap_2 = V2) |> 
+  mutate(l1c = na_dat |> na.omit() |> pull(l1c))
+
+ggplot(na_umap, aes(umap_1, umap_2)) + 
+  geom_point(aes(color = l1c),
+             pch = 15, size = .3) + 
+  labs(title = "Dropout UMAP") + 
+  guides(color = guide_legend(override.aes = list(size = 2)))
 ```
 
+You can see the shape of most of the blobs has stayed the same, but the pyramidal CA1 cells have all but vanished. 
+
+Now let's run a single imputation. There are many fancier ways to plausibly do this, but let's just use `mice`. **This will take a minute** since there are 20 genes with missing values and so many predictors for each one.
+
+```{r}
+imp_input = na_dat |> 
+    as.data.frame() |> 
+    select(-(cell_id:l1c))
+
+rownames(imp_input) = na_dat$cell_id
+
+head(imp_input[,1:5])
+
+imp = mice(m = 1,
+           imp_input, 
+           method = "norm",
+           print = FALSE)
+
+```
+
+`mice` doesn't like to encourage working with the inner content of a `mids` object, but just this once:
+
+```{r}
+imp_dat = imp_input
+
+# Copy the imputated values into their respective places in imp_dat:
+for (g in to_imp) {
+    g_imp = imp$imp[[g]]
+    
+    imp_dat[[g]][match(rownames(g_imp), rownames(imp_dat))] = g_imp$`1`
+}
+```
+
+And now let's compute and plot a UMAP of the imputed expression values:
+
+```{r}
+imp_umap = imp_dat |> 
+    as.matrix() |> 
+    uwot::umap() |> 
+    as.data.frame() |> 
+    rename(umap_1 = V1, umap_2 = V2) |> 
+    mutate(na_dat |> slt(l1c)) 
+
+imp_umap |> 
+  ggplot(aes(umap_1, umap_2)) + 
+  geom_point(aes(color = l1c),
+             pch = 15, size = .3)
+
+```
+
+Pretty good! This is not a rigorous comparison of the imputed against original values, but it seems to have recovered that green blob pretty well.
+
+:::{.callout-note title="Exercise"}
+
+Try comparing the imputed values for Plp1 against the true values. Are they any good?
+
+:::
+
+```{r}
+#| echo: false
+#| eval: false
+
+imp_vals = imp_dat$Plp1[match(rownames(g_imp), rownames(imp_dat))]
+tru_vals = dat$Plp1[match(rownames(g_imp), dat$cell_id)]
+
+plot(tru_vals, imp_vals)
+abline(0,1)
+```
 
 
 # Joint imputation in `brms` 

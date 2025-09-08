@@ -60,6 +60,29 @@
         "Built": "R 4.5.0; ; 2025-04-16 13:57:19 UTC; unix"
       }
     },
+    "FNN": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "FNN",
+        "Version": "1.1.4.1",
+        "Date": "2023-12-31",
+        "Title": "Fast Nearest Neighbor Search Algorithms and Applications",
+        "Authors@R": "c(person(\"Alina\", \"Beygelzimer\", role = \"aut\",\n                    comment = \"cover tree library\"),\n             person(\"Sham\", \"Kakadet\", role = \"aut\",\n\t             comment = \"cover tree library\"),\n\t     person(\"John\", \"Langford\", role = \"aut\",\n\t            comment = \"cover tree library\"), \n             person(\"Sunil\", \"Arya\", role = \"aut\",\n\t            comment = \"ANN library 1.1.2 for the kd-tree approach\"),\n             person(\"David\", \"Mount\", role = \"aut\",\n\t            comment = \"ANN library 1.1.2 for the kd-tree approach\"),\n             person(\"Shengqiao\", \"Li\", role = c(\"aut\", \"cre\"),\n\t            email = \"lishengqiao@yahoo.com\"))",
+        "Copyright": "ANN Copyright (c) 1997-2010 University of Maryland and Sunil\nArya and David Mount. All Rights Reserved.",
+        "Depends": "R (>= 4.0.0)",
+        "Suggests": "chemometrics, mvtnorm",
+        "Description": "Cover-tree and kd-tree fast k-nearest neighbor search algorithms and related applications\n        including KNN classification, regression and information measures are implemented.",
+        "License": "GPL (>= 2)",
+        "NeedsCompilation": "yes",
+        "Packaged": "2024-09-22 07:57:30 UTC; hornik",
+        "Repository": "CRAN",
+        "Date/Publication": "2024-09-22 08:24:48 UTC",
+        "Author": "Alina Beygelzimer [aut] (cover tree library),\n  Sham Kakadet [aut] (cover tree library),\n  John Langford [aut] (cover tree library),\n  Sunil Arya [aut] (ANN library 1.1.2 for the kd-tree approach),\n  David Mount [aut] (ANN library 1.1.2 for the kd-tree approach),\n  Shengqiao Li [aut, cre]",
+        "Maintainer": "Shengqiao Li <lishengqiao@yahoo.com>",
+        "Built": "R 4.5.0; x86_64-pc-linux-gnu; 2025-04-16 13:57:59 UTC; unix"
+      }
+    },
     "MASS": {
       "Source": "CRAN",
       "Repository": "https://cloud.r-project.org",
@@ -94,9 +117,9 @@
       "Repository": "https://cloud.r-project.org",
       "description": {
         "Package": "Matrix",
-        "Version": "1.7-3",
+        "Version": "1.7-4",
         "VersionNote": "do also bump src/version.h, inst/include/Matrix/version.h",
-        "Date": "2025-03-05",
+        "Date": "2025-08-27",
         "Priority": "recommended",
         "Title": "Sparse and Dense Matrix Classes and Methods",
         "Description": "A rich hierarchy of sparse and dense matrix classes,\n\tincluding general, symmetric, triangular, and diagonal matrices\n\twith numeric, logical, or pattern entries.  Efficient methods for\n\toperating on such matrices, often wrapping the 'BLAS', 'LAPACK',\n\tand 'SuiteSparse' libraries.",
@@ -114,12 +137,12 @@
         "BuildResaveData": "no",
         "Encoding": "UTF-8",
         "NeedsCompilation": "yes",
-        "Packaged": "2025-03-05 09:59:22 UTC; maechler",
-        "Author": "Douglas Bates [aut] (<https://orcid.org/0000-0001-8316-9503>),\n  Martin Maechler [aut, cre] (<https://orcid.org/0000-0002-8685-9910>),\n  Mikael Jagan [aut] (<https://orcid.org/0000-0002-3542-2938>),\n  Timothy A. Davis [ctb] (<https://orcid.org/0000-0001-7614-6899>,\n    SuiteSparse libraries, collaborators listed in\n    dir(system.file(\"doc\", \"SuiteSparse\", package=\"Matrix\"),\n    pattern=\"License\", full.names=TRUE, recursive=TRUE)),\n  George Karypis [ctb] (<https://orcid.org/0000-0003-2753-1437>, METIS\n    library, Copyright: Regents of the University of Minnesota),\n  Jason Riedy [ctb] (<https://orcid.org/0000-0002-4345-4200>, GNU\n    Octave's condest() and onenormest(), Copyright: Regents of the\n    University of California),\n  Jens Oehlschlägel [ctb] (initial nearPD()),\n  R Core Team [ctb] (02zz1nj61, base R's matrix implementation)",
+        "Packaged": "2025-08-27 10:17:11 UTC; maechler",
+        "Author": "Douglas Bates [aut] (ORCID: <https://orcid.org/0000-0001-8316-9503>),\n  Martin Maechler [aut, cre] (ORCID:\n    <https://orcid.org/0000-0002-8685-9910>),\n  Mikael Jagan [aut] (ORCID: <https://orcid.org/0000-0002-3542-2938>),\n  Timothy A. Davis [ctb] (ORCID: <https://orcid.org/0000-0001-7614-6899>,\n    SuiteSparse libraries, collaborators listed in\n    dir(system.file(\"doc\", \"SuiteSparse\", package=\"Matrix\"),\n    pattern=\"License\", full.names=TRUE, recursive=TRUE)),\n  George Karypis [ctb] (ORCID: <https://orcid.org/0000-0003-2753-1437>,\n    METIS library, Copyright: Regents of the University of Minnesota),\n  Jason Riedy [ctb] (ORCID: <https://orcid.org/0000-0002-4345-4200>, GNU\n    Octave's condest() and onenormest(), Copyright: Regents of the\n    University of California),\n  Jens Oehlschlägel [ctb] (initial nearPD()),\n  R Core Team [ctb] (ROR: <https://ror.org/02zz1nj61>, base R's matrix\n    implementation)",
         "Maintainer": "Martin Maechler <mmaechler+Matrix@gmail.com>",
         "Repository": "CRAN",
-        "Date/Publication": "2025-03-11 07:20:02 UTC",
-        "Built": "R 4.4.3; x86_64-pc-linux-gnu; 'Sun, 16 Mar 2025 23:38:45 +0000'; unix"
+        "Date/Publication": "2025-08-28 11:50:02 UTC",
+        "Built": "R 4.5.1; x86_64-pc-linux-gnu; 'Sun, 31 Aug 2025 15:20:56 +0000'; unix"
       }
     },
     "QuickJSR": {
@@ -197,6 +220,35 @@
         "Built": "R 4.5.0; ; 2025-04-16 13:40:20 UTC; unix"
       }
     },
+    "RSpectra": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "RSpectra",
+        "Type": "Package",
+        "Title": "Solvers for Large-Scale Eigenvalue and SVD Problems",
+        "Version": "0.16-2",
+        "Date": "2024-07-18",
+        "Authors@R": "c(\n    person(\"Yixuan\", \"Qiu\", , \"yixuan.qiu@cos.name\", c(\"aut\", \"cre\")),\n    person(\"Jiali\", \"Mei\", , \"vermouthmjl@gmail.com\", \"aut\",\n           comment = \"Function interface of matrix operation\"),\n    person(\"Gael\", \"Guennebaud\", , \"gael.guennebaud@inria.fr\", \"ctb\",\n           comment = \"Eigenvalue solvers from the 'Eigen' library\"),\n    person(\"Jitse\", \"Niesen\", , \"jitse@maths.leeds.ac.uk\", \"ctb\",\n           comment = \"Eigenvalue solvers from the 'Eigen' library\")\n    )",
+        "Description": "R interface to the 'Spectra' library\n    <https://spectralib.org/> for large-scale eigenvalue and SVD\n    problems. It is typically used to compute a few\n    eigenvalues/vectors of an n by n matrix, e.g., the k largest eigenvalues,\n    which is usually more efficient than eigen() if k << n. This package\n    provides the 'eigs()' function that does the similar job as in 'Matlab',\n    'Octave', 'Python SciPy' and 'Julia'. It also provides the 'svds()' function\n    to calculate the largest k singular values and corresponding\n    singular vectors of a real matrix. The matrix to be computed on can be\n    dense, sparse, or in the form of an operator defined by the user.",
+        "License": "MPL (>= 2)",
+        "URL": "https://github.com/yixuan/RSpectra",
+        "BugReports": "https://github.com/yixuan/RSpectra/issues",
+        "Depends": "R (>= 3.0.2)",
+        "Imports": "Matrix (>= 1.1-0), Rcpp (>= 0.11.5)",
+        "Suggests": "knitr, rmarkdown, prettydoc",
+        "LinkingTo": "Rcpp, RcppEigen (>= 0.3.3.3.0)",
+        "VignetteBuilder": "knitr, rmarkdown",
+        "RoxygenNote": "7.1.2",
+        "NeedsCompilation": "yes",
+        "Packaged": "2024-07-18 12:37:45 UTC; dell",
+        "Author": "Yixuan Qiu [aut, cre],\n  Jiali Mei [aut] (Function interface of matrix operation),\n  Gael Guennebaud [ctb] (Eigenvalue solvers from the 'Eigen' library),\n  Jitse Niesen [ctb] (Eigenvalue solvers from the 'Eigen' library)",
+        "Maintainer": "Yixuan Qiu <yixuan.qiu@cos.name>",
+        "Repository": "CRAN",
+        "Date/Publication": "2024-07-18 15:30:05 UTC",
+        "Built": "R 4.5.0; x86_64-pc-linux-gnu; 2025-04-16 14:00:38 UTC; unix"
+      }
+    },
     "Rcpp": {
       "Source": "CRAN",
       "Repository": "https://cloud.r-project.org",
@@ -222,6 +274,33 @@
         "Repository": "CRAN",
         "Date/Publication": "2025-01-12 16:10:02 UTC",
         "Built": "R 4.5.0; x86_64-pc-linux-gnu; 2025-04-17 15:18:03 UTC; unix"
+      }
+    },
+    "RcppAnnoy": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "RcppAnnoy",
+        "Type": "Package",
+        "Title": "'Rcpp' Bindings for 'Annoy', a Library for Approximate Nearest\nNeighbors",
+        "Version": "0.0.22",
+        "Date": "2024-01-23",
+        "Author": "Dirk Eddelbuettel",
+        "Maintainer": "Dirk Eddelbuettel <edd@debian.org>",
+        "Description": "'Annoy' is a small C++ library for Approximate Nearest Neighbors \n written for efficient memory usage as well an ability to load from / save to\n disk. This package provides an R interface by relying on the 'Rcpp' package,\n exposing the same interface as the original Python wrapper to 'Annoy'. See\n <https://github.com/spotify/annoy> for more on 'Annoy'. 'Annoy' is released\n under Version 2.0 of the Apache License. Also included is a small Windows\n port of 'mmap' which is released under the MIT license.",
+        "License": "GPL (>= 2)",
+        "Depends": "R (>= 3.1)",
+        "Imports": "methods, Rcpp",
+        "LinkingTo": "Rcpp",
+        "Suggests": "tinytest",
+        "URL": "https://github.com/eddelbuettel/rcppannoy,\nhttps://dirk.eddelbuettel.com/code/rcpp.annoy.html",
+        "BugReports": "https://github.com/eddelbuettel/rcppannoy/issues",
+        "NeedsCompilation": "yes",
+        "RoxygenNote": "7.1.1",
+        "Packaged": "2024-01-23 00:46:29 UTC; edd",
+        "Repository": "CRAN",
+        "Date/Publication": "2024-01-23 14:33:04 UTC",
+        "Built": "R 4.5.0; x86_64-pc-linux-gnu; 2025-04-16 13:59:17 UTC; unix"
       }
     },
     "RcppEigen": {
@@ -279,6 +358,32 @@
         "Repository": "CRAN",
         "Date/Publication": "2025-01-24 02:00:02 UTC",
         "Built": "R 4.5.0; x86_64-pc-linux-gnu; 2025-04-16 13:57:37 UTC; unix"
+      }
+    },
+    "RcppProgress": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "RcppProgress",
+        "Maintainer": "Karl Forner <karl.forner@gmail.com>",
+        "License": "GPL (>= 3)",
+        "Title": "An Interruptible Progress Bar with OpenMP Support for C++ in R\nPackages",
+        "Type": "Package",
+        "LazyLoad": "yes",
+        "Author": "Karl Forner <karl.forner@gmail.com>",
+        "Description": "Allows to display a progress bar in the R\n    console for long running computations taking place in c++ code,\n    and support for interrupting those computations even in multithreaded\n    code, typically using OpenMP.",
+        "URL": "https://github.com/kforner/rcpp_progress",
+        "BugReports": "https://github.com/kforner/rcpp_progress/issues",
+        "Version": "0.4.2",
+        "Date": "2020-02-06",
+        "Suggests": "RcppArmadillo, devtools, roxygen2, testthat",
+        "RoxygenNote": "6.1.1",
+        "Encoding": "UTF-8",
+        "NeedsCompilation": "no",
+        "Packaged": "2020-02-06 10:57:24 UTC; karl",
+        "Repository": "CRAN",
+        "Date/Publication": "2020-02-06 12:10:08 UTC",
+        "Built": "R 4.5.0; ; 2025-04-16 13:57:54 UTC; unix"
       }
     },
     "Rdpack": {
@@ -498,24 +603,24 @@
       "description": {
         "Package": "boot",
         "Priority": "recommended",
-        "Version": "1.3-31",
-        "Date": "2024-08-28",
-        "Authors@R": "c(person(\"Angelo\", \"Canty\", role = \"aut\",\n\t             email = \"cantya@mcmaster.ca\", \n                     comment = \"author of original code for S\"),\n             person(\"Brian\", \"Ripley\", role = c(\"aut\", \"trl\"),\n                    email = \"ripley@stats.ox.ac.uk\",\n\t\t    comment = \"conversion to R, maintainer 1999--2022, author of parallel support\"),\n             person(\"Alessandra R.\", \"Brazzale\", role = c(\"ctb\", \"cre\"),\n                    email = \"brazzale@stat.unipd.it\",\n\t\t    comment = \"minor bug fixes\"))",
+        "Version": "1.3-32",
+        "Date": "2025-08-29",
+        "Authors@R": "c(person(\"Angelo\", \"Canty\", role = \"aut\",\n\t             email = \"cantya@mcmaster.ca\", \n                     comment = \"author of original code for S\"),\n             person(\"Brian\", \"Ripley\", role = c(\"aut\", \"trl\"),\n                    email = \"Brian.Ripley@R-project.org\",\n\t\t    comment = \"conversion to R, maintainer 1999--2022, author of parallel support\"),\n             person(\"Alessandra R.\", \"Brazzale\", role = c(\"ctb\", \"cre\"),\n                    email = \"brazzale@stat.unipd.it\",\n\t\t    comment = \"minor bug fixes\"))",
         "Maintainer": "Alessandra R. Brazzale <brazzale@stat.unipd.it>",
         "Note": "Maintainers are not available to give advice on using a package\nthey did not author.",
         "Description": "Functions and datasets for bootstrapping from the\n  book \"Bootstrap Methods and Their Application\" by A. C. Davison and \n  D. V. Hinkley (1997, CUP), originally written by Angelo Canty for S.",
-        "Title": "Bootstrap Functions (Originally by Angelo Canty for S)",
+        "Title": "Bootstrap Functions",
         "Depends": "R (>= 3.0.0), graphics, stats",
         "Suggests": "MASS, survival",
         "LazyData": "yes",
         "ByteCompile": "yes",
         "License": "Unlimited",
         "NeedsCompilation": "no",
-        "Packaged": "2024-08-28 08:17:05 UTC; brazzale",
+        "Packaged": "2025-08-29 10:01:31 UTC; brazzale",
         "Author": "Angelo Canty [aut] (author of original code for S),\n  Brian Ripley [aut, trl] (conversion to R, maintainer 1999--2022, author\n    of parallel support),\n  Alessandra R. Brazzale [ctb, cre] (minor bug fixes)",
         "Repository": "CRAN",
-        "Date/Publication": "2024-08-28 13:20:02 UTC",
-        "Built": "R 4.4.2; ; 'Mon, 16 Dec 2024 02:01:42 +0000'; unix"
+        "Date/Publication": "2025-08-29 13:00:08 UTC",
+        "Built": "R 4.5.1; ; 'Thu, 04 Sep 2025 19:43:37 +0000'; unix"
       }
     },
     "bridgesampling": {
@@ -997,6 +1102,35 @@
         "Repository": "CRAN",
         "Date/Publication": "2023-11-17 16:50:02 UTC",
         "Built": "R 4.5.0; x86_64-pc-linux-gnu; 2025-04-16 13:44:55 UTC; unix"
+      }
+    },
+    "dqrng": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "dqrng",
+        "Type": "Package",
+        "Title": "Fast Pseudo Random Number Generators",
+        "Version": "0.4.1",
+        "Authors@R": "c(\n    person(\"Ralf\", \"Stubner\", email = \"ralf.stubner@gmail.com\", role = c(\"aut\", \"cre\"), comment = c(ORCID = \"0009-0009-1908-106X\")),\n    person(\"daqana GmbH\", role = \"cph\"),\n    person(\"David Blackman\", role = \"cph\", comment = \"Xoroshiro / Xoshiro family\"),\n    person(\"Melissa O'Neill\", email = \"oneill@pcg-random.org\", role = \"cph\", comment = \"PCG family\"),\n    person(\"Sebastiano Vigna\", email = \"vigna@acm.org\", role = \"cph\", comment = \"Xoroshiro / Xoshiro family\"),\n    person(\"Aaron\", \"Lun\", role=\"ctb\"), \n    person(\"Kyle\", \"Butts\", role = \"ctb\", email = \"kyle.butts@colorado.edu\"),\n    person(\"Henrik\", \"Sloot\", role = \"ctb\"),\n    person(\"Philippe\", \"Grosjean\", role = c(\"ctb\"), comment = c(ORCID = \"0000-0002-2694-9471\"))\n  )",
+        "Description": "Several fast random number generators are provided as C++\n  header only libraries: The PCG family by O'Neill (2014\n  <https://www.cs.hmc.edu/tr/hmc-cs-2014-0905.pdf>) as well as\n  the Xoroshiro / Xoshiro family by Blackman and Vigna (2021\n  <doi:10.1145/3460772>). In addition fast functions for generating random\n  numbers according to a uniform, normal and exponential distribution\n  are included. The latter two use the Ziggurat algorithm originally\n  proposed by Marsaglia and Tsang (2000, <doi:10.18637/jss.v005.i08>).\n  The fast sampling methods support unweighted sampling both with and without\n  replacement. These functions are exported to R and as a C++ interface and are\n  enabled for use with the default 64 bit generator from the PCG family,\n  Xoroshiro128+/++/** and Xoshiro256+/++/** as well as the 64 bit version of the\n  20 rounds Threefry engine (Salmon et al., 2011, <doi:10.1145/2063384.2063405>)\n  as provided by the package 'sitmo'.",
+        "License": "AGPL-3",
+        "Depends": "R (>= 3.5.0)",
+        "Imports": "Rcpp (>= 0.12.16)",
+        "LinkingTo": "Rcpp, BH (>= 1.64.0-1), sitmo (>= 2.0.0)",
+        "RoxygenNote": "7.3.1",
+        "Suggests": "BH, testthat, knitr, rmarkdown, mvtnorm (>= 1.2-3), bench,\nsitmo",
+        "VignetteBuilder": "knitr",
+        "URL": "https://daqana.github.io/dqrng/, https://github.com/daqana/dqrng",
+        "BugReports": "https://github.com/daqana/dqrng/issues",
+        "Encoding": "UTF-8",
+        "NeedsCompilation": "yes",
+        "Packaged": "2024-05-28 11:40:30 UTC; ralf",
+        "Author": "Ralf Stubner [aut, cre] (<https://orcid.org/0009-0009-1908-106X>),\n  daqana GmbH [cph],\n  David Blackman [cph] (Xoroshiro / Xoshiro family),\n  Melissa O'Neill [cph] (PCG family),\n  Sebastiano Vigna [cph] (Xoroshiro / Xoshiro family),\n  Aaron Lun [ctb],\n  Kyle Butts [ctb],\n  Henrik Sloot [ctb],\n  Philippe Grosjean [ctb] (<https://orcid.org/0000-0002-2694-9471>)",
+        "Maintainer": "Ralf Stubner <ralf.stubner@gmail.com>",
+        "Repository": "CRAN",
+        "Date/Publication": "2024-05-28 22:40:02 UTC",
+        "Built": "R 4.5.0; x86_64-pc-linux-gnu; 2025-04-16 14:01:24 UTC; unix"
       }
     },
     "evaluate": {
@@ -1689,6 +1823,32 @@
         "Repository": "CRAN",
         "Date/Publication": "2025-01-09 13:00:02 UTC",
         "Built": "R 4.5.0; ; 2025-04-16 13:57:18 UTC; unix"
+      }
+    },
+    "irlba": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "irlba",
+        "Type": "Package",
+        "Title": "Fast Truncated Singular Value Decomposition and Principal\nComponents Analysis for Large Dense and Sparse Matrices",
+        "Version": "2.3.5.1",
+        "Date": "2021-12-05",
+        "Authors@R": "c(\n    person(\"Jim\", \"Baglama\", role=c(\"aut\", \"cph\"), email=\"jbaglama@uri.edu\"),\n    person(\"Lothar\", \"Reichel\", role=c(\"aut\", \"cph\"), email=\"reichel@math.kent.edu\"),\n    person(\"B. W.\", \"Lewis\", role=c(\"aut\",\"cre\",\"cph\"), email=\"blewis@illposed.net\"))",
+        "Description": "Fast and memory efficient methods for truncated singular value\n    decomposition and principal components analysis of large sparse and dense\n    matrices.",
+        "Depends": "R (>= 3.6.2), Matrix",
+        "LinkingTo": "Matrix",
+        "Imports": "stats, methods",
+        "License": "GPL-3",
+        "BugReports": "https://github.com/bwlewis/irlba/issues",
+        "RoxygenNote": "5.0.1",
+        "NeedsCompilation": "yes",
+        "Packaged": "2022-10-03 15:17:05 UTC; ripley",
+        "Author": "Jim Baglama [aut, cph],\n  Lothar Reichel [aut, cph],\n  B. W. Lewis [aut, cre, cph]",
+        "Maintainer": "B. W. Lewis <blewis@illposed.net>",
+        "Repository": "CRAN",
+        "Date/Publication": "2022-10-03 18:38:49 UTC",
+        "Built": "R 4.5.0; x86_64-pc-linux-gnu; 2025-04-16 13:57:49 UTC; unix"
       }
     },
     "isoband": {
@@ -3108,6 +3268,34 @@
         "Built": "R 4.5.0; ; 2025-05-14 16:31:25 UTC; unix"
       }
     },
+    "sitmo": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "sitmo",
+        "Title": "Parallel Pseudo Random Number Generator (PPRNG) 'sitmo' Header\nFiles",
+        "Version": "2.0.2",
+        "Authors@R": "c(person(\"James\", \"Balamuta\", email = \"balamut2@illinois.edu\", role = c(\"aut\", \"cre\", \"cph\"),\n                    comment = c(ORCID = \"0000-0003-2826-8458\")),\n             person(\"Thijs\",\"van den Berg\", email = \"thijs@sitmo.com\", role = c(\"aut\", \"cph\")),\n             person(\"Ralf\", \"Stubner\", email = \"ralf.stubner@daqana.com\", role = c(\"ctb\")))",
+        "Description": "Provided within are two high quality and fast PPRNGs that may be\n    used in an 'OpenMP' parallel environment. In addition, there is a generator\n    for one dimensional low-discrepancy sequence. The objective of this library\n    to consolidate the distribution of the 'sitmo' (C++98 & C++11), 'threefry' and\n    'vandercorput' (C++11-only) engines on CRAN by enabling others to link to the\n    header files inside of 'sitmo' instead of including a copy of each engine\n    within their individual package. Lastly, the package contains example\n    implementations using the 'sitmo' package and three accompanying vignette that\n    provide additional information.",
+        "Depends": "R (>= 3.2.0)",
+        "URL": "https://github.com/coatless/sitmo,\nhttp://thecoatlessprofessor.com/projects/sitmo/,\nhttps://github.com/stdfin/random/",
+        "BugReports": "https://github.com/coatless/sitmo/issues",
+        "License": "MIT + file LICENSE",
+        "LinkingTo": "Rcpp",
+        "Imports": "Rcpp (>= 0.12.13)",
+        "RoxygenNote": "7.1.1",
+        "Suggests": "knitr, rmarkdown, ggplot2",
+        "VignetteBuilder": "knitr",
+        "Encoding": "UTF-8",
+        "NeedsCompilation": "yes",
+        "Packaged": "2021-10-13 03:57:03 UTC; ronin",
+        "Author": "James Balamuta [aut, cre, cph]\n    (<https://orcid.org/0000-0003-2826-8458>),\n  Thijs van den Berg [aut, cph],\n  Ralf Stubner [ctb]",
+        "Maintainer": "James Balamuta <balamut2@illinois.edu>",
+        "Repository": "CRAN",
+        "Date/Publication": "2021-10-13 04:50:02 UTC",
+        "Built": "R 4.5.0; x86_64-pc-linux-gnu; 2025-04-16 13:58:51 UTC; unix"
+      }
+    },
     "stringi": {
       "Source": "CRAN",
       "Repository": "https://cloud.r-project.org",
@@ -3418,6 +3606,35 @@
         "Built": "R 4.5.0; x86_64-pc-linux-gnu; 2025-04-16 13:40:50 UTC; unix"
       }
     },
+    "uwot": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "uwot",
+        "Title": "The Uniform Manifold Approximation and Projection (UMAP) Method\nfor Dimensionality Reduction",
+        "Version": "0.2.3",
+        "Authors@R": "c(\n    person(\"James\", \"Melville\", , \"jlmelville@gmail.com\", role = c(\"aut\", \"cre\", \"cph\")),\n    person(\"Aaron\", \"Lun\", role = \"ctb\"),\n    person(\"Mohamed Nadhir\", \"Djekidel\", role = \"ctb\"),\n    person(\"Yuhan\", \"Hao\", role = \"ctb\"),\n    person(\"Dirk\", \"Eddelbuettel\", role = \"ctb\"),\n    person(\"Wouter\", \"van der Bijl\", role = \"ctb\")\n  )",
+        "Description": "An implementation of the Uniform Manifold Approximation and\n    Projection dimensionality reduction by McInnes et al. (2018)\n    <doi:10.48550/arXiv.1802.03426>. It also provides means to transform new data and\n    to carry out supervised dimensionality reduction. An implementation of\n    the related LargeVis method of Tang et al. (2016) <doi:10.48550/arXiv.1602.00370>\n    is also provided. This is a complete re-implementation in R (and C++,\n    via the 'Rcpp' package): no Python installation is required. See the\n    uwot website (<https://github.com/jlmelville/uwot>) for more\n    documentation and examples.",
+        "License": "GPL (>= 3)",
+        "URL": "https://github.com/jlmelville/uwot,\nhttps://jlmelville.github.io/uwot/",
+        "BugReports": "https://github.com/jlmelville/uwot/issues",
+        "Depends": "Matrix",
+        "Imports": "FNN, irlba, methods, Rcpp, RcppAnnoy (>= 0.0.17), RSpectra",
+        "Suggests": "bigstatsr, covr, knitr, RcppHNSW, rmarkdown, rnndescent,\ntestthat",
+        "LinkingTo": "dqrng, Rcpp, RcppAnnoy, RcppProgress",
+        "VignetteBuilder": "knitr",
+        "Config/Needs/website": "rmarkdown",
+        "Encoding": "UTF-8",
+        "RoxygenNote": "7.3.2",
+        "NeedsCompilation": "yes",
+        "Packaged": "2025-02-24 05:51:09 UTC; jlmel",
+        "Author": "James Melville [aut, cre, cph],\n  Aaron Lun [ctb],\n  Mohamed Nadhir Djekidel [ctb],\n  Yuhan Hao [ctb],\n  Dirk Eddelbuettel [ctb],\n  Wouter van der Bijl [ctb]",
+        "Maintainer": "James Melville <jlmelville@gmail.com>",
+        "Repository": "CRAN",
+        "Date/Publication": "2025-02-24 06:30:02 UTC",
+        "Built": "R 4.5.0; x86_64-pc-linux-gnu; 2025-04-17 15:24:41 UTC; unix"
+      }
+    },
     "vctrs": {
       "Source": "CRAN",
       "Repository": "https://cloud.r-project.org",
@@ -3594,23 +3811,38 @@
     "fits/m1.rds": {
       "checksum": "835679ef5fbbae37c16a181454bdf1ae"
     },
+    "sc.RData": {
+      "checksum": "b3b89095da6ef62021d9f166740b4d2c"
+    },
     "workshop_files/figure-html/unnamed-chunk-10-1.png": {
-      "checksum": "155a7b3efa45142d8d781e1de079d9a9"
+      "checksum": "37465ef27233e1e037b038ceeb055d8c"
+    },
+    "workshop_files/figure-html/unnamed-chunk-11-1.png": {
+      "checksum": "c3adede3496f3e0a0202d24496d9088b"
+    },
+    "workshop_files/figure-html/unnamed-chunk-12-1.png": {
+      "checksum": "3687f0ec7e8b01d2e18be5d36d3096d7"
+    },
+    "workshop_files/figure-html/unnamed-chunk-13-1.png": {
+      "checksum": "70319e988447e743e080cb151cbd68ef"
+    },
+    "workshop_files/figure-html/unnamed-chunk-14-1.png": {
+      "checksum": "3b605686f2b9efa02b7f48c0c5a7a28c"
     },
     "workshop_files/figure-html/unnamed-chunk-5-1.png": {
       "checksum": "3ae5d1a95ad1b32c32dfaa8b330790c4"
     },
     "workshop_files/figure-html/unnamed-chunk-6-1.png": {
-      "checksum": "3ae5d1a95ad1b32c32dfaa8b330790c4"
+      "checksum": "cc7bda5b80e6e7e1e073d4c2ba42c384"
     },
     "workshop_files/figure-html/unnamed-chunk-7-1.png": {
-      "checksum": "cc7bda5b80e6e7e1e073d4c2ba42c384"
+      "checksum": "3ed5e6c8dffcdd55358b12bbd8fc687b"
     },
     "workshop_files/figure-html/unnamed-chunk-8-1.png": {
       "checksum": "3ed5e6c8dffcdd55358b12bbd8fc687b"
     },
     "workshop_files/figure-html/unnamed-chunk-9-1.png": {
-      "checksum": "74948c4751c335781fa04263e01a3d7b"
+      "checksum": "fc0cd50bc691b4a23b0f25e53a8009b2"
     },
     "workshop_files/libs/bootstrap/bootstrap-icons.css": {
       "checksum": "2318f137d201fbf51601fa0faba6bef7"
@@ -3646,10 +3878,10 @@
       "checksum": "d828775275749701b48bd9d958814111"
     },
     "workshop.html": {
-      "checksum": "2d44080faba056b51786285b79b1f3e3"
+      "checksum": "e90088b06e788d6dd9b0d1e0624e9bdb"
     },
     "workshop.qmd": {
-      "checksum": "e415a44f8bf3da3931bed3b55da680f7"
+      "checksum": "689d95d22540f630105f93ed5e2360b6"
     }
   },
   "users": null
