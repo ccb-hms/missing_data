@@ -388,7 +388,7 @@ imp_umap = imp_dat |>
     uwot::umap() |> 
     as.data.frame() |> 
     rename(umap_1 = V1, umap_2 = V2) |> 
-    mutate(na_dat |> slt(l1c)) 
+    mutate(na_dat |> select(l1c)) 
 
 imp_umap |> 
   ggplot(aes(umap_1, umap_2)) + 
