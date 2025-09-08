@@ -441,7 +441,7 @@ points(d2$x[zm], d2$latent[zm],
        col = mred,
        cex = 1.7)
 
-legend(-2.3, 5.1,
+legend(-2.3, 5.2,
        c("missing", "observed"),
        col = c(mred, mblue),
        cex = 1.4,
