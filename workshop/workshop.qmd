@@ -9,8 +9,6 @@ format:
 ---
 
 
-TODO connect back to slides more
-
 <!-- Repo: https://github.com/ccb-hms/missing_data/tree/main/workshop -->
 <!-- Rendered output here: https://ccb.connect.hms.harvard.edu/missing_data_workshop/ -->
 
@@ -33,6 +31,8 @@ ncores <- ifelse(interactive(), 4, 1)
 options(digits = 3)
 
 out_dir <- tempdir()
+
+theme_set(theme_minimal())
 ```
 
 ```{r}
@@ -266,9 +266,13 @@ In single-cell experiments, barcodes are known to "drop out". That means that a 
 * [Demystifying “drop-outs” in single-cell UMI data](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-020-02096-y)
 * [Zero-preserving imputation of single-cell RNA-seq data](https://www.nature.com/articles/s41467-021-27729-z)
 
-In this section we'll look at a synthetic example to see how well imputation can "rescue" some dropped out value. For the sake of brevity, rather than doing differential expression or some complicated analysis, we'll just examine the original, dropped-out, and imputed datasets with UMAPs to see how they compare.
+In this section we'll look at a synthetic example to see how well imputation can "rescue" some dropped out expression values. For the sake of brevity, rather than doing differential expression or some complicated analysis, we'll just examine the original, dropped-out, and imputed datasets with UMAPs to see how they compare.
 
-For the sake of simplicity, we'll assume that we've used some upstream tool that is able to label "suspicious" zeros and replace them with NAs.
+In practice, dropouts in single-cell data manifest themselves as aberrant zeros. A cell that has extremely high expression of neuron genes A, B, and C is probably a neuron. If it has a zero for neuron gene D, that zero is probably a dropout based on the context from A, B, and C. 
+
+Deciding which zeros are biological versus technical is a fairly difficult statistical problem that we are going to ignore. For the sake of simplicity, we'll assume that we've used some upstream tool that has accurately labelled "suspicious" zeros and replaced them with NAs.
+
+## Get the data
 
 Here's the (long) script used to generate this data with some Bioconductor packages. You don't need to run this.
 
@@ -279,7 +283,7 @@ Here's the (long) script used to generate this data with some Bioconductor packa
 {{< include R/dropout_zeisel.R >}}
 ```
 
-Basically it identifies the 20 most highly expressed genes in the pyramidal CA1 cell type, and replaces 20% of the observations in those cells with NA. The NAs are introduced completely at random, which is actually a fairly reasonable missingness model in the context of single cell barcode dropout.
+Basically it identifies the 20 most highly expressed genes in the pyramidal CA1 cell type in the classic Zeisel Brain Data, and replaces 20% of the observations in those cells with NA. The NAs are introduced completely at random, which is actually a fairly reasonable missingness model in the context of single cell barcode dropout.
 
 You can download and load the data like so:
 
@@ -303,13 +307,15 @@ load(f, verbose = TRUE)
 load("data/sc.RData")
 ```
 
-It contains the original data `dat` and the same data with NAs knocked in `na_dat`. `to_imp` is a list of 20 genes with knocked in NAs. The data contains a few thousand cells and 500 highly variable genes: 
+It contains the original data `dat` and the same data with NAs `na_dat`. `to_imp` is a list of 20 genes whose expression values have dropouts. The data contains a few thousand cells and 500 highly variable genes: 
 
 ```{r}
 dim(dat)
 
 names(dat) |> head(20)
 ```
+
+## Original UMAP
 
 First, let's look at a UMAP of the original data (pre-computed):
 
@@ -324,9 +330,13 @@ ggplot(dat, aes(umap_1, umap_2)) +
 
 Pyramidal CA1 cells are the green ones.
 
+## UMAP with dropouts
+
 Now let's check the same UMAP for the data that drops the NAs with `na.omit()`:
 
-```{r}
+```{r sc_na_umap}
+#| message: false
+
 rlang::check_installed("uwot") # In case you don't have uwot, install it.
 
 library(uwot)
@@ -347,18 +357,18 @@ ggplot(na_umap, aes(umap_1, umap_2)) +
   guides(color = guide_legend(override.aes = list(size = 2)))
 ```
 
-You can see the shape of most of the blobs has stayed the same, but the pyramidal CA1 cells have all but vanished. 
+You can see the shape of most of the blobs has stayed the same, but the pyramidal CA1 cells have mostly been removed.
+
+## Imputed UMAP
 
 Now let's run a single imputation. There are many fancier ways to plausibly do this, but let's just use `mice`. **This will take a minute** since there are 20 genes with missing values and so many predictors for each one.
 
-```{r}
+```{r scmice}
 imp_input = na_dat |> 
     as.data.frame() |> 
     select(-(cell_id:l1c))
 
 rownames(imp_input) = na_dat$cell_id
-
-head(imp_input[,1:5])
 
 imp = mice(m = 1,
            imp_input, 
@@ -367,12 +377,12 @@ imp = mice(m = 1,
 
 ```
 
-`mice` doesn't like to encourage working with the inner content of a `mids` object, but just this once:
+`mice` generally discourages extracting the inner components of a `mids` object, but just this once:
 
 ```{r}
 imp_dat = imp_input
 
-# Copy the imputated values into their respective places in imp_dat:
+# Copy the imputed values into their respective places in imp_dat:
 for (g in to_imp) {
     g_imp = imp$imp[[g]]
     
@@ -382,7 +392,7 @@ for (g in to_imp) {
 
 And now let's compute and plot a UMAP of the imputed expression values:
 
-```{r}
+```{r impumap}
 imp_umap = imp_dat |> 
     as.matrix() |> 
     uwot::umap() |> 
@@ -393,11 +403,13 @@ imp_umap = imp_dat |>
 imp_umap |> 
   ggplot(aes(umap_1, umap_2)) + 
   geom_point(aes(color = l1c),
-             pch = 15, size = .3)
+             pch = 15, size = .3) + 
+  labs(title = "UMAP with imputed values")
+  guides(color = guide_legend(override.aes = list(size = 2)))
 
 ```
 
-Pretty good! This is not a rigorous comparison of the imputed against original values, but it seems to have recovered that green blob pretty well.
+Pretty good! This is not a rigorous comparison of the imputed against original values, but it seems to have recovered that green blob and its relative position/shape pretty well.
 
 :::{.callout-note title="Exercise"}
 
@@ -415,7 +427,6 @@ tru_vals = dat$Plp1[match(rownames(g_imp), dat$cell_id)]
 plot(tru_vals, imp_vals)
 abline(0,1)
 ```
-
 
 # Joint imputation in `brms` 
 
@@ -453,7 +464,7 @@ bform <- bf(chl | mi() ~ age) +
 
 Then we hand that to the main fitting function `brm()` with the data and some QOL options:
 
-```{r}
+```{r fitm1}
 #| message: false
 #| warning: false
 (fit_imp <- brm(bform,
@@ -467,7 +478,7 @@ Then we hand that to the main fitting function `brm()` with the data and some QO
 
 This demonstrative example doesn't yield any shocking results, but the implementation demonstrates the flexibility. You can have multiple interacting submodels, imputed values that depend on other imputed values, non-linear link functions, etc.
 
-At the end you have a single set of posterior draws from the entire joint model. The posterior draws include both model coefficients and imputed values (both are parameters from the model's point of view). Computing averages and quantiles over these draws is how you numerically integrate over the uncertainty. Inspecting, visualizing, and assessing the draws and summaries are relatively simple using [existing ecosystem](https://mc-stan.org/tools/) around `brms`.
+At the end you have a single set of posterior draws from the entire joint model. The posterior draws include both model coefficients and imputed values because both are parameters from the model's point of view. Computing averages and quantiles over these draws is how you numerically integrate over the uncertainty. Inspecting, visualizing, and assessing the draws and summaries are relatively simple using [existing ecosystem](https://mc-stan.org/tools/) around `brms`.
 
 In the event that you have data that is NMAR yet "rescuable" through informative auxiliary variables, this is a good place to start.
 
