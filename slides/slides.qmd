@@ -578,7 +578,7 @@ ggmice::ggmice(mice::boys,
 [*Flexible Imputation of Missing Data*](https://stefvanbuuren.name/fimd/), Stef van Buuren, [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 :::
 
-## Imputation model
+## MI - Imputation model
 
 ::::{.columns} 
 
@@ -745,7 +745,11 @@ for (i in 1:4) {
 :::
 ::::
 
-## Pooling
+## MI - Analysis model
+
+* Fit the scientific model of interest to each imputed dataset
+
+## MI - Pooling
 
 Aggregate estimates in a way that combines:
 
@@ -860,19 +864,31 @@ ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 * Do your due diligence. 
 * Ask for help if you need it.
 
-## How to do missing data analysis in Python
-
-## ~~How to do missing data analysis in Python~~
-
-<span style="font-size: 140%;"> **Don't do missing data analysis in Python. ** </span> 
+## Missing data analysis in Python
 
 :::{.incremental}
-* MI ecosystem all but non-existent in Python.
-* `scikit-learn` encourages single imputation ❌
+* Less mature, but `statsmodels.imputation.mice` exists
+* Don't use `scikit-learn` 
+  * encourages single imputation ❌
   * statistical malpractice
-* `scikit-learn` is for machine learning, *not* probabilistic inference 
   * See also the infamous `sklearn.linear_model.LogisticRegression`
 * [`miceforest`](https://miceforest.readthedocs.io/en/latest/) - possibly okay for small data if computational burden of RFs is acceptable
+:::
+
+## References
+
+::::{.columns}
+:::{.column width=55%}
+* [Flexible Imputation of Missing Data](https://stefvanbuuren.name/fimd/), Stef van Buuren
+* [Statistical Rethinking](https://xcelab.net/rm/)
+:::
+
+:::{.column width=10%}
+ 
+:::
+:::{.column width=35%}
+![](images/2025-09-09_10-52-59.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=500}
+:::
 :::
 
 # On to the workshop!
