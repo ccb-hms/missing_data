@@ -17,7 +17,6 @@ format:
       controls: true
       controls-layout: edges
       controls-tutorial: true
-encoding: UTF-8
         
 title-slide-attributes:
   data-background-image: images/HMS_DBMI_Logo.png
@@ -238,6 +237,7 @@ ex_dat[1:5,-1] |>
 
 tinytheme("clean2", 
           mar = c(2,2,1,1),
+          family = "Arial",
           bg = ow,
           cex.axis = 1.25,
           col.axis = "#222222")
@@ -378,6 +378,7 @@ TODO: cartoon figure here
 tinytheme("clean2", 
           mar = c(2,2,4,1),
           bg = ow,
+          family = "Arial",
           cex.axis = 1.5,
           cex.main = 1.5,
           col.main = "#222222",
@@ -581,6 +582,7 @@ ggmice::ggmice(mice::boys,
 ::::{.columns} 
 
 :::{.column width=45%}
+
 
 ![](images/ch01-miflow-1.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=55%}
 
