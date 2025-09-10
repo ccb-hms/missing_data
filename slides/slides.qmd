@@ -36,6 +36,7 @@ title-slide-attributes:
 #| message: false
 library(fastverse)
 library(tinyplot)
+library(emoji)
 # library(ggplot2)
 # library(ggbeeswarm)
 # library(ggmice)
@@ -669,7 +670,7 @@ plt(nx,
 
 lm_res = lm(z ~ x, data = d)
 
-plot_d("Model predictive mean ❌")
+plot_d(paste0("Model predictive mean", emojis$emoji[1]))
 
 abline(a = lm_res$coefficients[1],
        b = lm_res$coefficients[2],
