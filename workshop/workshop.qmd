@@ -61,7 +61,7 @@ This workshop does not cover the data munging/cleaning steps that are often nece
 
 This section is adapted from the main `ggmice` vignette located [here](https://amices.org/ggmice/articles/ggmice.html#the-ggmice-function). The package has more functionality than we'll have time to cover, so we'll just look at the main highlights.
 
-The data we'll use are growth records of 748 Dutch boys from 1997, see `?boys`:
+The data we'll use are growth records of 748 Dutch boys from 1997, see `?boys`. We'll take a subset of variables of interest:
 
 ```{r}
 boys <- boys |> select(age:bmi, reg)
@@ -85,16 +85,16 @@ Replace `ggplot()` in an otherwise standard ggplot2 command with `ggmice()` and 
 
 ```{r}
 ggmice(boys, aes(age, hgt)) + 
-    geom_point()
+  geom_point()
 ```
 
-:::{.callout-tip title="ggplot themes" collapse=true}
+:::{.callout-tip title="Themes and axes" collapse=true}
 `ggmice` respects ggplot themes, so you can add `+ theme_minimal()` to avoid showing points underneath the x-axis. We've left it at the default for simplicity.
 
 ```{r}
 #| code-fold: false
 ggmice(boys, aes(age, hgt)) + 
-    geom_point() +
+  geom_point() +
   theme_minimal()
 ```
 
@@ -272,7 +272,9 @@ boys |>
   coef()
 ```
 
-Obtaining similar estimates from the complete cases makes sense: we have over 700 complete cases and relatively few with NAs. The information gain from a handful of incomplete cases is negligible in this instance. But of course, 
+Obtaining similar estimates from the complete cases makes sense: we have over 700 complete cases and relatively few observations with NAs. The information gain from a handful of incomplete cases is negligible in this instance. There's also no indication that there is some insidious biasing from patterned missingness. 
+
+But of course, it's context dependent. Unlike this toy dataset, in real world datasets there are sometimes zero complete cases. In practice, analysts have to use simulations and exploratory data analysis to check whether missing data analysis might be advantageous.
 :::
 
 # Imputing single-cell expression
@@ -286,11 +288,11 @@ In this section we'll look at a synthetic example to see how well imputation can
 
 In practice, dropouts in single-cell data manifest themselves as aberrant zeros. A cell that has extremely high expression of neuron genes A, B, and C is probably a neuron. If it has a zero for neuron gene D, that zero is probably a dropout based on the context from A, B, and C. 
 
-Deciding which zeros are biological versus technical is a fairly difficult statistical problem that we are going to ignore. For the sake of simplicity, we'll assume that we've used some upstream tool that has accurately labelled "suspicious" zeros and replaced them with NAs.
+Deciding which zeros are biological versus technical dropouts is a difficult statistical problem that we are going to ignore in this workshop. For the sake of simplicity, we'll assume that we've used some upstream tool that has accurately labelled "suspicious" zeros and replaced them with NAs.
 
 ## Get the data
 
-Here's the (long) script used to generate this data with some Bioconductor packages. You don't need to run this.
+For completeness, here's the (long) script used to generate this data with some Bioconductor packages. You don't need to run this.
 
 ```{r}
 #| eval: false
@@ -299,7 +301,7 @@ Here's the (long) script used to generate this data with some Bioconductor packa
 {{< include R/dropout_zeisel.R >}}
 ```
 
-Basically it identifies the 20 most highly expressed genes in the pyramidal CA1 cell type in the classic Zeisel Brain Data, and replaces 20% of the observations in those cells with NA. The NAs are introduced completely at random, which is actually a fairly reasonable missingness model in the context of single cell barcode dropout.
+Basically, it identifies the 20 most highly expressed genes in the pyramidal CA1 cell type in the classic Zeisel Brain Data, and replaces 20% of the observations in those genes of those cells with NA (note, not that many overall). The NAs are introduced completely at random, which is actually a fairly reasonable missingness model in the context of single cell barcode dropout.
 
 You can download and load the data like so:
 
@@ -395,8 +397,6 @@ imp <- mice(m = 1,
 
 ```
 
-Note that the imputation here ignores the cell type labels. A more rigorous implementation would probably want to work in that information. Exercise for the reader.
-
 ```{r}
 #| eval: true
 #| echo: false
@@ -420,7 +420,13 @@ if (fw) {
 }
 ```
 
-`mice` generally discourages extracting the inner components of a `mids` object, but just this once:
+:::{.callout-tip title="`futuremice`" collapse=true}
+Out in the real world, big, complicated problems can require large numbers of imputations for stable inference. If running multiple imputations starts to take a long time, you can use the function `futuremice()` to run the imputations in parallel. 
+:::
+
+Note that the imputation here ignores the cell type labels. A more rigorous implementation would probably want to work in that information. Exercise for the reader.
+
+Now we need to plug the imputed values back into the data frame on top of their respective NAs. `mice` generally discourages extracting the inner components of a `mids` object, but just this once:
 
 ```{r}
 imp_dat <- imp_input
@@ -447,7 +453,7 @@ imp_umap |>
   ggplot(aes(umap_1, umap_2)) + 
   geom_point(aes(color = l1c),
              pch = 15, size = .3) + 
-  labs(title = "UMAP with imputed values")
+  labs(title = "UMAP with imputed values") + 
   guides(color = guide_legend(override.aes = list(size = 2)))
 
 ```
@@ -456,17 +462,24 @@ Pretty good! This is not a rigorous comparison of the imputed against original v
 
 :::{.callout-note title="Exercise"}
 
-Try comparing the imputed values for Plp1 against the true values. Are they any good?
+Try comparing the imputed values for Plp1 against the true values. Are they any good? Solution in the source code.
 
 ```{r}
 #| echo: false
 #| eval: false
 
 imp_vals <- imp_dat$Plp1[match(rownames(g_imp), rownames(imp_dat))]
+
 tru_vals <- dat$Plp1[match(rownames(g_imp), dat$cell_id)]
 
 plot(tru_vals, imp_vals)
+
 abline(0,1)
+
+# Pretty good correlation for most of the cells with non-zero expression, though
+# you can tell that our imputation model didn't understand that the expression
+# values were strictly greater than 0. Another thing to try might be running the
+# imputation on the log expression values.
 ```
 
 :::
