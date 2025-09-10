@@ -48,9 +48,9 @@
       "Repository": "https://cloud.r-project.org",
       "description": {
         "Package": "Matrix",
-        "Version": "1.7-3",
+        "Version": "1.7-4",
         "VersionNote": "do also bump src/version.h, inst/include/Matrix/version.h",
-        "Date": "2025-03-05",
+        "Date": "2025-08-27",
         "Priority": "recommended",
         "Title": "Sparse and Dense Matrix Classes and Methods",
         "Description": "A rich hierarchy of sparse and dense matrix classes,\n\tincluding general, symmetric, triangular, and diagonal matrices\n\twith numeric, logical, or pattern entries.  Efficient methods for\n\toperating on such matrices, often wrapping the 'BLAS', 'LAPACK',\n\tand 'SuiteSparse' libraries.",
@@ -68,12 +68,12 @@
         "BuildResaveData": "no",
         "Encoding": "UTF-8",
         "NeedsCompilation": "yes",
-        "Packaged": "2025-03-05 09:59:22 UTC; maechler",
-        "Author": "Douglas Bates [aut] (<https://orcid.org/0000-0001-8316-9503>),\n  Martin Maechler [aut, cre] (<https://orcid.org/0000-0002-8685-9910>),\n  Mikael Jagan [aut] (<https://orcid.org/0000-0002-3542-2938>),\n  Timothy A. Davis [ctb] (<https://orcid.org/0000-0001-7614-6899>,\n    SuiteSparse libraries, collaborators listed in\n    dir(system.file(\"doc\", \"SuiteSparse\", package=\"Matrix\"),\n    pattern=\"License\", full.names=TRUE, recursive=TRUE)),\n  George Karypis [ctb] (<https://orcid.org/0000-0003-2753-1437>, METIS\n    library, Copyright: Regents of the University of Minnesota),\n  Jason Riedy [ctb] (<https://orcid.org/0000-0002-4345-4200>, GNU\n    Octave's condest() and onenormest(), Copyright: Regents of the\n    University of California),\n  Jens Oehlschlägel [ctb] (initial nearPD()),\n  R Core Team [ctb] (02zz1nj61, base R's matrix implementation)",
+        "Packaged": "2025-08-27 10:17:11 UTC; maechler",
+        "Author": "Douglas Bates [aut] (ORCID: <https://orcid.org/0000-0001-8316-9503>),\n  Martin Maechler [aut, cre] (ORCID:\n    <https://orcid.org/0000-0002-8685-9910>),\n  Mikael Jagan [aut] (ORCID: <https://orcid.org/0000-0002-3542-2938>),\n  Timothy A. Davis [ctb] (ORCID: <https://orcid.org/0000-0001-7614-6899>,\n    SuiteSparse libraries, collaborators listed in\n    dir(system.file(\"doc\", \"SuiteSparse\", package=\"Matrix\"),\n    pattern=\"License\", full.names=TRUE, recursive=TRUE)),\n  George Karypis [ctb] (ORCID: <https://orcid.org/0000-0003-2753-1437>,\n    METIS library, Copyright: Regents of the University of Minnesota),\n  Jason Riedy [ctb] (ORCID: <https://orcid.org/0000-0002-4345-4200>, GNU\n    Octave's condest() and onenormest(), Copyright: Regents of the\n    University of California),\n  Jens Oehlschlägel [ctb] (initial nearPD()),\n  R Core Team [ctb] (ROR: <https://ror.org/02zz1nj61>, base R's matrix\n    implementation)",
         "Maintainer": "Martin Maechler <mmaechler+Matrix@gmail.com>",
         "Repository": "CRAN",
-        "Date/Publication": "2025-03-11 07:20:02 UTC",
-        "Built": "R 4.4.3; x86_64-pc-linux-gnu; 'Sun, 16 Mar 2025 23:38:45 +0000'; unix"
+        "Date/Publication": "2025-08-28 11:50:02 UTC",
+        "Built": "R 4.5.1; x86_64-pc-linux-gnu; 'Sun, 31 Aug 2025 15:20:56 +0000'; unix"
       }
     },
     "R6": {
@@ -170,29 +170,6 @@
         "Repository": "CRAN",
         "Date/Publication": "2015-07-28 08:03:37",
         "Built": "R 4.5.0; x86_64-pc-linux-gnu; 2025-04-16 13:40:05 UTC; unix"
-      }
-    },
-    "beeswarm": {
-      "Source": "CRAN",
-      "Repository": "https://cloud.r-project.org",
-      "description": {
-        "Package": "beeswarm",
-        "Title": "The Bee Swarm Plot, an Alternative to Stripchart",
-        "Description": "The bee swarm plot is a one-dimensional scatter plot like\n    \"stripchart\", but with closely-packed, non-overlapping points. ",
-        "Version": "0.4.0",
-        "Date": "2021-05-07",
-        "Authors@R": "c(\n    person(\"Aron\", \"Eklund\", , \"aroneklund@gmail.com\",\n           role = c(\"aut\", \"cre\"), comment = c(ORCID = \"0000-0003-0861-1001\")),\n    person(\"James\", \"Trimble\", role = \"aut\",\n           comment = c(ORCID = \"0000-0001-7282-8745\"))\n    )",
-        "Imports": "stats, graphics, grDevices, utils",
-        "NeedsCompilation": "yes",
-        "License": "Artistic-2.0",
-        "URL": "https://github.com/aroneklund/beeswarm",
-        "BugReports": "https://github.com/aroneklund/beeswarm/issues",
-        "Packaged": "2021-05-07 08:52:45 UTC; aron",
-        "Author": "Aron Eklund [aut, cre] (<https://orcid.org/0000-0003-0861-1001>),\n  James Trimble [aut] (<https://orcid.org/0000-0001-7282-8745>)",
-        "Maintainer": "Aron Eklund <aroneklund@gmail.com>",
-        "Repository": "CRAN",
-        "Date/Publication": "2021-06-01 21:40:02 UTC",
-        "Built": "R 4.5.0; x86_64-pc-linux-gnu; 2025-04-16 13:57:29 UTC; unix"
       }
     },
     "bslib": {
@@ -364,6 +341,34 @@
         "Repository": "CRAN",
         "Date/Publication": "2024-08-19 14:10:07 UTC",
         "Built": "R 4.5.0; x86_64-pc-linux-gnu; 2025-04-16 13:40:06 UTC; unix"
+      }
+    },
+    "emoji": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "emoji",
+        "Title": "Data and Function to Work with Emojis",
+        "Version": "16.0.0",
+        "Authors@R": "c(\n    person(\"Emil\", \"Hvitfeldt\", , \"emilhhvitfeldt@gmail.com\", role = c(\"aut\", \"cre\"),\n           comment = c(ORCID = \"0000-0002-0679-1945\")),\n    person(\"Hadley\", \"Wickham\", , \"hadley@rstudio.com\", role = \"ctb\",\n           comment = \"Data parsing code from hadley/emo\"),\n    person(\"Romain\", \"François\", role = \"ctb\",\n           comment = \"Data parsing code from hadley/emo\")\n  )",
+        "Description": "Contains data about emojis with relevant metadata, and\n    functions to work with emojis when they are in strings.",
+        "License": "MIT + file LICENSE",
+        "URL": "https://emilhvitfeldt.github.io/emoji/,\nhttps://github.com/EmilHvitfeldt/emoji",
+        "BugReports": "https://github.com/EmilHvitfeldt/emoji/issues",
+        "Depends": "R (>= 3.5)",
+        "Imports": "glue, stringr, tibble",
+        "Suggests": "covr, testthat (>= 3.0.0)",
+        "Config/testthat/edition": "3",
+        "Encoding": "UTF-8",
+        "LazyData": "true",
+        "RoxygenNote": "7.3.2",
+        "NeedsCompilation": "no",
+        "Packaged": "2024-10-28 15:03:28 UTC; emilhvitfeldt",
+        "Author": "Emil Hvitfeldt [aut, cre] (<https://orcid.org/0000-0002-0679-1945>),\n  Hadley Wickham [ctb] (Data parsing code from hadley/emo),\n  Romain François [ctb] (Data parsing code from hadley/emo)",
+        "Maintainer": "Emil Hvitfeldt <emilhhvitfeldt@gmail.com>",
+        "Repository": "CRAN",
+        "Date/Publication": "2024-10-28 16:50:11 UTC",
+        "Built": "R 4.5.1; ; 2025-09-10 17:57:19 UTC; unix"
       }
     },
     "evaluate": {
@@ -558,34 +563,6 @@
         "Repository": "CRAN",
         "Date/Publication": "2025-04-12 10:40:02 UTC",
         "Built": "R 4.5.0; x86_64-pc-linux-gnu; 2025-04-16 13:40:53 UTC; unix"
-      }
-    },
-    "ggbeeswarm": {
-      "Source": "CRAN",
-      "Repository": "https://cloud.r-project.org",
-      "description": {
-        "Package": "ggbeeswarm",
-        "Type": "Package",
-        "Title": "Categorical Scatter (Violin Point) Plots",
-        "Version": "0.7.2",
-        "Date": "2023-04-28",
-        "Authors@R": "c(\n    person(given=\"Erik\", family=\"Clarke\", role=c(\"aut\", \"cre\"), email=\"erikclarke@gmail.com\"),\n    person(given=\"Scott\", family=\"Sherrill-Mix\", role=c(\"aut\"), email=\"sherrillmix@gmail.com\"),\n    person(given=\"Charlotte\", family=\"Dawson\", role=c(\"aut\"), email=\"csdaw@outlook.com\"))",
-        "Description": "Provides two methods of plotting categorical scatter plots such\n    that the arrangement of points within a category reflects the density of\n    data at that region, and avoids over-plotting.",
-        "URL": "https://github.com/eclarke/ggbeeswarm",
-        "BugReports": "https://github.com/eclarke/ggbeeswarm/issues",
-        "Encoding": "UTF-8",
-        "License": "GPL (>= 3)",
-        "Depends": "R (>= 3.5.0), ggplot2 (>= 3.3.0)",
-        "Imports": "beeswarm, lifecycle, vipor, cli",
-        "Suggests": "gridExtra",
-        "RoxygenNote": "7.2.2",
-        "NeedsCompilation": "no",
-        "Packaged": "2023-04-29 20:56:12 UTC; erik",
-        "Author": "Erik Clarke [aut, cre],\n  Scott Sherrill-Mix [aut],\n  Charlotte Dawson [aut]",
-        "Maintainer": "Erik Clarke <erikclarke@gmail.com>",
-        "Repository": "CRAN",
-        "Date/Publication": "2023-04-29 21:40:02 UTC",
-        "Built": "R 4.5.0; ; 2025-04-17 15:17:49 UTC; unix"
       }
     },
     "ggplot2": {
@@ -1299,6 +1276,66 @@
         "RemoteSha": "1.4.0"
       }
     },
+    "stringi": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "stringi",
+        "Version": "1.8.7",
+        "Date": "2025-03-27",
+        "Title": "Fast and Portable Character String Processing Facilities",
+        "Description": "A collection of character string/text/natural language\n    processing tools for pattern searching (e.g., with 'Java'-like regular\n    expressions or the 'Unicode' collation algorithm), random string generation,\n    case mapping, string transliteration, concatenation, sorting, padding,\n    wrapping, Unicode normalisation, date-time formatting and parsing,\n    and many more. They are fast, consistent, convenient, and -\n    thanks to 'ICU' (International Components for Unicode) -\n    portable across all locales and platforms. Documentation about 'stringi' is\n    provided via its website at <https://stringi.gagolewski.com/> and\n    the paper by Gagolewski (2022, <doi:10.18637/jss.v103.i02>).",
+        "URL": "https://stringi.gagolewski.com/,\nhttps://github.com/gagolews/stringi, https://icu.unicode.org/",
+        "BugReports": "https://github.com/gagolews/stringi/issues",
+        "SystemRequirements": "ICU4C (>= 61, optional)",
+        "Type": "Package",
+        "Depends": "R (>= 3.4)",
+        "Imports": "tools, utils, stats",
+        "Biarch": "TRUE",
+        "License": "file LICENSE",
+        "Authors@R": "c(person(given = \"Marek\",\n                      family = \"Gagolewski\",\n                      role = c(\"aut\", \"cre\", \"cph\"),\n                      email = \"marek@gagolewski.com\",\n                      comment = c(ORCID = \"0000-0003-0637-6028\")),\n               person(given = \"Bartek\",\n                      family = \"Tartanus\",\n                      role = \"ctb\"),\n               person(\"Unicode, Inc. and others\", role=\"ctb\",\n                      comment = \"ICU4C source code, Unicode Character Database\")\n    )",
+        "RoxygenNote": "7.3.2",
+        "Encoding": "UTF-8",
+        "NeedsCompilation": "yes",
+        "Packaged": "2025-03-27 10:27:19 UTC; gagolews",
+        "Author": "Marek Gagolewski [aut, cre, cph]\n    (<https://orcid.org/0000-0003-0637-6028>),\n  Bartek Tartanus [ctb],\n  Unicode, Inc. and others [ctb] (ICU4C source code, Unicode Character\n    Database)",
+        "Maintainer": "Marek Gagolewski <marek@gagolewski.com>",
+        "License_is_FOSS": "yes",
+        "Repository": "CRAN",
+        "Date/Publication": "2025-03-27 13:10:02 UTC",
+        "Built": "R 4.5.0; x86_64-pc-linux-gnu; 2025-04-16 13:41:09 UTC; unix"
+      }
+    },
+    "stringr": {
+      "Source": "CRAN",
+      "Repository": "https://cloud.r-project.org",
+      "description": {
+        "Package": "stringr",
+        "Title": "Simple, Consistent Wrappers for Common String Operations",
+        "Version": "1.5.1",
+        "Authors@R": "c(\n    person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = c(\"aut\", \"cre\", \"cph\")),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"))\n  )",
+        "Description": "A consistent, simple and easy to use set of wrappers around\n    the fantastic 'stringi' package. All function and argument names (and\n    positions) are consistent, all functions deal with \"NA\"'s and zero\n    length vectors in the same way, and the output from one function is\n    easy to feed into the input of another.",
+        "License": "MIT + file LICENSE",
+        "URL": "https://stringr.tidyverse.org,\nhttps://github.com/tidyverse/stringr",
+        "BugReports": "https://github.com/tidyverse/stringr/issues",
+        "Depends": "R (>= 3.6)",
+        "Imports": "cli, glue (>= 1.6.1), lifecycle (>= 1.0.3), magrittr, rlang\n(>= 1.0.0), stringi (>= 1.5.3), vctrs (>= 0.4.0)",
+        "Suggests": "covr, dplyr, gt, htmltools, htmlwidgets, knitr, rmarkdown,\ntestthat (>= 3.0.0), tibble",
+        "VignetteBuilder": "knitr",
+        "Config/Needs/website": "tidyverse/tidytemplate",
+        "Config/testthat/edition": "3",
+        "Encoding": "UTF-8",
+        "LazyData": "true",
+        "RoxygenNote": "7.2.3",
+        "NeedsCompilation": "no",
+        "Packaged": "2023-11-14 15:03:52 UTC; hadleywickham",
+        "Author": "Hadley Wickham [aut, cre, cph],\n  Posit Software, PBC [cph, fnd]",
+        "Maintainer": "Hadley Wickham <hadley@posit.co>",
+        "Repository": "CRAN",
+        "Date/Publication": "2023-11-14 23:10:02 UTC",
+        "Built": "R 4.5.0; ; 2025-04-16 13:43:58 UTC; unix"
+      }
+    },
     "tibble": {
       "Source": "CRAN",
       "Repository": "https://cloud.r-project.org",
@@ -1444,31 +1481,6 @@
         "Built": "R 4.5.0; x86_64-pc-linux-gnu; 2025-04-16 13:43:07 UTC; unix"
       }
     },
-    "vipor": {
-      "Source": "CRAN",
-      "Repository": "https://cloud.r-project.org",
-      "description": {
-        "Package": "vipor",
-        "Type": "Package",
-        "Title": "Plot Categorical Data Using Quasirandom Noise and Density\nEstimates",
-        "Version": "0.4.7",
-        "Date": "2023-12-15",
-        "Author": "Scott Sherrill-Mix, Erik Clarke",
-        "Maintainer": "Scott Sherrill-Mix <ssm@msu.edu>",
-        "Description": "Generate a violin point plot, a combination of a violin/histogram\n    plot and a scatter plot by offsetting points within a category based on their\n    density using quasirandom noise.",
-        "License": "GPL (>= 2)",
-        "LazyData": "True",
-        "Depends": "R (>= 3.5.0)",
-        "Imports": "stats, graphics",
-        "Suggests": "testthat, beeswarm, lattice, ggplot2, beanplot, vioplot,\nggbeeswarm,",
-        "RoxygenNote": "7.2.3",
-        "NeedsCompilation": "no",
-        "Packaged": "2023-12-16 03:56:56 UTC; scott",
-        "Repository": "CRAN",
-        "Date/Publication": "2023-12-18 14:30:02 UTC",
-        "Built": "R 4.5.0; ; 2025-04-16 13:57:29 UTC; unix"
-      }
-    },
     "viridisLite": {
       "Source": "CRAN",
       "Repository": "https://cloud.r-project.org",
@@ -1600,8 +1612,17 @@
     "images/2025-08-04_13-25-08.png": {
       "checksum": "2d1181dd7d3351c743a062776a34a3d9"
     },
+    "images/2025-09-09_10-52-59.png": {
+      "checksum": "85b67bc7ae7e0ab2f9c9844bf0d3ccf4"
+    },
     "images/Andrew_Ghazi_003_sq_sm2.JPG": {
       "checksum": "e1f64b218fdb7133ce885651f216c9b8"
+    },
+    "images/beach.png": {
+      "checksum": "cb921c6f35da19af4e8d9c5b91d5392a"
+    },
+    "images/beach.svg": {
+      "checksum": "e473d8ef360a8545490aa1f507514365"
     },
     "images/boo.jpg": {
       "checksum": "bc820d5545b19b8272095cacd417bfed"
@@ -1609,8 +1630,20 @@
     "images/ch01-miflow-1.png": {
       "checksum": "c46cf6caf09f126404ca58d1e7ca90da"
     },
+    "images/covid_dag.png": {
+      "checksum": "09d7634a0f20b11fbc2677c6b88e78f0"
+    },
+    "images/covid_dag.svg": {
+      "checksum": "df43020e5a35a94cc718b96d08ee41e6"
+    },
     "images/dg_tmp.png": {
       "checksum": "a4d3f4abacecdb863384be239092cbf5"
+    },
+    "images/ggmice_preview.png": {
+      "checksum": "e2a8f56a9184bf86e393039caa812e5c"
+    },
+    "images/ggmice_preview2.png": {
+      "checksum": "260fd4b14583e579f7a94a4a79ea3591"
     },
     "images/HMS_DBMI_Logo.png": {
       "checksum": "c373eb533786ca0e3e6cd12ceb126c63"
@@ -1625,28 +1658,85 @@
       "checksum": "07c45634da139f70d041a9b302d7e9e6"
     },
     "images/oh.png": {
-      "checksum": "1764ca66b1ee60d92b2d5399ca1bae32"
+      "checksum": "daaa622749e2819653a0855c1cd78c7c"
     },
     "images/oh.svg": {
-      "checksum": "5fb12beb75f6302a69d3888a01308968"
+      "checksum": "7c44462cc5c253fce988bd022422a1e3"
+    },
+    "images/patterns.png": {
+      "checksum": "554284809ef3e28585d28d1bf40a1e3c"
     },
     "my_theme.scss": {
       "checksum": "6afc1ec8a92ebe57366bb7a3d6d96c51"
     },
     "slides_files/figure-revealjs/.fragment-1.png": {
-      "checksum": "255e89ff0fe32c546b498796cbd89094"
+      "checksum": "90c90da86f2d188b0e7f39521b68c59c"
+    },
+    "slides_files/figure-revealjs/.fragment-2.png": {
+      "checksum": "c39f823904d269527c8119085e36ea65"
     },
     "slides_files/figure-revealjs/unnamed-chunk-1-1.png": {
       "checksum": "a023bc00a3f948687ae769522f85bcc2"
+    },
+    "slides_files/figure-revealjs/unnamed-chunk-10-1.png": {
+      "checksum": "4164fd92c3c9c27e377a429977a5c984"
     },
     "slides_files/figure-revealjs/unnamed-chunk-2-1.png": {
       "checksum": "255e89ff0fe32c546b498796cbd89094"
     },
     "slides_files/figure-revealjs/unnamed-chunk-3-1.png": {
-      "checksum": "06fc61e5a750122aea95fe8c47e21487"
+      "checksum": "34131b399e77367353ac537966d8c054"
+    },
+    "slides_files/figure-revealjs/unnamed-chunk-3-2.png": {
+      "checksum": "0afbd529bee330945e10afccefd30a24"
     },
     "slides_files/figure-revealjs/unnamed-chunk-4-1.png": {
-      "checksum": "255e89ff0fe32c546b498796cbd89094"
+      "checksum": "fba3edd93f6a8e4c3b71d213e96a700d"
+    },
+    "slides_files/figure-revealjs/unnamed-chunk-4-2.png": {
+      "checksum": "4750518420da5b7668af1669d13b4ae7"
+    },
+    "slides_files/figure-revealjs/unnamed-chunk-5-1.png": {
+      "checksum": "637d40624f586c64c9551c8df9afa2f2"
+    },
+    "slides_files/figure-revealjs/unnamed-chunk-5-2.png": {
+      "checksum": "2dbcf04e46731a1418bf9a4043a8e967"
+    },
+    "slides_files/figure-revealjs/unnamed-chunk-5-3.png": {
+      "checksum": "9846554ea080e8921664113841b30148"
+    },
+    "slides_files/figure-revealjs/unnamed-chunk-6-1.png": {
+      "checksum": "b1630325558171949f32d50513a5af0d"
+    },
+    "slides_files/figure-revealjs/unnamed-chunk-6-2.png": {
+      "checksum": "0433e88bf3de44db25d62ee80b889238"
+    },
+    "slides_files/figure-revealjs/unnamed-chunk-6-3.png": {
+      "checksum": "91c5b5942489dcb53886d4a87b7db683"
+    },
+    "slides_files/figure-revealjs/unnamed-chunk-7-1.png": {
+      "checksum": "14bd7b6d67329abbff5acc6d36584e6a"
+    },
+    "slides_files/figure-revealjs/unnamed-chunk-7-2.png": {
+      "checksum": "0433e88bf3de44db25d62ee80b889238"
+    },
+    "slides_files/figure-revealjs/unnamed-chunk-7-3.png": {
+      "checksum": "91c5b5942489dcb53886d4a87b7db683"
+    },
+    "slides_files/figure-revealjs/unnamed-chunk-8-1.png": {
+      "checksum": "14bd7b6d67329abbff5acc6d36584e6a"
+    },
+    "slides_files/figure-revealjs/unnamed-chunk-8-2.png": {
+      "checksum": "a62bc8ab7e67cb1bfd60d90c678eeed3"
+    },
+    "slides_files/figure-revealjs/unnamed-chunk-8-3.png": {
+      "checksum": "6fc362d2cb75c37c4d82a32286b85dc6"
+    },
+    "slides_files/figure-revealjs/unnamed-chunk-9-1.png": {
+      "checksum": "9710835a8da620498cc03b8d5ff8a8bc"
+    },
+    "slides_files/figure-revealjs/unnamed-chunk-9-2.png": {
+      "checksum": "6fc362d2cb75c37c4d82a32286b85dc6"
     },
     "slides_files/libs/clipboard/clipboard.min.js": {
       "checksum": "15f52a1ee547f2bdd46e56747332ca2d"
@@ -1997,10 +2087,10 @@
       "checksum": "dbab999c1a2fe1f31046733759dd1e2b"
     },
     "slides.html": {
-      "checksum": "4767d3691028bd63718a51a18d4d7fbc"
+      "checksum": "4a1926ec42c267f4ee9f15703b9b9aa6"
     },
     "slides.qmd": {
-      "checksum": "fdfbce1981d84ade76d832505e46a2ee"
+      "checksum": "bd3b820f7b6f8e7a355fbcedae868a21"
     }
   },
   "users": null
