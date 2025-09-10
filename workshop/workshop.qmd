@@ -6,6 +6,9 @@ format:
         toc: true
         toc-depth: 2
         code-tools: true
+        theme: 
+          light: a11y
+          dark: darkly
 ---
 
 
@@ -71,7 +74,7 @@ head(boys)
 Define a function to count the number of NAs in a vector and apply it to each column: 
 
 ```{r}
-count_na = function(x) x |> is.na() |> sum()
+count_na <- function(x) x |> is.na() |> sum()
 
 map_int(boys, count_na)
 ```
@@ -84,6 +87,18 @@ Replace `ggplot()` in an otherwise standard ggplot2 command with `ggmice()` and 
 ggmice(boys, aes(age, hgt)) + 
     geom_point()
 ```
+
+:::{.callout-tip title="ggplot themes" collapse=true}
+`ggmice` respects ggplot themes, so you can add `+ theme_minimal()` to avoid showing points underneath the x-axis. We've left it at the default for simplicity.
+
+```{r}
+#| code-fold: false
+ggmice(boys, aes(age, hgt)) + 
+    geom_point() +
+  theme_minimal()
+```
+
+:::
 
 You can see that most of the boys whose heights weren't observed are on the younger side. You can also notice from this that there are no observations whose ages are NA.
 
@@ -153,7 +168,8 @@ See `?mice::mice` for a complete list of available methods and `?mice::mice.impu
 #| echo: false
 
 imp <- mice(boys, 
-            m = 3, method = c("", rep("norm", 3), "polyreg"))
+            m = 3,
+            method = c("", rep("norm", 3), "polyreg"))
 ```
 
 You can also plot variables by imputation number by handing the special variable `.imp` to `ggmice`.
@@ -291,9 +307,9 @@ You can download and load the data like so:
 #| eval: false
 #| echo: true
 
-url = "https://github.com/ccb-hms/missing_data/raw/refs/heads/main/workshop/sc.RData"
+url <- "https://github.com/ccb-hms/missing_data/raw/refs/heads/main/workshop/sc.RData"
 
-f = tempfile()
+f <- tempfile()
 
 download.file(url, f)
 
@@ -307,7 +323,7 @@ load(f, verbose = TRUE)
 load("data/sc.RData")
 ```
 
-It contains the original data `dat` and the same data with NAs `na_dat`. `to_imp` is a list of 20 genes whose expression values have dropouts. The data contains a few thousand cells and 500 highly variable genes: 
+It contains two data frames with the original data `dat` and the same data with NAs `na_dat`. `to_imp` is a list of 20 genes whose expression values have dropouts. The data contains a few thousand cells and 500 highly variable genes: 
 
 ```{r}
 dim(dat)
@@ -341,14 +357,14 @@ rlang::check_installed("uwot") # In case you don't have uwot, install it.
 
 library(uwot)
 
-na_umap = na_dat |> 
-  select(-(cell_id:l1c)) |> 
-  na.omit() |> 
-  as.matrix() |> 
-  umap() |> 
-  as.data.frame() |> 
-  rename(umap_1 = V1, umap_2 = V2) |> 
-  mutate(l1c = na_dat |> na.omit() |> pull(l1c))
+na_umap <- na_dat |>
+  select(-(cell_id:l1c)) |>
+  na.omit() |>
+  as.matrix() |>
+  umap() |>
+  as.data.frame() |>
+  rename(umap_1 = V1, umap_2 = V2) |>
+  mutate(l1c = na.omit(na_dat)$l1c)
 
 ggplot(na_umap, aes(umap_1, umap_2)) + 
   geom_point(aes(color = l1c),
@@ -364,36 +380,63 @@ You can see the shape of most of the blobs has stayed the same, but the pyramida
 Now let's run a single imputation. There are many fancier ways to plausibly do this, but let's just use `mice`. **This will take a minute** since there are 20 genes with missing values and so many predictors for each one.
 
 ```{r scmice}
-imp_input = na_dat |> 
+#| eval: false
+
+imp_input <- na_dat |>
+  as.data.frame() |>
+  select(-(cell_id:l1c))
+
+rownames(imp_input) <- na_dat$cell_id
+
+imp <- mice(m = 1,
+            imp_input, 
+            method = "norm",
+            print = FALSE)
+
+```
+
+Note that the imputation here ignores the cell type labels. A more rigorous implementation would probably want to work in that information. Exercise for the reader.
+
+```{r}
+#| eval: true
+#| echo: false
+
+# save local rendering time
+
+if (fw) {
+  load("data/imp_precompute.RData")
+} else {
+  imp_input = na_dat |> 
     as.data.frame() |> 
     select(-(cell_id:l1c))
-
-rownames(imp_input) = na_dat$cell_id
-
-imp = mice(m = 1,
-           imp_input, 
-           method = "norm",
-           print = FALSE)
-
+  
+  rownames(imp_input) = na_dat$cell_id
+  
+  imp = mice(m = 1,
+             imp_input, 
+             method = "norm",
+             print = FALSE)
+  
+}
 ```
 
 `mice` generally discourages extracting the inner components of a `mids` object, but just this once:
 
 ```{r}
-imp_dat = imp_input
+imp_dat <- imp_input
 
 # Copy the imputed values into their respective places in imp_dat:
 for (g in to_imp) {
-    g_imp = imp$imp[[g]]
+    g_imp <- imp$imp[[g]]
     
-    imp_dat[[g]][match(rownames(g_imp), rownames(imp_dat))] = g_imp$`1`
+    imp_dat[[g]][match(rownames(g_imp), rownames(imp_dat))] <- g_imp$`1`
 }
 ```
 
 And now let's compute and plot a UMAP of the imputed expression values:
 
 ```{r impumap}
-imp_umap = imp_dat |> 
+imp_umap <- imp_dat |> 
     as.matrix() |> 
     uwot::umap() |> 
     as.data.frame() |> 
@@ -415,18 +458,18 @@ Pretty good! This is not a rigorous comparison of the imputed against original v
 
 Try comparing the imputed values for Plp1 against the true values. Are they any good?
 
-:::
-
 ```{r}
 #| echo: false
 #| eval: false
 
-imp_vals = imp_dat$Plp1[match(rownames(g_imp), rownames(imp_dat))]
-tru_vals = dat$Plp1[match(rownames(g_imp), dat$cell_id)]
+imp_vals <- imp_dat$Plp1[match(rownames(g_imp), rownames(imp_dat))]
+tru_vals <- dat$Plp1[match(rownames(g_imp), dat$cell_id)]
 
 plot(tru_vals, imp_vals)
 abline(0,1)
 ```
+
+:::
 
 # Joint imputation in `brms` 
 
