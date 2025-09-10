@@ -343,34 +343,6 @@
         "Built": "R 4.5.0; x86_64-pc-linux-gnu; 2025-04-16 13:40:06 UTC; unix"
       }
     },
-    "emoji": {
-      "Source": "CRAN",
-      "Repository": "https://cloud.r-project.org",
-      "description": {
-        "Package": "emoji",
-        "Title": "Data and Function to Work with Emojis",
-        "Version": "16.0.0",
-        "Authors@R": "c(\n    person(\"Emil\", \"Hvitfeldt\", , \"emilhhvitfeldt@gmail.com\", role = c(\"aut\", \"cre\"),\n           comment = c(ORCID = \"0000-0002-0679-1945\")),\n    person(\"Hadley\", \"Wickham\", , \"hadley@rstudio.com\", role = \"ctb\",\n           comment = \"Data parsing code from hadley/emo\"),\n    person(\"Romain\", \"François\", role = \"ctb\",\n           comment = \"Data parsing code from hadley/emo\")\n  )",
-        "Description": "Contains data about emojis with relevant metadata, and\n    functions to work with emojis when they are in strings.",
-        "License": "MIT + file LICENSE",
-        "URL": "https://emilhvitfeldt.github.io/emoji/,\nhttps://github.com/EmilHvitfeldt/emoji",
-        "BugReports": "https://github.com/EmilHvitfeldt/emoji/issues",
-        "Depends": "R (>= 3.5)",
-        "Imports": "glue, stringr, tibble",
-        "Suggests": "covr, testthat (>= 3.0.0)",
-        "Config/testthat/edition": "3",
-        "Encoding": "UTF-8",
-        "LazyData": "true",
-        "RoxygenNote": "7.3.2",
-        "NeedsCompilation": "no",
-        "Packaged": "2024-10-28 15:03:28 UTC; emilhvitfeldt",
-        "Author": "Emil Hvitfeldt [aut, cre] (<https://orcid.org/0000-0002-0679-1945>),\n  Hadley Wickham [ctb] (Data parsing code from hadley/emo),\n  Romain François [ctb] (Data parsing code from hadley/emo)",
-        "Maintainer": "Emil Hvitfeldt <emilhhvitfeldt@gmail.com>",
-        "Repository": "CRAN",
-        "Date/Publication": "2024-10-28 16:50:11 UTC",
-        "Built": "R 4.5.1; ; 2025-09-10 17:57:19 UTC; unix"
-      }
-    },
     "evaluate": {
       "Source": "CRAN",
       "Repository": "https://cloud.r-project.org",
@@ -1276,66 +1248,6 @@
         "RemoteSha": "1.4.0"
       }
     },
-    "stringi": {
-      "Source": "CRAN",
-      "Repository": "https://cloud.r-project.org",
-      "description": {
-        "Package": "stringi",
-        "Version": "1.8.7",
-        "Date": "2025-03-27",
-        "Title": "Fast and Portable Character String Processing Facilities",
-        "Description": "A collection of character string/text/natural language\n    processing tools for pattern searching (e.g., with 'Java'-like regular\n    expressions or the 'Unicode' collation algorithm), random string generation,\n    case mapping, string transliteration, concatenation, sorting, padding,\n    wrapping, Unicode normalisation, date-time formatting and parsing,\n    and many more. They are fast, consistent, convenient, and -\n    thanks to 'ICU' (International Components for Unicode) -\n    portable across all locales and platforms. Documentation about 'stringi' is\n    provided via its website at <https://stringi.gagolewski.com/> and\n    the paper by Gagolewski (2022, <doi:10.18637/jss.v103.i02>).",
-        "URL": "https://stringi.gagolewski.com/,\nhttps://github.com/gagolews/stringi, https://icu.unicode.org/",
-        "BugReports": "https://github.com/gagolews/stringi/issues",
-        "SystemRequirements": "ICU4C (>= 61, optional)",
-        "Type": "Package",
-        "Depends": "R (>= 3.4)",
-        "Imports": "tools, utils, stats",
-        "Biarch": "TRUE",
-        "License": "file LICENSE",
-        "Authors@R": "c(person(given = \"Marek\",\n                      family = \"Gagolewski\",\n                      role = c(\"aut\", \"cre\", \"cph\"),\n                      email = \"marek@gagolewski.com\",\n                      comment = c(ORCID = \"0000-0003-0637-6028\")),\n               person(given = \"Bartek\",\n                      family = \"Tartanus\",\n                      role = \"ctb\"),\n               person(\"Unicode, Inc. and others\", role=\"ctb\",\n                      comment = \"ICU4C source code, Unicode Character Database\")\n    )",
-        "RoxygenNote": "7.3.2",
-        "Encoding": "UTF-8",
-        "NeedsCompilation": "yes",
-        "Packaged": "2025-03-27 10:27:19 UTC; gagolews",
-        "Author": "Marek Gagolewski [aut, cre, cph]\n    (<https://orcid.org/0000-0003-0637-6028>),\n  Bartek Tartanus [ctb],\n  Unicode, Inc. and others [ctb] (ICU4C source code, Unicode Character\n    Database)",
-        "Maintainer": "Marek Gagolewski <marek@gagolewski.com>",
-        "License_is_FOSS": "yes",
-        "Repository": "CRAN",
-        "Date/Publication": "2025-03-27 13:10:02 UTC",
-        "Built": "R 4.5.0; x86_64-pc-linux-gnu; 2025-04-16 13:41:09 UTC; unix"
-      }
-    },
-    "stringr": {
-      "Source": "CRAN",
-      "Repository": "https://cloud.r-project.org",
-      "description": {
-        "Package": "stringr",
-        "Title": "Simple, Consistent Wrappers for Common String Operations",
-        "Version": "1.5.1",
-        "Authors@R": "c(\n    person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = c(\"aut\", \"cre\", \"cph\")),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"))\n  )",
-        "Description": "A consistent, simple and easy to use set of wrappers around\n    the fantastic 'stringi' package. All function and argument names (and\n    positions) are consistent, all functions deal with \"NA\"'s and zero\n    length vectors in the same way, and the output from one function is\n    easy to feed into the input of another.",
-        "License": "MIT + file LICENSE",
-        "URL": "https://stringr.tidyverse.org,\nhttps://github.com/tidyverse/stringr",
-        "BugReports": "https://github.com/tidyverse/stringr/issues",
-        "Depends": "R (>= 3.6)",
-        "Imports": "cli, glue (>= 1.6.1), lifecycle (>= 1.0.3), magrittr, rlang\n(>= 1.0.0), stringi (>= 1.5.3), vctrs (>= 0.4.0)",
-        "Suggests": "covr, dplyr, gt, htmltools, htmlwidgets, knitr, rmarkdown,\ntestthat (>= 3.0.0), tibble",
-        "VignetteBuilder": "knitr",
-        "Config/Needs/website": "tidyverse/tidytemplate",
-        "Config/testthat/edition": "3",
-        "Encoding": "UTF-8",
-        "LazyData": "true",
-        "RoxygenNote": "7.2.3",
-        "NeedsCompilation": "no",
-        "Packaged": "2023-11-14 15:03:52 UTC; hadleywickham",
-        "Author": "Hadley Wickham [aut, cre, cph],\n  Posit Software, PBC [cph, fnd]",
-        "Maintainer": "Hadley Wickham <hadley@posit.co>",
-        "Repository": "CRAN",
-        "Date/Publication": "2023-11-14 23:10:02 UTC",
-        "Built": "R 4.5.0; ; 2025-04-16 13:43:58 UTC; unix"
-      }
-    },
     "tibble": {
       "Source": "CRAN",
       "Repository": "https://cloud.r-project.org",
@@ -1670,7 +1582,7 @@
       "checksum": "6afc1ec8a92ebe57366bb7a3d6d96c51"
     },
     "slides_files/figure-revealjs/.fragment-1.png": {
-      "checksum": "90c90da86f2d188b0e7f39521b68c59c"
+      "checksum": "e8cf663ab6affa1e0665e93231ef09a3"
     },
     "slides_files/figure-revealjs/.fragment-2.png": {
       "checksum": "c39f823904d269527c8119085e36ea65"
@@ -1679,19 +1591,19 @@
       "checksum": "a023bc00a3f948687ae769522f85bcc2"
     },
     "slides_files/figure-revealjs/unnamed-chunk-10-1.png": {
-      "checksum": "4164fd92c3c9c27e377a429977a5c984"
+      "checksum": "a96a44201af524378159a559f3452f6a"
     },
     "slides_files/figure-revealjs/unnamed-chunk-2-1.png": {
       "checksum": "255e89ff0fe32c546b498796cbd89094"
     },
     "slides_files/figure-revealjs/unnamed-chunk-3-1.png": {
-      "checksum": "34131b399e77367353ac537966d8c054"
+      "checksum": "2776142e599df6b397e09a5370ffcdf1"
     },
     "slides_files/figure-revealjs/unnamed-chunk-3-2.png": {
       "checksum": "0afbd529bee330945e10afccefd30a24"
     },
     "slides_files/figure-revealjs/unnamed-chunk-4-1.png": {
-      "checksum": "fba3edd93f6a8e4c3b71d213e96a700d"
+      "checksum": "72b32a15486e39f1b51941d460ccbaaa"
     },
     "slides_files/figure-revealjs/unnamed-chunk-4-2.png": {
       "checksum": "4750518420da5b7668af1669d13b4ae7"
@@ -1724,7 +1636,7 @@
       "checksum": "91c5b5942489dcb53886d4a87b7db683"
     },
     "slides_files/figure-revealjs/unnamed-chunk-8-1.png": {
-      "checksum": "14bd7b6d67329abbff5acc6d36584e6a"
+      "checksum": "07c0043e429eb924479aaadc514f88ca"
     },
     "slides_files/figure-revealjs/unnamed-chunk-8-2.png": {
       "checksum": "a62bc8ab7e67cb1bfd60d90c678eeed3"
@@ -1733,7 +1645,7 @@
       "checksum": "6fc362d2cb75c37c4d82a32286b85dc6"
     },
     "slides_files/figure-revealjs/unnamed-chunk-9-1.png": {
-      "checksum": "9710835a8da620498cc03b8d5ff8a8bc"
+      "checksum": "7751709e9275823b6373ef0c1c29fd31"
     },
     "slides_files/figure-revealjs/unnamed-chunk-9-2.png": {
       "checksum": "6fc362d2cb75c37c4d82a32286b85dc6"
@@ -2087,10 +1999,10 @@
       "checksum": "dbab999c1a2fe1f31046733759dd1e2b"
     },
     "slides.html": {
-      "checksum": "4a1926ec42c267f4ee9f15703b9b9aa6"
+      "checksum": "041af8dc929971aafdff9fbe60576b50"
     },
     "slides.qmd": {
-      "checksum": "bd3b820f7b6f8e7a355fbcedae868a21"
+      "checksum": "20c7b90498c55bb7a9d4fc39c3bf94ba"
     }
   },
   "users": null

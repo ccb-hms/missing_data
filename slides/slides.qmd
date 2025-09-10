@@ -36,7 +36,6 @@ title-slide-attributes:
 #| message: false
 library(fastverse)
 library(tinyplot)
-library(emoji)
 # library(ggplot2)
 # library(ggbeeswarm)
 # library(ggmice)
@@ -585,7 +584,10 @@ ggmice::ggmice(mice::boys,
 :::{.column width=45%}
 
 
-![](images/ch01-miflow-1.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=55%}
+![](images/ch01-miflow-1.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=75%}
+
+::: {data-id="box1" style="border: 5px solid #FF0000; width: 220px; height: 270px; " .absolute left=20 top=115}
+:::
 
 * Predict NAs in a variable given others
 
@@ -645,11 +647,16 @@ plot_d = function(l) {
 :::{.column width=55%}
 
 :::{#figs layout-ncol=2}
+
+
 ```{r .fragment}
 #| fig-height: 4
 #| fig-width: 5 
 
+# TODO prerender these, because the EKS server's R can't find the emojis in the font :( 
+
 plot_d("Mean of the non-NAs ❌❌")
+
 my = mean(d$y)
 
 nx = c(-2, -1,1)
@@ -670,7 +677,7 @@ plt(nx,
 
 lm_res = lm(z ~ x, data = d)
 
-plot_d(paste0("Model predictive mean", emojis$emoji[1]))
+plot_d(paste0("Model predictive mean ❌"))
 
 abline(a = lm_res$coefficients[1],
        b = lm_res$coefficients[2],
@@ -751,7 +758,20 @@ for (i in 1:4) {
 
 ## MI - Analysis model
 
-* Fit the scientific model of interest to each imputed dataset
+::::{.columns}
+:::{.column width=55%}
+* Fit the intended model of interest to each imputed dataset
+:::
+
+:::{.column width=45%}
+
+![](images/ch01-miflow-1.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=75%}
+
+::: {data-id="box1" style="border: 5px solid #FF0000; width: 220px; height: 270px; " .absolute left=1035 top=115}
+:::
+
+:::
+::::
 
 ## MI - Pooling
 
