@@ -17,6 +17,7 @@ format:
       controls: true
       controls-layout: edges
       controls-tutorial: true
+encoding: UTF-8
         
 title-slide-attributes:
   data-background-image: images/HMS_DBMI_Logo.png
@@ -204,11 +205,10 @@ ex_dat[1:5,-1] |>
     * "_ight" 
 
 :::{.fragment}
-* "Imputation" - using context to fill in the blanks
+* *Imputation* - using context to fill in the blanks
 :::
 
 :::{.incremental}
-
 1. high or low uncertainty over missing values
 1. degree of uncertainty impacted by context
 :::
@@ -239,7 +239,6 @@ ex_dat[1:5,-1] |>
 tinytheme("clean2", 
           mar = c(2,2,1,1),
           bg = ow,
-          family = "Arial",
           cex.axis = 1.25,
           col.axis = "#222222")
 
@@ -379,7 +378,6 @@ TODO: cartoon figure here
 tinytheme("clean2", 
           mar = c(2,2,4,1),
           bg = ow,
-          family = "Arial",
           cex.axis = 1.5,
           cex.main = 1.5,
           col.main = "#222222",
@@ -583,10 +581,13 @@ ggmice::ggmice(mice::boys,
 ::::{.columns} 
 
 :::{.column width=45%}
+
+![](images/ch01-miflow-1.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=55%}
+
 * Predict NAs in a variable given others
-* Most common: **Predictive mean matching** and/or **regression**, see `?mice::mice.impute.*`
 
 :::{.fragment fragment-index=4}
+* See `?mice::mice.impute.*`
 * Predictive mean matching ✅✅
 * LASSO, random forests, neural nets
 * `mice` uses sane defaults, but always check and think.
@@ -881,6 +882,7 @@ ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 :::{.column width=55%}
 * [Flexible Imputation of Missing Data](https://stefvanbuuren.name/fimd/), Stef van Buuren
 * [Statistical Rethinking](https://xcelab.net/rm/)
+  * [lecture videos](https://www.youtube.com/playlist?list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus)
 :::
 
 :::{.column width=10%}
