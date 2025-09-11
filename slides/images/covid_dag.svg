@@ -27,11 +27,11 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="1.2546922"
-     inkscape:cx="175.34181"
-     inkscape:cy="279.74989"
+     inkscape:cx="116.7617"
+     inkscape:cy="280.14839"
      inkscape:window-width="2192"
-     inkscape:window-height="1178"
-     inkscape:window-x="2192"
+     inkscape:window-height="1205"
+     inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1" />
@@ -88,14 +88,14 @@
      id="layer1">
     <text
        xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,-41.423226,-131.03667)"
+       transform="matrix(0.26458333,0,0,0.26458333,-53.546409,-132.62418)"
        id="text18409"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect18411);fill:#000000;fill-opacity:1;stroke:none"><tspan
          x="348.33594"
          y="585.55891"
-         id="tspan1110"><tspan
+         id="tspan5145"><tspan
            style="font-family:'DejaVu Math TeX Gyre';-inkscape-font-specification:'DejaVu Math TeX Gyre'"
-           id="tspan1108">U</tspan></tspan></text>
+           id="tspan5143">Social</tspan></tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,-26.458334,21.166667)"
@@ -103,9 +103,9 @@
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect2168);fill:#000000;fill-opacity:1;stroke:none"><tspan
          x="429.54102"
          y="175.95734"
-         id="tspan1114"><tspan
+         id="tspan5149"><tspan
            style="font-family:'DejaVu Math TeX Gyre';-inkscape-font-specification:'DejaVu Math TeX Gyre'"
-           id="tspan1112">R</tspan></tspan></text>
+           id="tspan5147">R</tspan></tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,-3.3957466,40.341208)"
@@ -113,9 +113,9 @@
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect9906);fill:#000000;fill-opacity:1;stroke:none"><tspan
          x="53.578125"
          y="274.69563"
-         id="tspan1118"><tspan
+         id="tspan5153"><tspan
            style="font-family:'DejaVu Math TeX Gyre';-inkscape-font-specification:'DejaVu Math TeX Gyre'"
-           id="tspan1116">R*</tspan></tspan></text>
+           id="tspan5151">R*</tspan></tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,-15.716983,21.166667)"
@@ -123,9 +123,9 @@
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect13388);fill:#000000;fill-opacity:1;stroke:none"><tspan
          x="373.42383"
          y="347.16633"
-         id="tspan1122"><tspan
+         id="tspan5157"><tspan
            style="font-family:'DejaVu Math TeX Gyre';-inkscape-font-specification:'DejaVu Math TeX Gyre'"
-           id="tspan1120">Inc</tspan></tspan></text>
+           id="tspan5155">Inc</tspan></tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,-26.458334,-61.509421)"
@@ -133,9 +133,9 @@
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect16342);fill:#000000;fill-opacity:1;stroke:none"><tspan
          x="126.42383"
          y="488.43391"
-         id="tspan1126"><tspan
+         id="tspan5161"><tspan
            style="font-family:'DejaVu Math TeX Gyre';-inkscape-font-specification:'DejaVu Math TeX Gyre'"
-           id="tspan1124">Geo</tspan></tspan></text>
+           id="tspan5159">Geo</tspan></tspan></text>
     <circle
        style="fill:none;stroke:#4d4d4d;stroke-width:0.683773;stroke-miterlimit:4;stroke-dasharray:0.683773, 1.36755;stroke-dashoffset:0.820528;stroke-opacity:0.999319"
        id="path17284"
@@ -163,5 +163,12 @@
          d="M 56.790999,21.774939 27.815106,47.666683"
          id="path934" />
     </g>
+    <ellipse
+       style="fill:none;stroke:#4d4d4d;stroke-width:0.691;stroke-miterlimit:4;stroke-dasharray:0.691,1.382;stroke-dashoffset:0.82920255;stroke-opacity:0.999319"
+       id="circle4851"
+       cx="55.212154"
+       cy="18.370869"
+       rx="21.646"
+       ry="7.9628472" />
   </g>
 </svg>

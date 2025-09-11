@@ -591,6 +591,8 @@ ggmice::ggmice(mice::boys,
 
 * Predict NAs in a variable given others
 
+[<small> *Given X = (-2, -1, 1), predict missing Y values:* </small>]{.absolute left=750 top=50}
+
 :::{.fragment fragment-index=4}
 * See `?mice::mice.impute.*`
 * Predictive mean matching ✅✅
@@ -598,15 +600,9 @@ ggmice::ggmice(mice::boys,
 * `mice` uses sane defaults, but always check and think.
 :::
 
-<!-- :::{.incremental} -->
-<!-- * Mean of the non-NAs ❌ ❌[❌❌]{.absolute left=900 top=140} -->
-<!-- * Model predictive mean ❌[❌]{.absolute left=1280 top=140} -->
-<!-- * Multiple predictive mean + noise ✅[✅]{.absolute left=900 top=490} -->
-<!-- * Predict + noise + $\theta$ uncertainty ✅✅[✅✅]{.absolute left=1280 top=490} -->
-<!-- ::: -->
 :::
 
-<!-- TODO: FIMD figure 3.1 but with only one predictor for simplicity -->
+<!-- FIMD figure 3.1 but with only one predictor for simplicity -->
 ```{r}
 plot_d = function(l) {
   plt(d$x, d$z, 
@@ -665,7 +661,7 @@ plt(nx,
     rep(my, 3),
     add = TRUE,
     col = mred,
-    cex = 1.8)
+    cex = 2)
 
 ```
 
@@ -688,7 +684,7 @@ plt(nx,
     predict(lm_res, data.frame(x = nx)),
     col = mred,
     add = TRUE,
-    cex = 1.8)
+    cex = 2)
 
 ```
 :::
@@ -713,7 +709,7 @@ plt(nx,
     predict(lm_res, data.frame(x = nx)) + rnorm(3*4, sd = summary(lm_res)$sigma),
     col = mred,
     add = TRUE,
-    cex = 1.8)
+    cex = 2)
 
 ```
 :::
@@ -745,7 +741,7 @@ for (i in 1:4) {
             sd = ddf$sigma[i]),
       col = mred,
       add = TRUE,
-      cex = 1.8)
+      cex = 2)
 }
 ```
 :::
@@ -761,19 +757,24 @@ for (i in 1:4) {
 ::::{.columns}
 :::{.column width=55%}
 * Fit the intended model of interest to each imputed dataset
+* i.e. run your `t.test()` / `lm()` / `glm()` / etc as if the data were complete
+* extract estimates & error bars from each
 :::
 
 :::{.column width=45%}
 
 ![](images/ch01-miflow-1.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=75%}
 
-::: {data-id="box1" style="border: 5px solid #FF0000; width: 220px; height: 270px; " .absolute left=1035 top=115}
+::: {data-id="box1" style="border: 5px solid #FF0000; width: 220px; height: 270px; " .absolute left=1032 top=115}
 :::
 
 :::
 ::::
 
 ## MI - Pooling
+
+::::{.columns}
+:::{.column width=55%}
 
 Aggregate estimates in a way that combines:
 
@@ -783,20 +784,34 @@ Aggregate estimates in a way that combines:
 
 End result: *unbiased* and *confidence valid* estimates
 
-More info:
+:::{.fragment}
 
 * `?mice::pool()`
 * "Rubin's rules"
 * FIMD §2.3 <https://stefvanbuuren.name/fimd/sec-whyandwhen.html>
+
+:::
+
+:::
+
+:::{.column width=45%}
+
+![](images/ch01-miflow-1.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=75%}
+
+::: {data-id="box1" style="border: 5px solid #FF0000; width: 220px; height: 270px; " .absolute left=1170 top=115}
+:::
+
+:::
+::::
 
 ## "Ignorability" assumption
 
 > "Does the chance of a value going missing depend on information we don't have?"
 
 * If so, assumption violated.
-* standard MI practice generally won't work.
+* Standard MI practice generally won't work.
 
-## Joint imputation
+## "Joint imputation"
 
 :::{.column width=65%}
 * Use *informative auxiliary variables* to simultaneously:
@@ -810,6 +825,8 @@ More info:
 :::
 
 ![](images/covid_dag.png){fig-alt="" .absolute left=1100 top=100 width=30%}
+
+<!-- TODO: think about the dag on the right more -->
 
 ## Quiz!
 
@@ -904,6 +921,7 @@ ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 ::::{.columns}
 :::{.column width=55%}
 * [Flexible Imputation of Missing Data](https://stefvanbuuren.name/fimd/), Stef van Buuren
+  * [`mice` vignettes](https://amices.org/mice/index.html#vignettes)
 * [Statistical Rethinking](https://xcelab.net/rm/)
   * [lecture videos](https://www.youtube.com/playlist?list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus)
 :::
