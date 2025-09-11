@@ -331,6 +331,8 @@ It contains two data frames with the original data `dat` and the same data with 
 dim(dat)
 
 names(dat) |> head(20)
+
+dat[1:5,1:7]
 ```
 
 ## Original UMAP
@@ -379,7 +381,7 @@ You can see the shape of most of the blobs has stayed the same, but the pyramida
 
 ## Imputed UMAP
 
-Now let's run a single imputation. There are many fancier ways to plausibly do this, but let's just use `mice`. **This will take a minute** since there are 20 genes with missing values and so many predictors for each one.
+Now let's run a single imputation. There are better ways to do this, but let's just use `mice`. **This will take a minute** since there are 20 genes with missing values and so many predictors for each one.
 
 ```{r scmice}
 #| eval: false
@@ -538,7 +540,10 @@ At the end you have a single set of posterior draws from the entire joint model.
 
 In the event that you have data that is NMAR yet "rescuable" through informative auxiliary variables, this is a good place to start.
 
-# Other links
+# Links
+
+* [Flexible Imputation of Missing Data](https://stefvanbuuren.name/fimd/)
+* [Handle Missing Values with brms](https://cran.r-project.org/web/packages/brms/vignettes/brms_missings.html)
 
 Related packages we didn't have time for:
 
