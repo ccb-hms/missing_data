@@ -1,6 +1,13 @@
 
 
 
+tinytheme("clean2", 
+          mar = c(2,2,1,1),
+          family = "Arial",
+          cex.axis = 1.5,
+          cex.main = 1.5,
+          col.main = "#222222",
+          col.axis = "#222222")
 my = mean(d$y)
 
 nx = c(-2, -1,1)
@@ -26,10 +33,10 @@ pts_df = ddf |> head() |> mtt(pts = mapply(\(i,b,s) i + b*c(-2,-1,1) + rnorm(3)*
     pivot(".id") |> 
     mtt(x = rep(c(-2,-1,1), each = 6))
 
-png("prop_ex.png",
+png("~/projects/missing_data/slides/images/prop_ex.png",
     width=960*2,height=720*2, res = 300)
 
-  plt(d$x, d$z, 
+plt(d$x, d$z, 
     xlab = "", 
     ylab = "", 
     col = mblue,
