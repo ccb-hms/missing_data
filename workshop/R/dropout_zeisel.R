@@ -1,14 +1,16 @@
 # https://bioconductor.org/books/3.18/OSCA.workflows/zeisel-mouse-brain-strt-seq.html
 
+stop("You don't need to run this for the workshop.") 
+    
 library(scRNAseq)
+library(scater)
+library(org.Mm.eg.db)
+library(scran)
 
 sce = ZeiselBrainData()
 
-library(scater)
 sce <- aggregateAcrossFeatures(sce, 
                                id=sub("_loc[0-9]+$", "", rownames(sce)))
-
-library(org.Mm.eg.db)
 
 rowData(sce)$Ensembl <- mapIds(org.Mm.eg.db, 
                                keys=rownames(sce), keytype="SYMBOL", column="ENSEMBL")
@@ -24,7 +26,6 @@ sce <- sce[,!qc$discard]
 colData(unfiltered) <- cbind(colData(unfiltered), stats)
 unfiltered$discard <- qc$discard
 
-library(scran)
 set.seed(1000)
 clusters <- quickCluster(sce)
 sce <- computeSumFactors(sce, cluster=clusters) 
@@ -38,6 +39,7 @@ top.hvgs <- getTopHVGs(dec.zeisel, n = 500)
 
 library(tinyplot); tinytheme("clean2", family = "Arial")
 library(fastverse)
+
 options(digits = 3)
 
 m = sce[top.hvgs,] |> 

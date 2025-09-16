@@ -290,9 +290,13 @@ In practice, dropouts in single-cell data manifest themselves as aberrant zeros.
 
 Deciding which zeros are biological versus technical dropouts is a difficult statistical problem that we are going to ignore in this workshop. For the sake of simplicity, we'll assume that we've used some upstream tool that has accurately labelled "suspicious" zeros and replaced them with NAs.
 
+:::{.callout-warning title="Oversimplification alert!"}
+The process demonstrated in this section is simplified and unrealistic for demonstrative reasons. Don't try to adapt this for your own work. There's a [developing literature](https://pubmed.ncbi.nlm.nih.gov/?term=single+cell+expression+%22imputation%22+%22impute%22) around single cell expression imputation. It's an open question as to what experimental factors provide the most predictive information and the best way to incorporate them into an imputation model.
+:::
+
 ## Get the data
 
-For completeness, here's the (long) script used to generate this data with some Bioconductor packages. You don't need to run this.
+We'll first need to download the data from GitHub. For completeness, here's the (long) script used to generate this data with some Bioconductor packages. You don't need to run this.
 
 ```{r}
 #| eval: false
@@ -325,7 +329,7 @@ load(f, verbose = TRUE)
 load("data/sc.RData")
 ```
 
-It contains two data frames with the original data `dat` and the same data with NAs `na_dat`. `to_imp` is a list of 20 genes whose expression values have dropouts. The data contains a few thousand cells and 500 highly variable genes: 
+It contains two data frames and a vector of gene names. There's the original data `dat` and the same data with NAs `na_dat`. `to_imp` is a list of 20 genes whose expression values have dropouts. The data contains a few thousand cells and 500 highly variable genes: 
 
 ```{r}
 dim(dat)
