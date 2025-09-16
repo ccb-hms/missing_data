@@ -193,9 +193,9 @@ ex_dat[1:5,-1] |>
 
 [<span style="color:#666666; font-style: italic;"> <small> Missing values in survey data </small> </span>]{.absolute left=1000 top=390}
 
-![ ](images/dg_tmp.png){.absolute left=1000 top=460 width=40%} 
+![](images/dg_tmp.png){.absolute left=1000 top=460 width=40%} 
 
-[<span style="color:#666666; font-style: italic;"> <small> Missing values in imaging data </small> </span>]{.absolute left=1000 top=870}
+[<span style="color:#666666; font-style: italic;"> <small> Missing values in imaging data. Image provided by HMS Single Cell Core.</small> </span>]{.absolute left=1000 top=870}
 
 ## Degrees of uncertainty
 
@@ -355,7 +355,8 @@ plt(nx,
 
 ***Inference is much more demanding!***
 
-TODO: cartoon figure here
+![](images/red_dotted.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=900 top=0 width=36%}
+![](images/prop_ex.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=900 top=450 width=36%}
 
 ## Undesirable effects of missing data
 
@@ -720,7 +721,7 @@ plt(nx,
 #| fig-width: 5 
 plot_d("Predict + noise + θ uncertainty ✅✅")
 
-# rstanarm::stan_glm(z ~ x, data = d) |> rstanarm::as_draws() |> head()
+# rstanarm::stan_glm(z ~ x, data = d) |> rstanarm::as_draws() |> head() |> dput()
 
 ddf = structure(list(`(Intercept)` = c(0.0471073690698166, 0.201052925741826, 
 0.250345212091326, 0.198926964048982, 0.299822320222807, 0.0208228507399506
@@ -759,6 +760,11 @@ for (i in 1:4) {
 * Fit the intended model of interest to each imputed dataset
 * i.e. run your `t.test()` / `lm()` / `glm()` / etc as if the data were complete
 * extract estimates & error bars from each
+
+:::{.fragment}
+* *All the usual model checking steps apply!*
+:::
+
 :::
 
 :::{.column width=45%}
@@ -838,7 +844,7 @@ ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 
 ![ ](images/dg_tmp.png){.absolute left=950 top=100 width=44%} 
 
-[<span style="color:#666666; font-style: italic;"> <small> Missing values in imaging data </small> </span>]{.absolute left=950 top=540}
+[<span style="color:#666666; font-style: italic;"> <small> Missing values in imaging data. Image provided by HMS Single Cell Core. </small> </span>]{.absolute left=950 top=540}
 
 :::{.absolute top=600}
 **Discuss with your neighbor:** 
@@ -895,26 +901,44 @@ ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 
 # End matter
 
-
 ## Ethics
 
-> "The ethical statistical practitioner ... seeks to *understand and mitigate* known or *suspected* limitations, defects, or biases in the data ... and communicates potential impacts on the interpretation [or] conclusions...[and] Avoids compromising validity for expediency." ^[ [ASA Ethical Guidelines for Statistical Practice](https://www.amstat.org/your-career/ethical-guidelines-for-statistical-practice),  emphasis mine]
+> "The ethical statistical practitioner ... seeks to *understand and mitigate* known or *suspected* limitations, defects, or biases in the data ... and communicates potential impacts on the interpretation [or] conclusions... [and] Avoids compromising validity for expediency." ^[ [ASA Ethical Guidelines for Statistical Practice](https://www.amstat.org/your-career/ethical-guidelines-for-statistical-practice),  emphasis mine]
 
-* Be transparent. Don't ignore things you know to be impactful.
-* Use the opportunity to advance statistical practice in your field.
+* Be transparent. 
 * Do your due diligence. 
+
+So,
+
+* Reasonable, not perfect.
+* Opportunity to advance statistical practice in your field.
 * Ask for help if you need it.
 
 ## Missing data analysis in Python
 
 :::{.incremental}
-* Less mature, but `statsmodels.imputation.mice` exists
+* `statsmodels.imputation.mice` 
+* [`miceforest`](https://miceforest.readthedocs.io/en/latest/) - possibly okay for small data if computational burden of RFs is acceptable
 * Don't use `scikit-learn` 
   * encourages single imputation ❌
   * statistical malpractice
   * See also the infamous `sklearn.linear_model.LogisticRegression`
-* [`miceforest`](https://miceforest.readthedocs.io/en/latest/) - possibly okay for small data if computational burden of RFs is acceptable
 :::
+
+## Registration inquiries
+
+> ... how should we decide whether the missing data is a problem?
+
+FIMD §6.1: 
+"The imputation model should:
+
+* account for the process that created the missing data,
+* preserve the relations in the data, and
+* preserve the uncertainty about these relations."
+
+Ch. 5-6 practical advice on how to do / think about / **simulate** this. Also, influx/outflux.
+
+> Survival analysis
 
 ## References
 
