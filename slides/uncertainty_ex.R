@@ -48,6 +48,7 @@ abline(coef(f)[1], coef(f)[2],
 
 points(pts_df$x, pts_df$value,
        col = mred,
+       pch = 16,
        cex=2)
 polygon(c(xv,rev(xv)), c(bds[,1], rev(bds[,2])),
         border = NA, col = mred |> scales::alpha(.2))

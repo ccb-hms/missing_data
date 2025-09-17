@@ -62,8 +62,8 @@ set.seed(42)
 n = 30
 s = .06
 d = data.frame(x = rnorm(n)) |> 
-  mtt(y = rnorm(n, 1*x, sd = s),
-      z = rnorm(n, 1*x, sd = 1))
+  mtt(y = rnorm(n, 1*x, sd = s), # small sd
+      z = rnorm(n, 1*x, sd = 1)) # big sd
 
 yr = range(c(d$y, d$z))
 ```
@@ -219,12 +219,12 @@ ex_dat[1:5,-1] |>
 :::{.column width=44%}
 * Context informs uncertainty when imputing
 
-:::{.fragment}
-* If the uncertainty is *sufficiently* small, ignore it. 
-* Using imputed values for...?
-    * Just reporting / visualizing. ✅
-    * Input to scientific inference. ⚠️
-:::
+<!-- :::{.fragment} -->
+<!-- * If the uncertainty is *sufficiently* small, ignore it.  -->
+<!-- * Using imputed values for...? -->
+<!--     * Just reporting / visualizing. ✅ -->
+<!--     * Input to scientific inference. ⚠️ -->
+<!-- ::: -->
 
 :::
 
@@ -233,13 +233,16 @@ ex_dat[1:5,-1] |>
 :::
 
 :::{.column width=56%}
+
+<small> *Missing Y values at X = 1:* </small>
+
 ```{r}
 
 tinytheme("clean2", 
           mar = c(2,2,1,1),
           family = "Arial",
           bg = ow,
-          cex.axis = 1.25,
+          cex.axis = 1.5,
           col.axis = "#222222")
 
 par(mfrow = c(1,2))
@@ -251,13 +254,12 @@ plt(d$x, d$y,
     cex = 2,
     ylim = yr)
 
-tinyplot(col = mred, 
-         add = TRUE,
-         type = "lines",
-         c(1,1),
-         lend = 1, 
-         c(1+s*2, 1-s*2),
-         lwd = 4)
+lines(col = mred, 
+      add = TRUE,
+      c(1,1),
+      c(1+s*2, 1-s*2),
+      lend = "square", 
+      lwd = 5)
 
 # points(1, 1, col = "firebrick2", pch = 21, cex = 1.3)
 
@@ -268,13 +270,12 @@ plt(d$x, d$z,
     cex = 2,
     ylim = yr) 
 
-plt(col = mred,
-    type = "lines",
+lines(col = mred,
     add = TRUE,
     c(1,1),
-    lend = "butt",
     c(1+1*2, 1-1*2),
-    lwd = 4)
+    lend = "butt",
+    lwd = 5)
 
 # points(1, 1, col = "firebrick2", bg = "white", pch = 21, cex = 1.3)
 
@@ -297,7 +298,11 @@ plt(col = mred,
 :::
 :::
 
+
 :::{.column width=54% .fragment fragment-index=1}
+
+<small> *Given X = (-2, -1, 1), predict missing Y values:* </small>
+
 ```{r}
 par(mfrow = c(1,2))
 
@@ -307,6 +312,16 @@ plt(d$x, d$z,
     col = mblue,
     cex = 2,
     ylim = yr)
+
+legend(-2.6, 2.8,
+       c("observed", "imputed Y"),
+       col = c(mblue, mred),
+       cex = 1.4,
+       pt.cex = 2,
+       bg = "#F2F2F2",
+       box.col = "#222222",
+       text.col = "#222222",
+       pch = c(16, 16))
 
 my = mean(d$y)
 
@@ -522,15 +537,20 @@ tinytheme("clean2",
 ![](images/2025-05-06_15-58-00.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=1250 top=-30}
 
 :::{.absolute left=900 width=22% top=50}
-<small> Arrows = causal relationships </small>
+<small> Arrows: causal relationships </small>
 
-<small> Dotted = latent truth </small>
+<small> Dotted: latent true value </small>
 
-<small> Starred = observed with NAs </small>
+<small> Starred: value with NAs </small>
 :::
 
-::: {data-id="box1" style="background-color: rgba(242, 242, 242, 0.5); backdrop-filter: blur(15px); width: 1600px; height: 720px; " .absolute left=0 top=240 .fragment .fade-out fragment-index=1}
+:::{.absolute top=875 left=1140}
+<span style="color: #999999;"> <small> Diagram from *Statistical Rethinking* </small> </span>
 :::
+
+::: {data-id="box1" style="background-color: rgba(242, 242, 242, 0.5); backdrop-filter: blur(15px); width: 1600px; height: 1720px; " .absolute left=0 top=240 .fragment .fade-out fragment-index=1}
+:::
+
 
 # Strategies
 
@@ -666,7 +686,6 @@ plt(nx,
 
 ```
 
-:::{.fragment fragment-index=1}
 
 ```{r}
 #| fig-height: 4
@@ -688,9 +707,8 @@ plt(nx,
     cex = 2)
 
 ```
-:::
 
-:::{.fragment fragment-index=2}
+:::{.fragment fragment-index=1}
 ```{r}
 #| fig-height: 4
 #| fig-width: 5 
@@ -715,7 +733,7 @@ plt(nx,
 ```
 :::
 
-:::{.fragment fragment-index=3}
+:::{.fragment fragment-index=2}
 ```{r}
 #| fig-height: 4
 #| fig-width: 5 
@@ -842,9 +860,9 @@ ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 
 [<span style="color:#666666; font-style: italic;"> <small> Missing values in survey data </small> </span>]{.absolute left=25 top=540}
 
-![ ](images/dg_tmp.png){.absolute left=950 top=100 width=44%} 
+![ ](images/dg_tmp.png){.absolute left=900 top=100 width=44%} 
 
-[<span style="color:#666666; font-style: italic;"> <small> Missing values in imaging data. Image provided by HMS Single Cell Core. </small> </span>]{.absolute left=950 top=540}
+[<span style="color:#666666; font-style: italic;"> <small> Missing values in imaging data. Image provided by HMS Single Cell Core. </small> </span>]{.absolute left=900 top=540}
 
 :::{.absolute top=600}
 **Discuss with your neighbor:** 
