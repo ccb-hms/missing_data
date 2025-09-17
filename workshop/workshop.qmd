@@ -172,7 +172,7 @@ imp <- mice(boys,
             method = c("", rep("norm", 3), "polyreg"))
 ```
 
-You can also plot variables by imputation number by handing the special variable `.imp` to `ggmice`.
+You can also plot variables by imputation number by handing the special variable `.imp` to `ggmice`:
 
 ```{r}
 ggmice(imp, aes(.imp, hgt)) + 
@@ -185,7 +185,13 @@ If you notice that there is substantial variability in between-imputation distri
 
 # Multiple imputation in `mice` - example with ignorability
 
-Now let's try a missing data analysis of the `boys` dataset with `mice`. Let's assume our field of study is obesity.
+Now let's try a missing data analysis of the `boys` dataset with `mice`. The general workflow is
+
+* multiply impute with `mice()`
+* run analysis models with `with()`
+* and pool with `pool()`
+
+Let's assume our field of study is obesity and we're interested to understand the relationship of our covariates and weight.
 
 :::{.callout-caution title="Think about the variables to include" collapse="true"}
 
@@ -212,6 +218,7 @@ set.seed(42)
              print = FALSE))
 ```
 
+The result `imp` is a `mids` object, meaning a "multiply imputed dataset".
 
 ## Visualize imputed values
 
