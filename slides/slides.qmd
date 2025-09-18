@@ -964,8 +964,9 @@ Ch. 5-6 practical advice on how to do / think about / **simulate** this. Also, i
 :::{.column width=55%}
 * [Flexible Imputation of Missing Data](https://stefvanbuuren.name/fimd/), Stef van Buuren
   * [`mice` vignettes](https://amices.org/mice/index.html#vignettes)
-* [Statistical Rethinking](https://xcelab.net/rm/)
-  * [lecture videos](https://www.youtube.com/playlist?list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus)
+* [Statistical Rethinking by Richard McElreath](https://xcelab.net/rm/statistical-rethinking/)
+  * [Lecture series on YT (esp. 1-13)](https://www.youtube.com/playlist?list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus)
+  * [brms + tidyverse translation of official text](https://bookdown.org/content/4857/)
 :::
 
 :::{.column width=10%}
