@@ -37,8 +37,6 @@ library(brms)
 ncores <- ifelse(interactive(), 4, 1)
 
 options(digits = 3)
-
-theme_set(theme_minimal())
 ```
 
 ```{r}
