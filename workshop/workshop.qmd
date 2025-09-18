@@ -592,6 +592,7 @@ In the event that you have data that is NMAR yet "rescuable" through informative
 * [Statistical Rethinking by Richard McElreath](https://xcelab.net/rm/statistical-rethinking/)
   * [Lecture series on YT (esp. 1-13)](https://www.youtube.com/playlist?list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus)
   * [brms + tidyverse translation of official text](https://bookdown.org/content/4857/)
+* [R for Data Science](https://r4ds.hadley.nz/)
 
 
 
