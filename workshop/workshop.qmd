@@ -1,5 +1,10 @@
 ---
 title: "Missing data workshop"
+author: 
+  - name: CCB
+    email: ccb_help@hms.harvard.edu
+  - name: Andrew Ghazi
+    email: Andrew_Ghazi@hms.harvard.edu
 format: 
     html:
         code-fold: show 
@@ -32,8 +37,6 @@ library(brms)
 ncores <- ifelse(interactive(), 4, 1)
 
 options(digits = 3)
-
-out_dir <- tempdir()
 
 theme_set(theme_minimal())
 ```
@@ -250,14 +253,7 @@ fit <- with(imp, lm(wgt ~ age + hgt + reg))
 
 ## Pool results
 
-Then finally we can aggregate the multiple fits with the `pool()` function:
-
-```{r}
-pool(fit)
-```
-
-This gives a data frame with an overall summary of the estimates. 
-
+:::{.callout-info title="Multiply imputed repeated analyses statistics"}
 TODO define these more clearly
 
 * mean estimate
@@ -266,6 +262,21 @@ TODO define these more clearly
 * Relative increase in variance `riv`
 * Proportion of total variance due to missingness `lambda`
 * Fraction of missing information `fmi`
+
+:::
+
+Then finally we can aggregate the multiple fits with the `pool()` function:
+
+```{r}
+pool(fit)
+```
+
+This gives a pooled outcome object. It shows some of the different variances related to the missingness/imputation, but if you want a summary of the estimates you need to pass it through `summary()`:
+
+```{r}
+pool(fit) |> summary()
+```
+
 
 :::{.callout-note collapse="true" title="Assessing the impact of missing data analysis"}
 
@@ -303,7 +314,7 @@ The process demonstrated in this section is simplified and unrealistic for demon
 
 ## Get the data
 
-We'll first need to download the data from GitHub. For completeness, here's the (long) script used to generate this data with some Bioconductor packages. You don't need to run this.
+We'll first need to download the data from GitHub. For completeness, here's the script used to generate this data with some Bioconductor packages and the Zeisel brain dataset. You don't need to run this.
 
 ```{r}
 #| eval: false
@@ -312,7 +323,11 @@ We'll first need to download the data from GitHub. For completeness, here's the 
 {{< include R/dropout_zeisel.R >}}
 ```
 
-Basically, it identifies the 20 most highly expressed genes in the pyramidal CA1 cell type in the classic Zeisel Brain Data, and replaces 20% of the observations in those genes of those cells with NA (note, not that many overall). The NAs are introduced completely at random, which is actually a fairly reasonable missingness model in the context of single cell barcode dropout.
+**NA generating process:** 
+
+* identifies the 20 most highly expressed genes in the **pyramidal CA1** cell type in the classic Zeisel Brain Data, and 
+* replaces 20% of the observations in those genes of those cells with NA (note, not that many overall). 
+  * NAs are introduced completely at random (actually a fairly reasonable missingness model in the context of single cell barcode dropout)
 
 You can download and load the data like so:
 
@@ -320,7 +335,7 @@ You can download and load the data like so:
 #| eval: false
 #| echo: true
 
-url <- "https://github.com/ccb-hms/missing_data/raw/refs/heads/main/workshop/sc.RData"
+url <- "https://github.com/ccb-hms/missing_data/raw/refs/heads/main/workshop/data/sc.RData"
 
 f <- tempfile()
 
@@ -336,7 +351,13 @@ load(f, verbose = TRUE)
 load("data/sc.RData")
 ```
 
-It contains two data frames and a vector of gene names. There's the original data `dat` and the same data with NAs `na_dat`. `to_imp` is a list of 20 genes whose expression values have dropouts. The data contains a few thousand cells and 500 highly variable genes: 
+It contains:
+
+* the original data `dat`
+* the same data with NAs `na_dat`
+* 20 genes whose expression values have dropouts `to_imp`
+
+The data contains a few thousand cells and 500 highly variable genes: 
 
 ```{r}
 dim(dat)
@@ -533,6 +554,11 @@ bform <- bf(chl | mi() ~ age) +
 
 Then we hand that to the main fitting function `brm()` with the data and some QOL options:
 
+```{r}
+#| eval: false
+out_dir <- tempdir()
+```
+
 ```{r fitm1}
 #| message: false
 #| warning: false
@@ -555,8 +581,15 @@ In the event that you have data that is NMAR yet "rescuable" through informative
 
 * [Flexible Imputation of Missing Data](https://stefvanbuuren.name/fimd/)
 * [Handle Missing Values with brms](https://cran.r-project.org/web/packages/brms/vignettes/brms_missings.html)
+* [CCB Computational Resources](https://ccb.connect.hms.harvard.edu/comp_resources/ccb_resources.html)
+* [CCB Office Hours](https://dbmi.hms.harvard.edu/about-dbmi/core-computational-biomedicine/office-hours)
+* [Statistical Rethinking by Richard McElreath](https://xcelab.net/rm/statistical-rethinking/)
+  * [Lecture series on YT (esp. 1-13)](https://www.youtube.com/playlist?list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus)
+  * [brms + tidyverse translation of official text](https://bookdown.org/content/4857/)
 
-Related packages we didn't have time for:
+
+
+Related packages we didn't have time that may be of interest:
 
 * [VIM](https://cran.r-project.org/web/packages/VIM/index.html)
 * [naniar](https://cran.r-project.org/web/packages/naniar/index.html)
