@@ -116,7 +116,10 @@ Link in my email signature or at [https://dbmi.hms.harvard.edu/about-dbmi/core-c
 ## Prerequisites:
 
 * Seminar: none
-* Hands-on workshop: R and the packages below:
+* Hands-on workshop: 
+  * statistics basics
+  * R basics
+  * R and the packages below:
 
 ```{r}
 #| eval: false
@@ -566,12 +569,21 @@ tinytheme("clean2",
 :::
 
 ```{r}
-#| eval: false
+#| eval: false 
 #| echo: false
-ggmice::ggmice(mice::boys,
-               ggplot2::aes(age, hgt)) + 
-    ggplot2::geom_point(size = 3, pch = 16) +
-  ow_bg 
+
+ggmice(boys, aes(age, hgt)) + 
+  geom_point(size = 3, pch = 16) + 
+  theme_minimal() +
+  theme(panel.background = ow_rect, 
+        panel.grid = element_blank(),
+        plot.background = ow_rect,
+        text = element_text(size = 18, family = "Arial")) +
+  labs(y = "height")
+
+ggsave("~/projects/missing_data/slides/images/ggmice_preview.png", h = 5, w = 7.5)
+
+plot_pattern(boys)
 ```
 
 
@@ -892,7 +904,7 @@ ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 
 ## Imprecise imputation for images - single-cell proteomics
 
-:::{.column width=60%}
+:::{.column width=50%}
 * Proof of concept. N = 8.
 * Elastic Net, XGBoost, AutoEncoders to impute 16 proteins of single cells.
 * MAE b/w 0.05-0.15 on a 0-1 scale.
@@ -900,7 +912,11 @@ ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 * Batch, instrument effects? Unclear.
 :::
 
-:::{.column width=40%}
+:::{.column width=4%}
+ 
+:::
+
+:::{.column width=46%}
 ![](images/2025-08-04_12-36-50.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);"}
 ![](images/2025-08-04_12-38-36.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);"}
 :::
@@ -937,7 +953,7 @@ So,
 :::{.incremental}
 * `statsmodels.imputation.mice` 
 * [`miceforest`](https://miceforest.readthedocs.io/en/latest/) - possibly okay for small data if computational burden of RFs is acceptable
-* Don't use `scikit-learn` 
+* Don't use `scikit-learn` for missing data analysis
   * encourages single imputation ❌
   * statistical malpractice
   * See also the infamous `sklearn.linear_model.LogisticRegression`

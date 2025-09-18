@@ -1,10 +1,11 @@
 ---
 title: "Missing data workshop"
 author: 
-  - name: CCB
-    email: ccb_help@hms.harvard.edu
   - name: Andrew Ghazi
     email: Andrew_Ghazi@hms.harvard.edu
+    affiliation:
+      - name: CCB
+        url: https://ccb.hms.harvard.edu/ 
 format: 
     html:
         code-fold: show 
@@ -207,15 +208,13 @@ Does it make sense to include BMI? No! BMI is a direct function of height and we
 
 ## Generate multiple imputations
 
-This is simply done with the `mice()` function. Given that we saw that the default imputation method for height didn't look so great, let's change it to Bayesian linear regression for age and height and leave it at the defaults for age and region. Let's also set the RNG seed and drop BMI as discussed:
+This is simply done with the `mice()` function. Let's try the default imputation method again. Set the RNG seed and drop BMI:
 
 
 ```{r}
-
 set.seed(42)
 
 (imp <- mice(boys |> select(-bmi), 
-             method = c("", "norm", "norm", "polyreg"),
              print = FALSE))
 ```
 
@@ -230,7 +229,13 @@ ggmice(imp, aes(age, hgt)) +
   geom_point()
 ```
 
-It looks a little better for the younger boys who were imputed as too short before. It doesn't pick up the non-linearity of the trend and now seems to be undershooting in the middle, but it's centered overall at least.
+Now that we've dropped BMI, the default imputation model for height (predictive mean matching `pmm`) works better -- the imputations look more realistic. It's perhaps underselling the variance for a couple older boys, but set `m = 100` and you'll see that this is mostly due to getting unlucky from the seed used. It particularly looks better for the younger boys who were imputed as too short before.
+
+:::{.callout-info title="Exercise: Try other imputation methods" collapse=true}
+
+Try some other imputation methods like Bayesian linear regression, LASSO, CART, and random forest imputation. Do any work well out of the box? Hint: they can, with some additional tweaks to the predictor matrix. 
+
+:::
 
 Let's check the distribution of imputed heights too:
 
@@ -239,7 +244,7 @@ ggmice(imp, aes(.imp, hgt)) +
   geom_boxplot()
 ```
 
-Looks fine. In practice you'd want to sanity check the other imputed variables as well, but let's move on.
+Looks fine. Remember most of the imputed values are from younger kids, so it's fine that they don't match the overall distribution. In practice you'd want to sanity check the other imputed variables as well, but let's move on.
 
 ## Fit models to imputed datasets
 
@@ -548,13 +553,11 @@ We first specify a model formula with two components for the two submodels. We a
 bform <- bf(chl | mi() ~ age) + 
   bf(bmi | mi() ~ age * mi(chl)) +
   set_rescor(FALSE)  # don't model residual correlation of submodels
+
+out_dir <- tempdir()
 ```
 
 Then we hand that to the main fitting function `brm()` with the data and some QOL options:
-
-```{r}
-out_dir <- tempdir()
-```
 
 ```{r}
 #| echo: false
