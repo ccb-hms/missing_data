@@ -555,9 +555,17 @@ bform <- bf(chl | mi() ~ age) +
 Then we hand that to the main fitting function `brm()` with the data and some QOL options:
 
 ```{r}
-#| eval: false
 out_dir <- tempdir()
 ```
+
+```{r}
+#| echo: false
+if (fw) {
+  
+  out_dir = "~/projects/missing_data/fits/"
+}
+```
+
 
 ```{r fitm1}
 #| message: false
