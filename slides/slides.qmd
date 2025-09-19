@@ -534,7 +534,6 @@ tinytheme("clean2",
 ::: {data-id="box1" style="background-color: rgba(242, 242, 242, 0.5); backdrop-filter: blur(15px); width: 1600px; height: 1720px; " .absolute left=0 top=240 .fragment .fade-out fragment-index=1}
 :::
 
-
 # Strategies
 
 ## Examining missingness
@@ -852,6 +851,9 @@ ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 
 [<span style="color:#666666; font-style: italic;"> <small> Missing values in survey data </small> </span>]{.absolute left=25 top=540}
 
+::: {data-id="box1" style="border: 2px solid #888888; 0px; background-color: #888888; height: 550px; " .absolute left=830 top=70} 
+:::
+
 ![ ](images/dg_tmp.png){.absolute left=900 top=100 width=44%} 
 
 [<span style="color:#666666; font-style: italic;"> <small> Missing values in imaging data. Image provided by HMS Single Cell Core. </small> </span>]{.absolute left=900 top=540}
@@ -876,7 +878,7 @@ ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 :::
 
 :::{.column width=40% .absolute top=100 left=1000}
-![](images/2025-08-04_13-25-08.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);"}
+![](images/2025-09-19_10-23-13.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);"}
 ![](images/2025-08-04_13-22-07.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);"}
 :::
 
