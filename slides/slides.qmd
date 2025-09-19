@@ -1,5 +1,6 @@
 ---
-title: "Working with NAs and Missing Data"
+title: "Modern Strategies for Working with Missing Data"
+subtitle: "with applications in biomedical research"
 author: "Andrew Ghazi"
 institute: "Core for Computational Biomedicine"
 date: September 24, 2025 
@@ -68,22 +69,6 @@ d = data.frame(x = rnorm(n)) |>
 yr = range(c(d$y, d$z))
 ```
 
-<!-- ## Who we are -->
-<!-- Ludwig doing this slide -->
-
-<!-- > The Core for Computational Biomedicine (CCB) is a multi-disciplinary team of computational and quantitative scientists that collaborates with HMS Quad-based researchers to develop tools, platforms, and other data science and computational solutions that broadly enable biomedical discovery and innovation. -->
-
-<!-- * Collaborative projects -->
-<!-- * Office hours -->
-<!-- * Workshops -->
-
-<!-- :::{#headshots layout-ncol=1 style="text-align: center"} -->
-
-<!-- ![Andrew Ghazi, PhD](images/Andrew_Ghazi_003_sq_sm2.JPG){height=220} -->
-
-<!-- <!-- + TODO other CCB folks --> -->
-<!-- ::: -->
-
 ## CCB R/Stats Office Hours
 
 ::::{.columns}
@@ -100,11 +85,6 @@ yr = range(c(d$y, d$z))
 
 :::{.column width="45%"}
 ![](images/oh.png)
-
-<!-- Other figure elements to possibly include: -->
-<!-- * survey / Kaplan Meier plot -->
-<!-- * GWAS -->
-<!-- * UMAP -->
 :::
 
 ::::
