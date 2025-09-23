@@ -588,20 +588,29 @@ In the event that you have data that is NMAR yet "rescuable" through informative
 
 # Links
 
+## Missing data
+
 * [Flexible Imputation of Missing Data](https://stefvanbuuren.name/fimd/)
 * [Handle Missing Values with brms](https://cran.r-project.org/web/packages/brms/vignettes/brms_missings.html)
-* [CCB Computational Resources](https://ccb.connect.hms.harvard.edu/comp_resources/ccb_resources.html)
-* [CCB Office Hours](https://dbmi.hms.harvard.edu/about-dbmi/core-computational-biomedicine/office-hours)
+
+Related packages we didn't have time for that may be of interest:
+
+* [VIM](https://cran.r-project.org/web/packages/VIM/index.html)
+* [naniar](https://cran.r-project.org/web/packages/naniar/index.html)
+
+## Statistics / Programming
+
 * [Statistical Rethinking by Richard McElreath](https://xcelab.net/rm/statistical-rethinking/)
   * [Lecture series on YT (esp. 1-13)](https://www.youtube.com/playlist?list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus)
   * [brms + tidyverse translation of official text](https://bookdown.org/content/4857/)
 * [R for Data Science](https://r4ds.hadley.nz/)
 
+## CCB-related
+
+* [CCB Computational Resources](https://ccb.connect.hms.harvard.edu/comp_resources/ccb_resources.html)
+* [CCB Office Hours](https://dbmi.hms.harvard.edu/about-dbmi/core-computational-biomedicine/office-hours)
+  * [Link to book time](https://outlook.office.com/bookwithme/user/c43422598df4487cb77662221798fec7%40hms.harvard.edu?anonymous)
 
 
-Related packages we didn't have time that may be of interest:
-
-* [VIM](https://cran.r-project.org/web/packages/VIM/index.html)
-* [naniar](https://cran.r-project.org/web/packages/naniar/index.html)
 
 

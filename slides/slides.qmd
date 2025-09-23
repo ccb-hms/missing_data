@@ -522,7 +522,7 @@ tinytheme("clean2",
 ![](images/ya_like_dags.png){fig-align="center" width=90%}
 
 :::{.absolute left=50 top=875}
-<small> Arrows: causal relationships. Dotted: latent true value. Starred: value with NAs. </small>
+<small> Arrows: causal relationships. Dotted: latent true value. Starred: observations with NAs. </small>
 :::
 
 :::{.absolute top=875 left=1140}
