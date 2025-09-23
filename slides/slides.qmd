@@ -37,7 +37,7 @@ title-slide-attributes:
 #| message: false
 library(fastverse)
 library(tinyplot)
-# library(ggplot2)
+# library(ggplot2) # Exclude these, I want it to render fast
 # library(ggbeeswarm)
 # library(ggmice)
 set.seed(123)
@@ -61,7 +61,9 @@ ow_bg = ggplot2::theme_minimal() +
 set.seed(42)
 
 n = 30
+
 s = .06
+
 d = data.frame(x = rnorm(n)) |> 
   mtt(y = rnorm(n, 1*x, sd = s), # small sd
       z = rnorm(n, 1*x, sd = 1)) # big sd
@@ -111,8 +113,6 @@ pkgs <- c("ggplot2", "dplyr", "purrr",
 install.packages(pkgs, Ncpus = 4)
 ```
 
-
-
 ## Outline 
 
 :::{.column width=70%}
@@ -139,6 +139,7 @@ These slides:
 :::{.column width=60%}
 * NA = **N**ot **A**pplicable
   * *not* the same as NaN, `NULL`, etc
+* "Missing data analysis"
 * ubiquitous and important problem
 * established methods/tools ~15 years
 * not challenging, but requires statistics foundation
@@ -238,7 +239,6 @@ plt(d$x, d$y,
     ylim = yr)
 
 lines(col = mred, 
-      add = TRUE,
       c(1,1),
       c(1+s*2, 1-s*2),
       lend = "square", 
@@ -254,7 +254,6 @@ plt(d$x, d$z,
     ylim = yr) 
 
 lines(col = mred,
-    add = TRUE,
     c(1,1),
     c(1+1*2, 1-1*2),
     lend = "butt",
@@ -501,37 +500,36 @@ tinytheme("clean2",
 ::: {data-id="box1" style="background-color: #F2F2F2; width: 1600px; height: 720px; " .absolute left=750 top=300 .fragment .fade-out fragment-index=2}
 :::
 
-## Types of missingness
+## Three types of missingness
 
-:::{.column width=60%}
+::::{.columns}
+:::{.column width=50%}
 * Missing...
-  * "...completely at random" (MCAR)
-  * "...at random" (MAR)
-  * "...not at random" (MNAR)
+  * "...completely at random"
+  * "...at random" 
+  * "...not at random"
+  <br></br>
+  
+:::
 
-:::{.fragment fragment-index=2}
-
+:::{.column .fragment fragment-index=2 width=50%} 
 * These terms are famously confusing.
-* Draw a directed acyclic graph (DAG) instead.
+* Draw a directed acyclic graph (DAG) of your system.
 :::
 
-:::
+::::
 
-![](images/2025-05-06_15-58-00.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=1250 top=-30}
+![](images/ya_like_dags.png){fig-align="center" width=90%}
 
-:::{.absolute left=900 width=22% top=50}
-<small> Arrows: causal relationships </small>
-
-<small> Dotted: latent true value </small>
-
-<small> Starred: value with NAs </small>
+:::{.absolute left=50 top=875}
+<small> Arrows: causal relationships. Dotted: latent true value. Starred: value with NAs. </small>
 :::
 
 :::{.absolute top=875 left=1140}
-<span style="color: #999999;"> <small> Diagram from *Statistical Rethinking* </small> </span>
+<span style="color: #999999;"> <small> Adapted from *Statistical Rethinking* </small> </span>
 :::
 
-::: {data-id="box1" style="background-color: rgba(242, 242, 242, 0.5); backdrop-filter: blur(15px); width: 1600px; height: 1720px; " .absolute left=0 top=240 .fragment .fade-out fragment-index=1}
+::: {data-id="box1" style="background-color: rgba(242, 242, 242, 0.5); backdrop-filter: blur(15px); width: 1960px; height: 475px; " .fragment .fade-out fragment-index=1 .absolute left=470 top=400}
 :::
 
 # Strategies
@@ -840,6 +838,10 @@ End result: *unbiased* and *confidence valid* estimates
 :::
 
 ![](images/covid_dag.png){fig-alt="" .absolute left=1100 top=100 width=30%}
+
+:::{.absolute left=50 top=870}
+<small> Arrows: causal relationships, Dotted: latent true value, Starred: value with NAs </small>
+:::
 
 <!-- TODO: think about the dag on the right more -->
 
