@@ -256,12 +256,12 @@ fit <- with(imp, lm(wgt ~ age + hgt + reg))
 
 ## Pool results
 
-:::{.callout-info title="Multiply imputed repeated analyses statistics"}
-TODO define these more clearly
+:::{.callout-note title="Multiply imputed repeated analyses statistics" collapse=true}
 
 * mean estimate
 * ubar ~= mean of the variances
 * `b` - between-imputation variance
+* `t` - total variance
 * Relative increase in variance `riv`
 * Proportion of total variance due to missingness `lambda`
 * Fraction of missing information `fmi`
