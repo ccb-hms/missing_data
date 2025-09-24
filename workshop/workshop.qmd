@@ -17,7 +17,6 @@ format:
           dark: darkly
 ---
 
-
 <!-- Repo: https://github.com/ccb-hms/missing_data/tree/main/workshop -->
 <!-- Rendered output here: https://ccb.connect.hms.harvard.edu/missing_data_workshop/ -->
 
@@ -81,6 +80,8 @@ count_na <- function(x) x |> is.na() |> sum()
 map_int(boys, count_na)
 ```
 
+<!-- This one usage of map_int might not be worth the purrr dependency -->
+
 ## Visualizing NAs
 
 Replace `ggplot()` in an otherwise standard ggplot2 command with `ggmice()` and you'll get a comparable version that highlights NAs on their respective axes: 
@@ -108,8 +109,7 @@ You can see that most of the boys whose heights weren't observed are on the youn
 
 ```{r}
 boys |> 
-  mutate(region = case_when(reg == "city" ~ "city",
-                            reg != "city" ~ "suburbs")) |> 
+  mutate(region = if_else(reg == "city", "city", "suburbs")) |> 
   ggmice(aes(age, hgt)) + 
   geom_point() + 
   facet_wrap(vars(region))
