@@ -77,12 +77,17 @@ yr = range(c(d$y, d$z))
 
 :::{.column width="55%"}
 * Quick help on R/Stats & CompBio
+  * Finding data
+  * Viz
+  * Modeling
+  * Programming
+  * Debugging
 * Book a timeslot, Zoom or in-person
-* Examples:
-  * Data wrangling / plotting messy health database exports
-  * Prognostic modeling of surgery patients from imaging features with random forests
-  * R project installation & organization
-  * debugging AlphaFold3 on O2
+  
+  <!-- * Data wrangling / plotting messy health database exports -->
+  <!-- * Prognostic modeling of surgery patients from imaging features with random forests -->
+  <!-- * R project installation & organization -->
+  <!-- * debugging AlphaFold3 on O2 -->
 :::
 
 ![](images/oh.png){.absolute left=900 top=0 width=45%}
@@ -188,13 +193,14 @@ ex_dat[1:5,-1] |>
     * "Harvard Uni_ersity"
     * "_ight" 
 
-:::{.fragment}
-* *Imputation* - using context to fill in the blanks
-:::
 
 :::{.incremental}
 1. high or low uncertainty over missing values
 1. degree of uncertainty impacted by context
+:::
+
+:::{.fragment}
+* *Imputation* - using context to fill in the blanks
 :::
 
 ## Degrees of uncertainty 
@@ -359,7 +365,7 @@ plt(nx,
 
 ## Undesirable effects of missing data
 
-* Obvious: Missing data → less information → learning less 
+* Obvious: Missing data → less information → learn less 
 
 :::{.fragment fragment-index=1}
 
@@ -499,7 +505,10 @@ tinytheme("clean2",
 :::
 
 
-::: {data-id="box1" style="background-color: #F2F2F2; width: 1600px; height: 720px; " .absolute left=750 top=300 .fragment .fade-out fragment-index=2}
+::: {data-id="box1" style="background-color: #F2F2F2; width: 1600px; height: 720px; " .absolute left=370 top=300 .fragment .fade-out fragment-index=2}
+:::
+
+::: {data-id="box1" style="background-color: #F2F2F2; width: 1600px; height: 720px; " .absolute left=750 top=300 .fragment .fade-out fragment-index=3}
 :::
 
 ## Three types of missingness
@@ -539,7 +548,7 @@ tinytheme("clean2",
 ## Examining missingness
 
 * Count observations with any NAs
-* Tabulate features that tend to go missing together
+* Tabulate co-missingness 
 * Check if NAs are associated with other variables
 
 :::{layout-nrow=1}
@@ -572,6 +581,7 @@ plot_pattern(boys)  +
 
 ## Just drop them
 
+* `na.omit()`
 * Only valid for MCAR, otherwise you'll likely get bias.
 * At the very least:
   * Characterize dropped cases
@@ -586,7 +596,7 @@ plot_pattern(boys)  +
   1. Aggregate ("pool") results
   
 * Key assumption: "ignorability"
-* Main package: `mice`
+* Core package: `mice`
 
 ![](images/ch01-miflow-1.png){.absolute top=100 left=750 fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=55%}
 
@@ -808,7 +818,6 @@ End result: *unbiased* and *confidence valid* estimates
 :::{.fragment}
 
 * `?mice::pool()`
-* "Rubin's rules"
 * FIMD §2.3 <https://stefvanbuuren.name/fimd/sec-whyandwhen.html>
 
 :::
@@ -842,7 +851,7 @@ End result: *unbiased* and *confidence valid* estimates
 :::{.fragment}
 * Generally requires:
   * informative auxiliary variables
-  * bespoke modeling in a probabilistic programming language 
+  * custom model in a probabilistic programming language 
   * fairly large sample sizes
   * domain knowledge
 :::
@@ -863,7 +872,7 @@ ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 
 [<span style="color:#666666; font-style: italic;"> <small> Missing values in survey data </small> </span>]{.absolute left=25 top=540}
 
-::: {data-id="box1" style="border: 2px solid #888888; 0px; background-color: #888888; height: 550px; " .absolute left=830 top=70} 
+::: {data-id="box1" style="border: 2px solid #888888; 0px; background-color: #888888; height: 570px; " .absolute left=830 top=60} 
 :::
 
 ![ ](images/dg_tmp.png){.absolute left=900 top=100 width=44%} 
@@ -957,16 +966,21 @@ So,
 
 > ... how should we decide whether the missing data is a problem?
 
-FIMD §6.1: 
+* Ch. 5-6 practical advice on how to do / think about / **simulate** this. Also, influx/outflux.
+* FIMD §6.1: 
+
 "The imputation model should:
 
 * account for the process that created the missing data,
 * preserve the relations in the data, and
 * preserve the uncertainty about these relations."
 
-Ch. 5-6 practical advice on how to do / think about / **simulate** this. Also, influx/outflux.
 
 > Survival analysis
+
+[Rethinking Ch11](https://bookdown.org/content/4857/god-spiked-the-integers.html#bonus-survival-analysis)
+
+![](images/survival_ex.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=400 top=650 width=35%}
 
 ## References
 
@@ -1024,11 +1038,4 @@ $$ P(R=0 \mid Y_{obs}, Y_{mis}, \psi) = P(R=0 \mid Y_{obs}, \psi)$$
 MNAR → expression doesn't simplify:
 
 $$ P(R=0 \mid Y_{obs}, Y_{mis}, \psi)$$ 
-
-## Examples
-
-* genotype impute
-* scdropout
-* COVID data
-* find a good survey example
 
