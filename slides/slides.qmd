@@ -25,13 +25,14 @@ title-slide-attributes:
   data-background-position: 10% 10%
 ---
 
-
-# Preface
+# Front matter 
 
 ## Setup {visibility="hidden"}
 
 <!-- Repo: https://github.com/ccb-hms/missing_data/tree/main/slides -->
 <!-- Rendered output: https://ccb.connect.hms.harvard.edu/missing_data -->
+
+<!-- TODO better attribution on many of the figures -->
 
 ```{r setup}
 #| message: false
@@ -73,7 +74,6 @@ yr = range(c(d$y, d$z))
 
 ## CCB R/Stats Office Hours
 
-::::{.columns}
 
 :::{.column width="55%"}
 * Quick help on R/Stats & CompBio
@@ -85,14 +85,15 @@ yr = range(c(d$y, d$z))
   * debugging AlphaFold3 on O2
 :::
 
-:::{.column width="45%"}
-![](images/oh.png)
-:::
+![](images/oh.png){.absolute left=900 top=0 width=45%}
 
-::::
 
 :::{.absolute left=0 top=770}
 Link in my email signature or at [https://dbmi.hms.harvard.edu/about-dbmi/core-computational-biomedicine/office-hours](https://dbmi.hms.harvard.edu/about-dbmi/core-computational-biomedicine/office-hours) 
+:::
+
+:::{.absolute left=1100 top=870}
+<span style="color: #999999;"> <small> Adapted from R for Data Science (2e) </small> </span>
 :::
 
 ## Prerequisites:
@@ -343,12 +344,13 @@ plt(nx,
 
 ## Uses for imputed values
 
-> *Are the imputed values the means or the ends?*
 
 - Fill in empty regions on a figure
   - UMAP or image
 - Downstream scientific inference
   - $P(\theta \mid Y_{imp})$
+  
+> *Are the imputed values the means or the ends?*
 
 ***Inference is much more demanding!***
 
@@ -357,7 +359,7 @@ plt(nx,
 
 ## Undesirable effects of missing data
 
-* Obvious: Missing data → less information → imprecise estimates
+* Obvious: Missing data → less information → learning less 
 
 :::{.fragment fragment-index=1}
 
@@ -541,8 +543,8 @@ tinytheme("clean2",
 * Check if NAs are associated with other variables
 
 :::{layout-nrow=1}
-![](images/ggmice_preview2.png){height=500}
-![](images/ggmice_preview.png){height=500}
+![](images/ggmice_preview2.png){height=520}
+![](images/ggmice_preview.png){height=520}
 :::
 
 ```{r}
@@ -560,16 +562,20 @@ ggmice(boys, aes(age, hgt)) +
 
 ggsave("~/projects/missing_data/slides/images/ggmice_preview.png", h = 5, w = 7.5)
 
-plot_pattern(boys)
+plot_pattern(boys)  + 
+  theme(axis.text = element_text(hjust = .5, vjust = .5),
+        panel.background = ow_rect, 
+        panel.grid = element_blank(),
+        plot.background = ow_rect)
 ```
 
 
 ## Just drop them
 
-* Only valid for MCAR, otherwise you'll get bias.
+* Only valid for MCAR, otherwise you'll likely get bias.
 * At the very least:
   * Characterize dropped cases
-  * Discuss the consequences of this choice
+  * Justify and discuss the consequences of this choice
 
 ## Multiple imputation (MI)
 
@@ -830,6 +836,8 @@ End result: *unbiased* and *confidence valid* estimates
 * Use *informative auxiliary variables* to simultaneously:
   * impute NAs
   * infer missingness relationship 
+  
+:::{.fragment}
 * Generally requires:
   * informative auxiliary variables
   * bespoke modeling in a probabilistic programming language 
@@ -837,13 +845,13 @@ End result: *unbiased* and *confidence valid* estimates
   * domain knowledge
 :::
 
-![](images/covid_dag.png){fig-alt="" .absolute left=1100 top=100 width=30%}
-
-:::{.absolute left=50 top=870}
-<small> Arrows: causal relationships, Dotted: latent true value, Starred: value with NAs </small>
 :::
 
-<!-- TODO: think about the dag on the right more -->
+![](images/covid_dag.png){fig-alt="" .absolute left=1100 top=100 width=30%}
+
+:::{.absolute left=750 top=870}
+<span style="color:#777777;"> <small> Arrows: causal relationships, Dotted: latent true value, Starred: value with NAs </small> </span>
+:::
 
 ## Quiz!
 
@@ -863,7 +871,7 @@ ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 :::{.absolute top=600}
 **Discuss with your neighbor:** 
 
-* Which are MCAR / MAR / NMAR?
+* Which are MCAR / MAR / MNAR?
 * Which exhibit ignorable missingness? 
 * If nonignorable, what extra info could rescue it?
 :::
@@ -880,11 +888,11 @@ ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 :::
 
 :::{.column width=40% .absolute top=100 left=1000}
-![](images/2025-09-19_10-23-13.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);"}
+![](images/Microarray2.gif){fig-alt="microarray diagram" style="filter: drop-shadow(0 0 0.75rem grey);"} 
 ![](images/2025-08-04_13-22-07.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);"}
 :::
 
-<!-- TODO: picture of a microarray -->
+![](images/2025-09-19_10-23-13.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=100 width=45% top=600}
 
 ## Imprecise imputation for images - single-cell proteomics
 
@@ -911,7 +919,7 @@ ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 
 > "population relative risk estimates by race during the early part of the COVID-19 pandemic in Michigan were understated for non-white residents, compared to white residents, when cases missing race were dropped or had these values imputed using MI."
 
-![](images/2025-07-01_13-17-22.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=36% fig-align="center"} 
+![](images/2025-07-01_13-17-22.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute top=440 width=44% left=450} 
 
 :::{.aside}
 *Modeling racial/ethnic differences in COVID-19 incidence with covariates subject to nonrandom missingness* - Trangucci 2023
@@ -965,7 +973,7 @@ Ch. 5-6 practical advice on how to do / think about / **simulate** this. Also, i
 * [Flexible Imputation of Missing Data](https://stefvanbuuren.name/fimd/), Stef van Buuren
   * [`mice` vignettes](https://amices.org/mice/index.html#vignettes)
 * [Statistical Rethinking by Richard McElreath](https://xcelab.net/rm/statistical-rethinking/)
-  * [Lecture series on YT (esp. 1-13)](https://www.youtube.com/playlist?list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus)
+  * [Lecture series on YT (esp. 1-13, 18)](https://www.youtube.com/playlist?list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus)
   * [brms + tidyverse translation of official text](https://bookdown.org/content/4857/)
 :::
 
