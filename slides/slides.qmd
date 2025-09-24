@@ -90,15 +90,15 @@ yr = range(c(d$y, d$z))
   <!-- * debugging AlphaFold3 on O2 -->
 :::
 
-![](images/oh.png){.absolute left=900 top=0 width=45%}
+![](images/oh.png){.absolute left=900 top=0 width=45% fig-alt="Office hours overview figure showing R package logos and statistical visualizations"}
 
 
 :::{.absolute left=0 top=770}
 Link in my email signature or at [https://dbmi.hms.harvard.edu/about-dbmi/core-computational-biomedicine/office-hours](https://dbmi.hms.harvard.edu/about-dbmi/core-computational-biomedicine/office-hours) 
 :::
 
-:::{.absolute left=1160 top=870}
-<span style="color: #999999;"> <small> Adapted from R for Data Science (2e) [CC BY-NC-ND 3.0](https://creativecommons.org/licenses/by-nc-nd/3.0/us/) </small> </span>
+:::{.absolute left=1160 top=870 width=17%}
+<span style="color: #999999;"> <small> R for Data Science (2e) [CC BY-NC-ND 3.0](https://creativecommons.org/licenses/by-nc-nd/3.0/us/) </small> </span>
 :::
 
 ## Prerequisites:
@@ -135,8 +135,8 @@ These slides:
 
 :::
 
-![](images/2025-06-11_15-35-18.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=1000 top=50 width=33%}
-![](images/no.svg){fig-alt="" .absolute left=985 top=20 .fragment width=35%}
+![](images/2025-06-11_15-35-18.png){fig-alt="A complicated looking missing data model diagram" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=1000 top=50 width=33%}
+![](images/no.svg){fig-alt="A big red circular NO icon on top" .absolute left=985 top=20 .fragment width=35%}
 
 # Concepts 
 
@@ -168,10 +168,10 @@ ins_na = \(x) {
 
 n = 200
 set.seed(123)
-ex_dat = data.table(allerg = sample(0:1, n, TRUE) |> ins_na(),
-                    age = floor(runif(n, 30,80))     |> ins_na(),
-                    income = floor(rexp(n, 1/48))    |> ins_na(),
-                    `5y_outcome` = sample(0:1, n, T) |> ins_na())
+ex_dat = data.table(allerg       = sample(0:1, n, TRUE)   |> ins_na(),
+                    age          = floor(runif(n, 30,80)) |> ins_na(),
+                    income       = floor(rexp(n, 1/48))   |> ins_na(),
+                    `5y_outcome` = sample(0:1, n, T)      |> ins_na())
 
 ex_dat$income[1] = 20
 ex_dat$allerg[2] = NA
@@ -183,7 +183,7 @@ ex_dat[1:5,-1] |>
 
 [<span style="color:#666666; font-style: italic;"> <small> Missing values in survey data </small> </span>]{.absolute left=1000 top=390}
 
-![](images/dg_tmp.png){.absolute left=1000 top=460 width=40%} 
+![](images/dg_tmp.png){.absolute left=1000 top=460 width=40% fig-alt="A fluorescence image of cell nuclei of the dentate gyrus of a mouse brain. There are some black speckles in the densest region of the image."} 
 
 [<span style="color:#666666; font-style: italic;"> <small> Missing values in imaging data. Image provided by HMS Single Cell Core.</small> </span>]{.absolute left=1000 top=870}
 
@@ -228,6 +228,7 @@ ex_dat[1:5,-1] |>
 <small> *Missing Y values at X = 1:* </small>
 
 ```{r}
+#| fig-alt: "A plot of two linear relationships of X and Y variables. The left has a strong correlation, right weak. There's vertical lines at X=1 on both. The left vertical line is small, the right is tall."
 
 tinytheme("clean2", 
           mar = c(2,2,1,1),
@@ -293,6 +294,7 @@ lines(col = mred,
 <small> *Given X = (-2, -1, 1), predict missing Y values:* </small>
 
 ```{r}
+#| fig-alt: "A plot of two linear relationships with imputed values at X=(-2,-1,1). The y values are imputed as the mean value of y in the left panel, and are placed on a linear fit on the right."
 par(mfrow = c(1,2))
 
 plt(d$x, d$z, 
@@ -360,8 +362,8 @@ plt(nx,
 
 ***Inference is much more demanding!***
 
-![](images/red_dotted.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=900 top=0 width=36%}
-![](images/prop_ex.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=900 top=450 width=36%}
+![](images/red_dotted.png){fig-alt="A single cell UMAP plot. There's a dotted red oval where a putative missing cluster might go." style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=900 top=0 width=36%}
+![](images/prop_ex.png){fig-alt="A linear regression plot with observations, imputed missing values, and a regression line with a bowtie shaped uncertainty ribbon" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=900 top=450 width=36%}
 
 ## Undesirable effects of missing data
 
@@ -500,7 +502,7 @@ tinytheme("clean2",
 ```
 
 
-![](images/patterns.png)
+![](images/patterns.png){fig-alt="A plot of four datasets. The first is the latent true relationship, the second has a missingness pattern that increases the slope of the line, the third decreases the slope, and the fourth makes the slope negative."}
 
 :::
 
@@ -530,7 +532,7 @@ tinytheme("clean2",
 
 ::::
 
-![](images/ya_like_dags.png){fig-align="center" width=90%}
+![](images/ya_like_dags.png){fig-align="center" width=90% fig-alt="Three causal diagrams with emoji demonstrating MCAR, MAR, and MNAR."}
 
 :::{.absolute left=50 top=875}
 <small> Arrows: causal relationships. Dotted: latent true value. Starred: observations with NAs. </small>
@@ -552,8 +554,8 @@ tinytheme("clean2",
 * Check if NAs are associated with other variables
 
 :::{layout-nrow=1}
-![](images/ggmice_preview2.png){height=520}
-![](images/ggmice_preview.png){height=520}
+![](images/ggmice_preview2.png){height=520 fig-alt="A preview image of the plot pattern diagnostics from ggmice"}
+![](images/ggmice_preview.png){height=520 fig-alt="A preview image of from a scatterplot with missing values ggmice"}
 :::
 
 ```{r}
@@ -598,7 +600,7 @@ plot_pattern(boys)  +
 * Key assumption: "ignorability"
 * Core package: `mice`
 
-![](images/ch01-miflow-1.png){.absolute top=100 left=750 fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=55%}
+![](images/ch01-miflow-1.png){.absolute top=100 left=750 fig-alt="The MI overview figure from the textbook. There's a main circle representing the incomplete data. It expands to three parallel paths that are imputed complete datasets that are analyzed. The paths then collapse together again for the pooled result." style="filter: drop-shadow(0 0 0.75rem grey);" width=55%}
 
 :::{.aside}
 [*Flexible Imputation of Missing Data*](https://stefvanbuuren.name/fimd/), Stef van Buuren, [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/)
@@ -611,7 +613,7 @@ plot_pattern(boys)  +
 :::{.column width=45%}
 
 
-![](images/ch01-miflow-1.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=75%}
+![](images/ch01-miflow-1.png){fig-alt="The same MI diagram with the imputation step highlighted" style="filter: drop-shadow(0 0 0.75rem grey);" width=75%}
 
 ::: {data-id="box1" style="border: 5px solid #FF0000; width: 220px; height: 270px; " .absolute left=20 top=115}
 :::
@@ -675,6 +677,7 @@ plot_d = function(l) {
 ```{r .fragment}
 #| fig-height: 4
 #| fig-width: 5 
+#| fig-alt: "And imputation model that imputes with the mean"
 
 # TODO prerender these, because the EKS server's R can't find the emojis in the font :( 
 
@@ -696,6 +699,7 @@ plt(nx,
 ```{r}
 #| fig-height: 4
 #| fig-width: 5 
+#| fig-alt: "An imputation model that places the data on a linear fit"
 
 lm_res = lm(z ~ x, data = d)
 
@@ -718,6 +722,7 @@ plt(nx,
 ```{r}
 #| fig-height: 4
 #| fig-width: 5 
+#| fig-alt: "An imputation model that adds multiple imputations with stochastic noise added."
 
 plot_d("Linear mean + noise ✅")
 
@@ -743,6 +748,7 @@ plt(nx,
 ```{r}
 #| fig-height: 4
 #| fig-width: 5 
+#| fig-alt: "And imputation model building on the last one that also takes random posterior draws of the linear fit itself"
 
 plot_d("Line + noise + θ uncertainty ✅✅")
 
@@ -794,7 +800,7 @@ for (i in 1:4) {
 
 :::{.column width=45%}
 
-![](images/ch01-miflow-1.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=75%}
+![](images/ch01-miflow-1.png){fig-alt="The same MI overview figure with the analysis step highlighted" style="filter: drop-shadow(0 0 0.75rem grey);" width=75%}
 
 ::: {data-id="box1" style="border: 5px solid #FF0000; width: 220px; height: 270px; " .absolute left=1032 top=115}
 :::
@@ -826,7 +832,7 @@ End result: *unbiased* and *confidence valid* estimates
 
 :::{.column width=45%}
 
-![](images/ch01-miflow-1.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=75%}
+![](images/ch01-miflow-1.png){fig-alt="The same MI overview figure with the pooling step highlighted" style="filter: drop-shadow(0 0 0.75rem grey);" width=75%}
 
 ::: {data-id="box1" style="border: 5px solid #FF0000; width: 220px; height: 270px; " .absolute left=1170 top=115}
 :::
@@ -858,7 +864,7 @@ End result: *unbiased* and *confidence valid* estimates
 
 :::
 
-![](images/covid_dag.png){fig-alt="" .absolute left=1100 top=100 width=30%}
+![](images/covid_dag.png){fig-alt="An oversimplified DAG of the social/geographic COVID model" .absolute left=1100 top=100 width=30%}
 
 :::{.absolute left=750 top=870}
 <span style="color:#777777;"> <small> Arrows: causal relationships, Dotted: latent true value, Starred: value with NAs </small> </span>
@@ -875,7 +881,7 @@ ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 ::: {data-id="box1" style="border: 2px solid #888888; 0px; background-color: #888888; height: 570px; " .absolute left=830 top=60} 
 :::
 
-![ ](images/dg_tmp.png){.absolute left=900 top=100 width=44%} 
+![ ](images/dg_tmp.png){.absolute left=900 top=100 width=44% fig-alt="The same dentate gyrus image from earlier"} 
 
 [<span style="color:#666666; font-style: italic;"> <small> Missing values in imaging data. Image provided by HMS Single Cell Core. </small> </span>]{.absolute left=900 top=540}
 
@@ -900,10 +906,10 @@ ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 
 :::{.column width=40% .absolute top=100 left=1000}
 ![](images/Microarray2.gif){fig-alt="microarray diagram" style="filter: drop-shadow(0 0 0.75rem grey);"} 
-![](images/2025-08-04_13-22-07.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);"}
+![](images/2025-08-04_13-22-07.png){fig-alt="A figure from the shapeit paper. It shows how imputation R2 increases from .2 to nearly 1 as a function of increasing minor allele count in the reference panel from singleton to 100k+ MAC." style="filter: drop-shadow(0 0 0.75rem grey);"}
 :::
 
-![](images/2025-09-19_10-23-13.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=100 width=45% top=600}
+![](images/2025-09-19_10-23-13.png){fig-alt="A relevant paper: Genotype imputation using the Positional Burrows Wheeler Transform, doi: 10.1371/journal.pgen.1009049" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=100 width=45% top=600}
 
 ## Imprecise imputation for images - single-cell proteomics
 
@@ -920,8 +926,8 @@ ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 :::
 
 :::{.column width=46%}
-![](images/2025-08-04_12-36-50.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);"}
-![](images/2025-08-04_12-38-36.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);"}
+![](images/2025-08-04_12-36-50.png){fig-alt="Paper header: Imputing single-cell protein abundance in multiplex tissue imaging doi: 10.1038/s41467-025-59788-x" style="filter: drop-shadow(0 0 0.75rem grey);"}
+![](images/2025-08-04_12-38-36.png){fig-alt="A figure from the paper showing filled in protein expression images" style="filter: drop-shadow(0 0 0.75rem grey);"}
 :::
 
 ## COVID incidence 
@@ -930,7 +936,7 @@ ex_dat[1:7,c(2:4,1)] |> print(row.names = FALSE)
 
 > "population relative risk estimates by race during the early part of the COVID-19 pandemic in Michigan were understated for non-white residents, compared to white residents, when cases missing race were dropped or had these values imputed using MI."
 
-![](images/2025-07-01_13-17-22.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute top=440 width=44% left=450} 
+![](images/2025-07-01_13-17-22.png){fig-alt="An interval plot contrasting relative risk estimates across different COVID incidence models" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute top=440 width=44% left=450} 
 
 :::{.aside}
 *Modeling racial/ethnic differences in COVID-19 incidence with covariates subject to nonrandom missingness* - Trangucci 2023
@@ -978,9 +984,9 @@ So,
 
 > Survival analysis
 
-[Rethinking Ch11](https://bookdown.org/content/4857/god-spiked-the-integers.html#bonus-survival-analysis)
+[Rethinking Ch11 example](https://bookdown.org/content/4857/god-spiked-the-integers.html#bonus-survival-analysis)
 
-![](images/survival_ex.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=500 top=650 width=35%}
+![](images/survival_ex.png){fig-alt="A demonstrative figure showing the different time to event distributions for cats at a shelter that were or were not censored. The mean is higher for the uncensored group." style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=600 top=650 width=35%}
 
 ## References
 
@@ -997,7 +1003,7 @@ So,
  
 :::
 :::{.column width=35%}
-![](images/2025-09-09_10-52-59.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=500}
+![](images/2025-09-09_10-52-59.png){fig-alt="The cover of FIMD" style="filter: drop-shadow(0 0 0.75rem grey);" width=500}
 :::
 :::
 
@@ -1018,6 +1024,8 @@ So,
   * 🪦 
 
 ## {background-image="images/beach.png"} 
+
+
 
 ## Defining MCAR, MAR, NMAR
 
