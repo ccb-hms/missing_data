@@ -586,6 +586,7 @@ plot_pattern(boys)  +
   1. Aggregate ("pool") results
   
 * Key assumption: "ignorability"
+* Main package: `mice`
 
 ![](images/ch01-miflow-1.png){.absolute top=100 left=750 fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" width=55%}
 
@@ -610,9 +611,9 @@ plot_pattern(boys)  +
 [<small> *Given X = (-2, -1, 1), predict missing Y values:* </small>]{.absolute left=750 top=50}
 
 :::{.fragment fragment-index=4}
-* See `?mice::mice.impute.*`
-* Predictive mean matching ✅✅
 * LASSO, random forests, neural nets
+* Predictive mean matching ✅✅
+* See `?mice::mice.impute.*`
 * `mice` uses sane defaults, but always check and think.
 :::
 
@@ -688,7 +689,7 @@ plt(nx,
 
 lm_res = lm(z ~ x, data = d)
 
-plot_d(paste0("Model predictive mean ❌"))
+plot_d(paste0("Linear mean ❌"))
 
 abline(a = lm_res$coefficients[1],
        b = lm_res$coefficients[2],
@@ -708,7 +709,7 @@ plt(nx,
 #| fig-height: 4
 #| fig-width: 5 
 
-plot_d("Multiple predictive mean + noise ✅")
+plot_d("Linear mean + noise ✅")
 
 lm_res = lm(z ~ x, data = d)
 
@@ -732,7 +733,8 @@ plt(nx,
 ```{r}
 #| fig-height: 4
 #| fig-width: 5 
-plot_d("Predict + noise + θ uncertainty ✅✅")
+
+plot_d("Line + noise + θ uncertainty ✅✅")
 
 # rstanarm::stan_glm(z ~ x, data = d) |> rstanarm::as_draws() |> head() |> dput()
 
