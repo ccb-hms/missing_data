@@ -980,7 +980,7 @@ So,
 
 [Rethinking Ch11](https://bookdown.org/content/4857/god-spiked-the-integers.html#bonus-survival-analysis)
 
-![](images/survival_ex.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=400 top=650 width=35%}
+![](images/survival_ex.png){fig-alt="" style="filter: drop-shadow(0 0 0.75rem grey);" .absolute left=500 top=650 width=35%}
 
 ## References
 

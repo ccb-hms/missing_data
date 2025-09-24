@@ -256,6 +256,13 @@ fit <- with(imp, lm(wgt ~ age + hgt + reg))
 
 ## Pool results
 
+
+Then finally we can aggregate the multiple fits with the `pool()` function:
+
+```{r}
+pool(fit)
+```
+
 :::{.callout-note title="Multiply imputed repeated analyses statistics" collapse=true}
 
 * mean estimate
@@ -267,12 +274,6 @@ fit <- with(imp, lm(wgt ~ age + hgt + reg))
 * Fraction of missing information `fmi`
 
 :::
-
-Then finally we can aggregate the multiple fits with the `pool()` function:
-
-```{r}
-pool(fit)
-```
 
 This gives a pooled outcome object. It shows some of the different variances related to the missingness/imputation, but if you want a summary of the estimates you need to pass it through `summary()`:
 
