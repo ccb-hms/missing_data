@@ -97,8 +97,8 @@ yr = range(c(d$y, d$z))
 Link in my email signature or at [https://dbmi.hms.harvard.edu/about-dbmi/core-computational-biomedicine/office-hours](https://dbmi.hms.harvard.edu/about-dbmi/core-computational-biomedicine/office-hours) 
 :::
 
-:::{.absolute left=1100 top=870}
-<span style="color: #999999;"> <small> Adapted from R for Data Science (2e) </small> </span>
+:::{.absolute left=1160 top=870}
+<span style="color: #999999;"> <small> Adapted from R for Data Science (2e) [CC BY-NC-ND 3.0](https://creativecommons.org/licenses/by-nc-nd/3.0/us/) </small> </span>
 :::
 
 ## Prerequisites:
