@@ -179,7 +179,7 @@ You can also plot variables by imputation number by handing the special variable
 ```{r}
 ggmice(imp, aes(.imp, hgt)) + 
     geom_boxplot(outlier.shape = NA) + 
-    geom_jitter(height = 0, width = .3)
+    geom_jitter(height = 0, width = .2)
 ```
 
 If you notice that there is substantial variability in between-imputation distributions, you'll need to increase the number of imputations to integrate over that.
